@@ -117,14 +117,14 @@
 <script>
     $(document).on('submit','#guardarDatosFormulario',function(event){
         event.preventDefault();
+        var nitCliente=$('#inputNit').val();
         var nombreApellidos=$('#inputDatos').val();
         var direccion=$('#inputDireccion').val();
-        var nitCliente=$('#inputNit').val();
         var telefono=$('#inputTelefono').val();
         if((nombreApellidos!='') && (direccion!='') && (nitCliente!='') && (telefono!='')){
             $.ajax({
                 url:"queryRegistrarProveedor.php",
-                data:{nombreApellidos:nombreApellidos,direccion:direccion,nitCliente:nitCliente,telefono:telefono},
+                data:{nitCliente:nitCliente,nombreApellidos:nombreApellidos,direccion:direccion,telefono:telefono},
                 type:'post',
                 
                     success:function(data1){
@@ -170,17 +170,25 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Registrar cliente</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Registrar proveedor</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
        <form id="guardarDatosFormulario" name="guardarDatosFormulario" class="row g-3 needs-validation" novalidate>
       <div class="modal-body">
         <!-- inicio formulario-->
+
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
-                <label for="Name" class="form-label">Nit proveedor</label>
-                <input type="text" name="inputDatos" class="form-control" placeholder="Nit" id="inputDatos" required>
+                <label for="exampleFormControlInput1" class="form-label">Nit</label>
+                <input type="text" name="inputNit" class="form-control" id="inputNit" placeholder="Nit" required>
+            </div>
+        </div>
+
+        <div class="mb-3 has-validation">
+            <div class="col-sm-10">
+                <label for="Name" class="form-label">Nombre proveedor</label>
+                <input type="text" name="inputDatos" class="form-control" placeholder="Nombre proveedor" id="inputDatos" required>
             </div>
             <!--div class="invalid-feedback">
                 Looks good!
@@ -189,17 +197,12 @@
 
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
-                <label for="Name" class="form-label">Nombre proveedor</label>
-                <input type="text" name="inputDireccion" class="form-control" id="inputDireccion" placeholder="Nombre proveedor" required>
+                <label for="Name" class="form-label">Direccion</label>
+                <input type="text" name="inputDireccion" class="form-control" id="inputDireccion" placeholder="Direccion" required>
             </div>
         </div>
 
-        <div class="mb-3 has-validation">
-            <div class="col-sm-10">
-                <label for="exampleFormControlInput1" class="form-label">Direccion</label>
-                <input type="text" name="inputNit" class="form-control" id="inputNit" placeholder="Direccion" required>
-            </div>
-        </div>
+
 
         <div class="mb-3 has-validation">
             <div class="col-sm-10">

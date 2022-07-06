@@ -44,6 +44,24 @@
 
     }
 
+    // devuelve el codigo y nombre en combobox. El codigo aparece oculto
+    function datosCombobox($codigoSelect,$linkConexion,$query){
+        $resultCuentas=pg_query($linkConexion, $query);
+        
+        if (!(pg_num_rows($resultCuentas))) {
+            echo "<div class='alert alert-danger' role='alert'>
+                    No hay informacion disponible.
+                </div>";
+        }else{
+            echo "<select class='form-select' name='$codigoSelect' id='$codigoSelect'>\n";
+            while ($row= pg_fetch_row($resultCuentas)) {
+                $codigo = $row[0];
+                $nombre = $row[1];
+                echo "<option value='$codigo' id='$codigo' selected='$codigo'>$nombre</option>";
+            }
+            echo "</select>";
+        }
+    }
 
     
 ?>

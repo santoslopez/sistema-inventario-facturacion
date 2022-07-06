@@ -61,3 +61,30 @@ CREATE TABLE Productos(
     foto varchar(100) NOT NULL,
     PRIMARY KEY (codigoProducto)
 );
+
+CREATE TABLE FacturaCompra(
+    numeroDocumento SERIAL NOT NULL,
+    documentoProveedor VARCHAR(50) NOT NULL,
+    fechaRegistro timestamp NOT NULL,
+    fechaFacturaProveedor  timestamp NOT NULL,
+    nitProveedor varchar(20) NOT NULL,
+    PRIMARY KEY (documentoProveedor),
+    CONSTRAINT PK_FacturaCompra_NitProveedor FOREIGN KEY (nitProveedor) REFERENCES Proveedor(nitProveedor )  
+);
+drop 
+
+/*drop table DetalleFacturaCompra;*/
+
+CREATE TABLE DetalleFacturaCompra(
+    idDetalle SERIAL NOT NULL,
+    precioCompra REAL NOT NULL,
+    cantidadComprado int NOT NULL,
+    codigoProducto varchar(50) NOT NULL,
+    documentoProveedor VARCHAR(50) NOT NULL,
+    PRIMARY KEY (idDetalle),
+    CONSTRAINT PK_DetalleFacturaCompra FOREIGN KEY (documentoProveedor) REFERENCES FacturaCompra(documentoProveedor),  
+    CONSTRAINT PK_Producto_Detalle FOREIGN KEY (codigoProducto) REFERENCES Productos(codigoProducto)  
+);
+
+
+

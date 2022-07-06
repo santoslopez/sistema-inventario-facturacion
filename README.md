@@ -28,6 +28,9 @@
 > - Elimina productos
 > - Verifica que el producto no este en uso
 
+### COMPRAS DE PRODUCTOS / FACTURA COMPRA
+> - Crear un documento con los detalles basicos de la factura de compra
+
 ### OTROS REALIZADOS
 > - No muestra archivos sino se ha iniciado sesion
 

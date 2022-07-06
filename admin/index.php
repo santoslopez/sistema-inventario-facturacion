@@ -168,14 +168,14 @@
                                 </div>
 
                                 <div class="card">
-                                <a href="#">
+                                <a style="cursor: pointer;" href="../compras/queryFacturaCompras.php">
                                     <div>
                                         <!--div class="numbers">
                                             $
                                         </div-->
                                         <div class="cardName"><strong><h5>COMPRAS</strong></h5></div>
                                         <div>
-                                            <span class="title">Agregar productos</span>
+                                            <span class="title">Factura de compras</span>
                                         </div>
                                     </div>
                                     <div class="iconBx">
@@ -347,9 +347,7 @@
         </div>
 
 
-        <!--script type="module" src="../assets/js/ionicons.esm.js"></script-->
-        <!--script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script-->
-
+      
         <script src="../assets/js/bootstrap5-0-2.bundle.min.js"></script>
 
         <script src="../assets/js/admin.js"></script>

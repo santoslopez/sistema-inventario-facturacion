@@ -221,14 +221,14 @@
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
                 <label for="Name" class="form-label">Direccion</label>
-                <input type="text" name="inputDireccion" class="form-control" id="inputDireccion" placeholder="Direccion" required>
+                <input type="text" name="inputDireccion" class="form-control" id="inputDireccion" placeholder="Direccion" require value="Ciudad"d>
             </div>
         </div>
 
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
                 <label for="exampleFormControlInput1" class="form-label">Nit cliente</label>
-                <input type="text" name="inputNit" class="form-control" id="inputNit" placeholder="Nit" required>
+                <input type="text" name="inputNit" class="form-control" id="inputNit" placeholder="Nit" required value="c/f">
             </div>
         </div>
 
