@@ -67,6 +67,19 @@
                             El estado es invalido.
                         </div>
 					</div>
+
+
+					<div class="form-floating">
+						<br>
+						<label for="floatingPassword">Seleccione una rol:</label>
+						<!--input type="password" class="form-control" id="inputRol" name="inputRol" placeholder="Rol" required-->
+						<select class="form-select" aria-label="Default select example" id="selectRol" name="selectRol">
+							<option value="1" selected>Administrador</option>
+							<option value="2">Cajero</option>
+						</select>
+
+					</div>	
+
           			<div class="form-floating">
 						<input type="text" class="form-control" id="inputFechaRegistro" name="inputFechaRegistro" placeholder="Fecha registro"  value="<?=$_GET['fechaRegistro']?>" required readonly>
 						<label for="floatingPassword">Fecha de registro</label>
@@ -91,7 +104,7 @@
 		</div>
 	</section>
   
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+	<script src="../assets/js/bootstrap5-0-2.bundle.min.js"></script>
 
 <script src="../assets/js/validation.js"></script>
 

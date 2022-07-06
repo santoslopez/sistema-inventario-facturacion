@@ -10,7 +10,6 @@
     <title>Listado lenguas</title-->
 
     <!-- Sweet Alert2 personalizado para no usar mensajes javascript sin personalizar --->
-    <!--script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script-->  
     <script src="../assets/js/sweetalert2-10.js"></script>
 
     <!-- Por medio de este archivo mostramos un mensaje de confirmacion para eliminar, actualizar datos.-->
@@ -33,6 +32,8 @@
     include '../conexion.php';
     
     $getUser = $_SESSION["nombreUsuario"];
+
+    //$listadoTiposEventoUsuario = "SELECT * FROM Empresas WHERE correo='$getUser';";
 
     $listadoTiposEventoUsuario = "SELECT * FROM Empresas WHERE correo='$getUser';";
 
@@ -88,7 +89,7 @@
 
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="../assets/js/bootstrap5-0-2.bundle.min.js"></script>
 
 
     <script>

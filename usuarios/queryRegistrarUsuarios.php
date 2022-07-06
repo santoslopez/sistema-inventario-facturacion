@@ -65,14 +65,14 @@
 	 */
 
 	//pg_prepare($conexion,"prepare1",$consultaInsert) or die("Cannot prepare statement .");
+	$rolSeleccionado=$_POST["selectRol"];
 
-	$consulta  = sprintf("INSERT INTO Usuarios(correo,estado,fechaRegistro,nombreApellidos,contrasena) VALUES('%s','%s','%s','%s','%s');",
+	$consulta  = sprintf("INSERT INTO Usuarios(correo,estado,fechaRegistro,nombreApellidos,contrasena,codRol) VALUES('%s','%s','%s','%s','%s','%s');",
     pg_escape_string($correo),
     pg_escape_string($estado),
     pg_escape_string($fechaActual),
     pg_escape_string($datos),
-    password_hash($passw, PASSWORD_DEFAULT,['cost'=>12])
-    //pg_escape_string(strtolower($idTipoCuenta)) 
+    password_hash($passw, PASSWORD_DEFAULT,['cost'=>12]),$rolSeleccionado
     );
 
 	$ejecutarConsulta = pg_query($conexion, $consulta);
@@ -86,7 +86,14 @@
 				mensajeRegistrarDatos('La cuenta de usuario se registro correctamente','Datos registrados','success','../index.php');
 			 </script>
 		";*/
-		echo 2;
+		//echo 2;
+		echo "<script>Swal.fire(
+			'Bienvenido',
+			'Bienvenido al sistema.',
+			'success'
+		)</script>";
+		header('Location: ../index.php');
+
 	}else{
 		echo 3;
 		//echo $consulta;

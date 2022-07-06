@@ -14,7 +14,6 @@
     <title>Modificar cliente</title>
 
 	<!-- Sweet Alert2 personalizado para no usar mensajes javascript sin personalizar --->
-	<!--script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script-->  
   <script src="../assets/js/sweetalert2-10.js"></script>
 
     <!-- Bootstrap CSS -->

@@ -1,9 +1,8 @@
 <?php
   session_start();
   //Sino hemos iniciado sesion indicamos la ruta por defecto
-  if(empty($_SESSION['nombreUsuario'])){
+  if(!(isset($_SESSION['rolUsuario']))){
 	  // ruta por default
-	  header('Location: index.php');
-    exit;
+    header('Location: ../index.php');
   }
 ?>

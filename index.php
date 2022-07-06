@@ -2,12 +2,28 @@
   
   session_start();
   //Sino hemos iniciado sesion indicamos la ruta por defecto
-  if(!empty($_SESSION['nombreUsuario'])){
+  //if(empty($_SESSION['nombreUsuario'])){
       // ruta por default
-      header("Location: admin/index.php");    
-  } 
+  //    header("Location: admin/index.php");    
+  //}
 
-
+  if (isset($_SESSION['rolUsuario'])) {
+    //header('location: admin/index.php');
+    # code...
+    /*switch ($_SESSION) {
+        case 'value':
+            # code...
+            case 1:
+                header('location:../admin/index.php');
+            break;
+        
+        default:
+            # code...
+            break;
+    }*/
+  //}else{
+    header('location: admin/index.php');
+  }
   
   //include "sesion/sesion.php";
 ?>
@@ -25,6 +41,8 @@
 
 	<!-- Custom CSS Link -->
 	<link rel="stylesheet" href="assets/css/login.css">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
 <body>
  <!--div class="wrapper"> 
@@ -45,12 +63,12 @@
 			  <div class="logo">
 					  <img src="assets/img/logo.webp" class="img-fluid imagenCircular" alt="Logo">
 				  </div>
-				<form class="rounded bg-white shadow py-5 px-4 needs-validation" novalidate action="login/queryLogin" method="POST">
+				<form class="rounded bg-white shadow py-5 px-4 needs-validation" novalidate id="frmLogin" name="frmLogin">
 					<h3 class="text-dark fw-bolder fs-4 mb-2">INICIAR SESION</h3>
           
-					<!--div class="fw-normal text-muted mb-4"> 
+					<div class="fw-normal text-muted mb-4"> 
 						<a href="usuarios/frmRegistrarUsuarios" class="text-primary fw-bold text-decoration-none">Crear cuenta</a>
-					</div-->
+					</div>
 					<div class="form-floating mb-3">
 						<input type="email" class="form-control" id="inputEmail" name="inputEmail" placeholder="name@example.com" required>
 						<label for="inputEmail">Correo electronico</label>
@@ -65,10 +83,12 @@
 							El password esta vacio o el formato es invalido.
 						</div>
 					</div>
+                    <div id="mensaje">
+                    </div>    
 					<!--div class="mt-2 text-end">
 						<a href="#" class="text-primary fw-bold text-decoration-none">Forget Password?</a>
 					</div-->
-					<button type="submit" class="btn btn-primary submit_btn w-100 my-4">Iniciar sesion</button>
+					<button type="submit" id="btnIniciarSesion" name="btnIniciarSesion" class="btn btn-primary submit_btn w-100 my-4">Iniciar sesion</button>
 					<!--div class="text-center text-muted text-uppercase mb-3">or</div-->
 					<!--a href="#" class="btn btn-light login_with w-100 mb-3">
 						<img alt="Logo" src="images/google-icon.svg" class="img-fluid me-3">Continue with Google
@@ -84,7 +104,60 @@
 		</div>
 	</section>
   
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    
+	<script>
+    $(document).on('submit','#frmLogin',function(event){
+        event.preventDefault();
+        var nombreApellidos=$('#inputEmail').val();
+        var direccion=$('#inputPassword').val();
+        if((nombreApellidos!='') && (direccion!='')){
+            $.ajax({
+                url:"login/queryIniciarSesion.php",
+                data:{nombreApellidos:nombreApellidos,direccion:direccion},
+                type:'post',
+                    beforeSend: function() {
+                        $("#btnIniciarSesion").prop('disabled', true);
+                    },
+                    success:function(data1){
+                        var json = JSON.parse(data1);
+                     
+                        var status = json.status;
+                        
+                        if(status=='success'){
+  
+                            $('#frmLogin').modal('hide');
+
+							window.location.href="admin/index.php";
+                            $('#inputEmail').val('');
+                            $('#inputPassword').val('');
+                            //$("#btnIniciarSesion").prop('disabled', false);
+
+							//header('Location: ../admin/index.php');
+                        }else{
+                            Swal.fire(
+                                'Usuario o password incorrecto.',
+                                'Los datos que ingresaste no son correctos.',
+                                'warning'
+                            )
+                        }
+                        $("#btnIniciarSesion").prop('disabled', false);
+                    }
+                }
+            );
+        }else{
+            alert("please fill the required fields");
+        }
+    });
+</script>
+
+
+<script src="assets/js/bootstrap5-0-2.bundle.min.js"></script>
+
+<!--script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script-->
+
+<!--script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script-->  
+<script src="assets/js/sweetalert2-10.js"></script>
 
 <script src="assets/js/validation.js"></script>
 

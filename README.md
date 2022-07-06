@@ -1,35 +1,46 @@
 # Sistemas
 
 ## Tareas realizadas 
-1. 
-Lista, modifica, elimina, agrega, muestra mensaje de confirmacion al eliminar
+> - Lista, modifica, elimina, agrega, muestra mensaje de confirmacion al eliminar
 
-2. PROVEEDOR:
-Agrega, busca, elimina, "MODIFICA", pagina, muestra mensaje de confirmacion al eliminar
+## PROVEEDOR:
+> - Agrega, busca, elimina, "MODIFICA", pagina, muestra mensaje de confirmacion al eliminar
 
-3. CLIENTES:
-Agrega, busca, elimina, "MODIFICA", pagina, muestra mensaje de confirmacion al eliminar
+### CLIENTES:
+> - Agrega, busca, elimina, "MODIFICA", pagina, muestra mensaje de confirmacion al eliminar
 
-4. Login:
-Verifica inicio de sesion, 
-FALTA VALIDAR RETROCESO, MATAR sesion
+### LOGIN
+> - Verifica inicio de sesion con ajax 
+> - Bloquea archivos php y html usando .htaccess
+> - Desactiva boton de login al enviar datos
 
-5. Bloquea archivos php y html usando .htaccess
+### Empresa
+> - Registra empresa, 
+> - Modifica excepto el nit de empresa.
+> - Carga los datos para editar empresa y 
 
-6. No muestra archivos sino se ha iniciado sesion
+### USUARIO ADMINISTRADOR
+> - Se bloquea el boton para eliminar al administrador.
 
-7. Registra empresa, carga los datos para editar empresa pero no modifica todavia
+### PRODUCTOS
+> - Crear productos
+> - Modifica productos, pero no modifica el codigo de producto
+> - Elimina productos
+> - Verifica que el producto no este en uso
 
+### OTROS REALIZADOS
+> - No muestra archivos sino se ha iniciado sesion
 
-### FALTANTES:
-1. Corregir update con ajax de clientes y proveedores
-2. Modificar empresa
-3. Crear productos 
-4. Crear comprobantes
-5. Permitir fiados
-6. Reporte de clientes morosos
-7. Promedio de costo de productos 
+#### FALTANTES 
+- Corregir update con ajax de clientes y proveedores (opcion deshabilitado)
+> - Crear comprobantes
+> - Permitir fiados
+> - Reporte de clientes morosos
+> - Promedio de costo de productos 
+> - Verificar que el nit de proveedor no este en uso.
+> - Falta verificar select de empresas, 
 
-#### BUGS
-1. Nit de cliente y proveedor, con c/f ya no deja guardar los datos
-2. Corregin pagina no encontrada 404
+##### BUGS
+> - Nit de cliente y proveedor, con c/f ya no deja guardar los datos
+> - Corregin pagina no encontrada 404
+> - Corregir retroceso en sesion

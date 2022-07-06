@@ -8,8 +8,8 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../assets/css/bootstrap5-0-2.min.css">
 
-    <title>Login</title>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>  
+    <title>Iniciar sesion</title>
+    <script src="assets/js/sweetalert2-10.js"></script>
 
   </head>
   <body>

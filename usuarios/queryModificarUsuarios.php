@@ -16,7 +16,7 @@
     <title>Modificar contenido leccion</title>
 
 	<!-- Sweet Alert2 personalizado para no usar mensajes javascript sin personalizar --->
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>  
+  <script src="../assets/js/sweetalert2-10.js"></script>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../assets/css/bootstrap5-0-2.min.css">
@@ -52,13 +52,19 @@
     header('Location: ../admin/index.php');
     //exit('Por favor ingresa el nombre de usuario y password.');
   }else {
+    $newRol= $_POST['selectRol'];
+
+    
     # code...
-    $consultaModificarModulos = "UPDATE Usuarios SET  estado=$1,nombreApellidos=$2 WHERE correo=$3";
+
+    $consultaModificarModulos = "UPDATE Usuarios SET estado=$1,nombreApellidos=$2,codRol=$3 WHERE correo=$4";
 
     pg_prepare($conexion,"prepareModificarContenidoLeccion",$consultaModificarModulos) or die("Cannot prepare statement.");
   
-    $res = pg_execute($conexion,"prepareModificarContenidoLeccion",array($estado,$nombreApellidos,$correo));
+    $res = pg_execute($conexion,"prepareModificarContenidoLeccion",array($estado,$nombreApellidos,$newRol,$correo));
     
+    //echo "estoy aquiiii: $res";
+
     if ($res) {
         echo "<script>Swal.fire(
             'Usuario',

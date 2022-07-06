@@ -1,9 +1,11 @@
+<!-- 
+    Necesario para que esta pagina se pueda acceder si se inicio sesion por el usuario administrador
+-->
 <?php
   
   //session_start();
   include "../sesion/sesion.php";
 ?>
-
 
 <!doctype html>
 <html lang="en">
@@ -11,7 +13,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Modificar proveedor</title>
+    <title>Modificar producto</title>
 
 	<!-- Sweet Alert2 personalizado para no usar mensajes javascript sin personalizar --->
     <script src="../assets/js/sweetalert2-10.js"></script>
@@ -28,7 +30,7 @@
 	<script src="../js/mensajesPersonalizados.js" type="text/javascript"></script>
   </head>
   <body>
-    <h1>Modificar proveedor</h1>
+    <h1>Modificar producto</h1>
     <a href="../index">Menu principal</a>
     <?php
   /**
@@ -40,39 +42,43 @@
    * txtCorreoSession, txtNuevoTipoEvento, txtCorreoIdTipo: estos nombres son los que posse la propiedad
    * NAME del formulario en el archivo formularioModificarTiposEventos.php
    */
-  $nit= $_POST['inputNit'];
-  $empresa= $_POST['inputEmpresa'];
-  $direccion = $_POST['inputDireccion'];
-  $telefono= $_POST['inputTelefono'];
+
+  $codigoProducto= $_POST['inputCodigoProducto'];
+  $descripcionProducto = $_POST['inputDescripcionProducto'];
+  //$estado= $_POST['inputEstado'];
 
 
-  if(!isset($empresa,$direccion,$telefono,$nit)) {
+  if(!isset($codigoProducto,$descripcionProducto)) {
     header('Location: ../admin/index.php');
     //exit('Por favor ingresa el nombre de usuario y password.');
   }else {
-    # code...
-    $consultaModificarModulos = "UPDATE Proveedor SET nombreEmpresa=$1,direccion=$2,telefono=$3 WHERE nitproveedor=$4";
+    //$newRol= $_POST['selectRol'];
 
-    $namePrepare = "prepareModificarProveedor";
     
-    pg_prepare($conexion,$namePrepare,$consultaModificarModulos) or die("Cannot prepare statement.");
+    # code...
+
+    $consultaModificarProductos = "UPDATE Productos SET descripcion=$1 WHERE codigoProducto=$2";
+
+    $namePrepare = "prepareModificarProductos";
+
+    pg_prepare($conexion,$namePrepare,$consultaModificarProductos) or die("Cannot prepare statement: "+ $namePrepare);
   
-    $res = pg_execute($conexion,$namePrepare,array($empresa,$direccion,$telefono,$nit));
+    $res = pg_execute($conexion,$namePrepare,array($descripcionProducto,$codigoProducto));
     
-    //echo "consulta: $res  xxx: $consultaModificarModulos nombre empresa: $empresa, direccion: $direccion telefono: $telefono nit: $nit";
+    //echo "estoy aquiiii: $res";
 
     if ($res) {
         echo "<script>Swal.fire(
-            'Proveedor',
-            'Datos actualizados!',
+            'Productos modificado',
+            'Datos actualizados correctamente',
             'success',
           )
           </script>
           ";  
     } else {
         echo "<script>Swal.fire(
-            'Proveedor',
-            'Datos no modificados',
+            'Producto',
+            'Se produjo un error al querer actualizar los datos',
             'error'
           )</script>";
     }

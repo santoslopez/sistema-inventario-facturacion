@@ -15,10 +15,8 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../assets/css/bootstrap5-0-2.min.css">
 
-    <title>Datos leccion eliminado</title>
+    <title>Producto eliminado</title>
 
-
-    <!-- Sweet Alert2 personalizado para no usar mensajes javascript sin personalizar --->
     <script src="../assets/js/sweetalert2-10.js"></script>
     <!-- Por medio de este archivo mostramos un mensaje de confirmacion para eliminar, actualizar datos.-->
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
@@ -27,14 +25,14 @@
 
   </head>
   <body>
-    <h1>Usuario eliminado</h1>
+    <h1>Producto eliminado</h1>
 
     <?php 
     
     include '../conexion.php';
     include '../datos/funcionesDatos.php';
    
-    eliminarDatosFila("correoEliminar","DELETE FROM Usuarios WHERE correo=$1;","prepareEliminarContenidoLeccion","El contenido de la leccion se elimino","../admin/index.php",$conexion);
+    eliminarDatosFila("codigoProductoEliminar","DELETE FROM Productos WHERE codigoProducto=$1;","prepareEliminarProducto","El producto se elimino correctamente.","../admin/index.php",$conexion);
   
     ?>
 

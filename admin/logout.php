@@ -16,7 +16,8 @@ if (ini_get("session.use_cookies")) {
         $params["secure"], $params["httponly"]
     );
 }
-
+// Eliminar todas las sesiones:
+session_unset();
 // Finalmente, destruir la sesión.
 session_destroy();
 header("Location:../index");

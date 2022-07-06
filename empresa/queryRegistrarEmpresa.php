@@ -15,7 +15,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../assets/css/bootstrap5-0-2.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>  
+    <script src="../assets/js/sweetalert2-10.js"></script>
 
     <title>Empresa registrado</title>
   </head>
@@ -108,7 +108,7 @@ if ($ejecutarConsulta) {
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="../assets/js/bootstrap5-0-2.bundle.min.js"></script>
 
     <!-- Option 2: Separate Popper and Bootstrap JS -->
     <!--

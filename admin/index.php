@@ -1,10 +1,26 @@
 <?php
+  
   session_start();
   //Sino hemos iniciado sesion indicamos la ruta por defecto
-  if(!isset($_SESSION['nombreUsuario'])){
-	// ruta por default
-	header('Location: ../index');
+
+  if (!isset($_SESSION['rolUsuario'])) {
+    //header('location: admin/index.php');
+    # code...
+    /*switch ($_SESSION) {
+        case 'value':
+            # code...
+            case 1:
+                header('location:../admin/index.php');
+            break;
+        
+        default:
+            # code...
+            break;
+    }*/
+  //}else  {
+    header('location: ../index.php');
   }
+
 ?>
 
 <!DOCTYPE html>
@@ -19,7 +35,6 @@
     <title>La Cadena</title>
     <!-- ======= Styles ====== -->
 
-    <!--link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"-->
     <link rel="stylesheet" href="../assets/css/bootstrap5-0-2.min.css">
 
     
@@ -53,12 +68,12 @@
                             <span class="title">Usuarios</span>
                         </a>
                     </li>
-                    <li>
+                    <!--li>
                         <a style="cursor: pointer;" class="nav-link" id="v-pills-clientes-tab" data-bs-toggle="pill" data-bs-target="#v-pills-clientes1" role="tab" aria-controls="v-pills-clientes1" aria-selected="false">
                             <span class="icon"><ion-icon name="people-circle"></ion-icon></span>
                             <span class="title">Clientes</span>
                         </a>
-                    </li>
+                    </li-->
                     
                     <!--li>
                         <a style="cursor: pointer;"  class="nav-link" id="v-pills-roles-tab" data-bs-toggle="pill" data-bs-target="#v-pills-roles" role="tab" aria-controls="v-pills-roles" aria-selected="false">
@@ -115,6 +130,11 @@
 
                 <div class="w-100">
                     <div class="tab-content" id="v-pills-tabContent">
+                        <?php
+                            $user = $_SESSION["nombreUsuario"];
+
+                            echo "<h5 style='margin-left:10px;'>Bienvenido: $user</h5>";
+                        ?>
                         <!-- inicio primero -->
                         <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
                             <!-- ======================= Cards ================== -->
@@ -185,7 +205,7 @@
                                     </a>
                                 </div>
 
-                                <div class="card">
+                                <!--div class="card">
                                     <a style="cursor: pointer;" href="../clientes/queryListadoClientes.php">
                                         <div class="cardName"><h5>Clientes</h5></div>
 
@@ -195,11 +215,10 @@
                                         </div>
 
                                         <div class="iconBx">
-                                            <!--ion-icon name="people-circle-outline"></ion-icon-->
                                             <img src="../assets/img/clientes.webp" class="zoomImagen home">                       
                                         </div>
                                     </a>
-                                </div>
+                                </div-->
 
                                 <div class="card">
                                     <a href="#">
@@ -218,6 +237,23 @@
                                     </div>
                                     </a>
                                 </div>
+
+                                <div class="card">
+                                    <a href="../productos/queryListadoProductos.php">
+                                    <div>
+                                       
+                                        <div class="cardName numbers"><strong><h5>Productos</h5></strong></div>
+                                        <div>
+                                            <span class="title">Listado productos</span>
+                                        </div>
+                                    </div>
+                                    <div class="iconBx">
+                                            <img src="../assets/img/drill.webp" class="zoomImagen home">
+                                        
+                                        <!--ion-icon name="cart-outline"></ion-icon-->
+                                    </div>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                         <!-- fin primero-->
@@ -229,10 +265,53 @@
                         </div-->
                         
                         <div class="tab-pane fade" id="v-pills-usuarios" role="tabpanel" aria-labelledby="v-pills-usuarios-tab" style="margin-left:7%;margin-right:7%;">          
-                            
-                            <?php
+                        
+                            <!-- INICIO CODIGO PARA USUARIOS-->
+                            <div class="cardBox">
+
+                                <div class="card">
+                                <a style="cursor: pointer;" href="../usuarios/queryUsuariosRegistrados.php">
+                                    <div>
+                                        <!--div class="numbers">
+                                            $
+                                        </div-->
+                                        <div class="cardName"><strong><h5>Empleados</strong></h5></div>
+                                        <div>
+                                            <span class="title">Listado</span>
+                                        </div>
+                                    </div>
+                                    <div class="iconBx">
+                                            <img src="../assets/img/userhome.webp" class="zoomImagen home">
+                                        
+                                        <!--ion-icon name="cart-outline"></ion-icon-->
+                                    </div>
+                                    </a>
+                                </div>
+
+
+                                <div class="card">
+                                    <a style="cursor: pointer;" href="../clientes/queryListadoClientes.php">
+                                        <div class="cardName"><h5>Clientes</h5></div>
+
+                                        <div>
+                        
+                                            <span class="title">Listado</span>
+                                        </div>
+
+                                        <div class="iconBx">
+                                            <!--ion-icon name="people-circle-outline"></ion-icon-->
+                                            <img src="../assets/img/clientes.webp" class="zoomImagen home">                       
+                                        </div>
+                                    </a>
+                                </div>
+
+
+                            </div>
+                            <!-- FIN CODIGO PARA USUARIOS-->
+
+                            <!--?php
                                 require_once("../usuarios/queryUsuariosRegistrados.php");
-                            ?>    
+                            ?-->    
                         </div>
                         
 
@@ -269,7 +348,9 @@
 
 
         <!--script type="module" src="../assets/js/ionicons.esm.js"></script-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <!--script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script-->
+
+        <script src="../assets/js/bootstrap5-0-2.bundle.min.js"></script>
 
         <script src="../assets/js/admin.js"></script>
 

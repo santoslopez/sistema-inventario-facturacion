@@ -46,54 +46,49 @@
    $totalPaginas = ceil($cantidadDatos / $registrosPorPagina);
    echo "total paginas: $totalPaginas";*/
 
-   $variable = $_SESSION['nombreUsuario']; 
+   //$variable = $_SESSION['nombreUsuario']; 
 
-   $userName="santoslopez@google.com";
+   //$userName="santoslopez@google.com";
    
-   $listadoTiposEventoUsuario = "SELECT * FROM Usuarios where correo!='lopeztsantos@gmail.com';";
-    //echo "sex  $listadoTiposEventoUsuario";
+   $queryListadoProductos = "SELECT * FROM Productos;";
 
-    $ejecutarConsultaObtenerInfo = pg_query($conexion,$listadoTiposEventoUsuario);
+    $ejecutarConsulta = pg_query($conexion,$queryListadoProductos);
     
     // verificamos que existen registros, sino no dibujamos la tabla
-    if (!(pg_num_rows($ejecutarConsultaObtenerInfo))) {
+    if (!(pg_num_rows($ejecutarConsulta))) {
         echo "<div class='alert alert-danger' role='alert'>
-                No hay información de usuarios registrados.
+                No hay productos registrados actualmente.
               </div>
-              <a class='btn btn-success' href='../usuarios/frmRegistrarUsuarios' role='button'>Registrar usuarios</a>";
+              <a class='btn btn-success' href='../productos/frmRegistrarProductos' role='button'>Registrar productos</a>";
 
     }else{                                    
     # Si hay datos, entonces dibujamos el encabezado una sola vez
     echo '
-        <a href="../usuarios/frmRegistrarUsuarios" class="btn btn-success" role="button">Registrar usuarios</a>
+        <a href="../productos/frmRegistrarProductos" class="btn btn-success" role="button">Registrar productos</a>
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <td>Correo</td>
-                    <td>Estado</td>
-                    <td>Registrado</td>
-                    <td>Nombre y apellidos</td>
-                    <td></td>
+                    <td>CODIGO</td>
+                    <td>Descripcion</td>
+                    <td>Modificar</td>
+                    <td>Eliminar</td>
                 </tr>
             </thead>
             <tbody>';
     # el contenido puede ir incrementandose 
-    while ($row= pg_fetch_row($ejecutarConsultaObtenerInfo)) {
+    while ($row= pg_fetch_row($ejecutarConsulta)) {
         // codigoTipo: este valor lo vamos a recuperar en el archivo eliminarTiposEventos.php
         echo "<tr>";
-        echo "<td data-label='CodLengua'>$row[0]</td>";
-        echo "<td data-label='Lengua'><span class='status delivered'>$row[1]</span></td>";
-        echo "<td data-label='Lengua'>$row[2]</td>";
-        echo "<td data-label='Lengua'>$row[3]</td>";
-        echo "<td><a href=../usuarios/frmModificarUsuariosRegistrados?correo=".urlencode($row[0])."&estadoActual=".urlencode($row[1])."&fechaRegistro=".urlencode($row[2])."&datos=".urlencode($row[3])."><img src='../assets/img/update.png' class='zoomImagen imagenTabla' alt='Actualizar contenido'></a></td>";
-        echo "<td data-label='Eliminar'><a href=../usuarios/queryEliminarUsuario.php?correoEliminar=".urlencode($row[0])." class='opcionEliminarUsuario btn'><img src='../assets/img/delete.png' class='zoomImagen imagenTabla' alt='Eliminar contenido'></a></td>";
-     
-        //echo "<td data-label='Registrar modulo'><a href='../modulos/formRegistrarModulos.php?codigoLenguaObtener=$row[0]' class='btn'><img src='../img/mockup.png' class='zoomImagen' alt='Registrar modulo'></a></td>";
-
+        echo "<td data-label='Lengua'><span class='status delivered'>$row[0]</span></td>";
+        echo "<td data-label='Lengua'>$row[1]</td>";
+        echo "<td><a href=../productos/frmModificarProductos.php?codigoProducto=".urlencode($row[0])."&descripcionProducto=".urlencode($row[1])."><img src='../assets/img/update.png' class='zoomImagen imagenTabla' alt='Actualizar contenido'></a></td>";
+        echo "<td data-label='Eliminar'><a href=../productos/queryEliminarProducto.php?codigoProductoEliminar=".urlencode($row[0])." class='opcionEliminarUsuario btn'><img src='../assets/img/delete.png' class='zoomImagen imagenTabla' alt='Eliminar contenido'></a></td>";
         echo "</tr>";                                               
     }
     echo "</tbody>
-    </table>";        
+    </table>
+    <a href='../index.php' class='btn btn-primary' role='button'>Regresar menu principal</a>
+    ";        
     }
     pg_close($conexion);
     ?> 

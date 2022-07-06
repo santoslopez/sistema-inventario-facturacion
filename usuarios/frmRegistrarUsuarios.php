@@ -1,7 +1,7 @@
 <?php
   
   //session_start();
-  include "../sesion/sesion.php";
+  //include "../sesion/sesion.php";
 ?>
 
 <!DOCTYPE html>
@@ -10,7 +10,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar sesion</title>
+    <title>Crear cuenta usuario</title>
 	<!-- Bootstrap 5 CDN Link -->
     <link rel="stylesheet" href="../assets/css/bootstrap5-0-2.min.css">
 
@@ -66,6 +66,16 @@
                         </div>
 					</div>
 
+					<div class="form-floating">
+						<br>
+						<label for="floatingPassword">Seleccione una rol:</label>
+						<!--input type="password" class="form-control" id="inputRol" name="inputRol" placeholder="Rol" required-->
+						<select class="form-select" aria-label="Default select example" id="selectRol" name="selectRol">
+							<option value="1" selected>Administrador</option>
+							<option value="2">Cajero</option>
+						</select>
+
+					</div>					
 
 					<button type="submit" class="btn btn-primary submit_btn w-100 my-4">Registrar usuario</button>
 					<div class="mt-2 text-end">
