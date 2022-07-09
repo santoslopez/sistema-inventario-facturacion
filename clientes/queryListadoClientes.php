@@ -221,7 +221,7 @@
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
                 <label for="Name" class="form-label">Direccion</label>
-                <input type="text" name="inputDireccion" class="form-control" id="inputDireccion" placeholder="Direccion" require value="Ciudad"d>
+                <input type="text" name="inputDireccion" class="form-control" id="inputDireccion" placeholder="Direccion" require value="Ciudad">
             </div>
         </div>
 
@@ -243,8 +243,6 @@
         </div>
         <!-- fin formulario -->
       </div>
-    
-
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
         <button type="submit" class="btn btn-primary">Guardar datos</button>
@@ -252,6 +250,7 @@
       </form>
 
     </div>
+
   </div>
 </div>
 

@@ -129,7 +129,7 @@
                 
                     success:function(data1){
                         var json = JSON.parse(data1);
-                     
+            
                         var status = json.status;
                         if(status=='success'){
                             $('#inputDatos').val('');

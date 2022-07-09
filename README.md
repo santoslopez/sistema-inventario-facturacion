@@ -1,5 +1,18 @@
 # Sistemas
 
+> - 957601EdgarLopez 
+> - mynsy4791@gmail.com
+mynsy4791@gmail.com
+
+Passowrd nuevo>
+MeRobaronMiIphone.13
+icloud
+minsysolis@gmail.com
+
+
+PASSWORD DE APLICACION>
+zdzh-sghh-uaml-bskh
+
 ## Tareas realizadas 
 > - Lista, modifica, elimina, agrega, muestra mensaje de confirmacion al eliminar
 
@@ -30,6 +43,8 @@
 
 ### COMPRAS DE PRODUCTOS / FACTURA COMPRA
 > - Crear un documento con los detalles basicos de la factura de compra
+> - Elimina la factura
+> - Busca y pagina datos
 
 ### OTROS REALIZADOS
 > - No muestra archivos sino se ha iniciado sesion
@@ -42,6 +57,7 @@
 > - Promedio de costo de productos 
 > - Verificar que el nit de proveedor no este en uso.
 > - Falta verificar select de empresas, 
+> - Falta actuaizar datos de compra de productos
 
 ##### BUGS
 > - Nit de cliente y proveedor, con c/f ya no deja guardar los datos
