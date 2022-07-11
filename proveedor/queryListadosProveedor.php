@@ -15,7 +15,6 @@
     <link rel="stylesheet" href="../assets/css/bootstrap5-0-2.min.css">
 
     <!-- Sweet Alert2 personalizado para no usar mensajes javascript sin personalizar --->
-    <!--script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script-->  
     <script src="../assets/js/sweetalert2-10.js"></script>
 
     <!-- Por medio de este archivo mostramos un mensaje de confirmacion para eliminar, actualizar datos.-->
@@ -108,6 +107,28 @@
                     },
                     "responsive": true,
                 });
+                
+                /*$('#datatableUsuarios').on('click', '.editbtn', function(event) {
+                    var table = $('#datatableUsuarios').DataTable();
+                    var trid = $(this).closest('tr').attr('id');
+                    var id = $(this).data('id');
+                    
+                    $('#formularioModificarProveedor').modal('show');
+                    $.ajax({
+                        url: "obtenerDatosProveedor.php",
+                        data: {
+                            id: id
+                        },
+                        type: 'post',
+                        success: function(data) {
+                            var json = JSON.parse(data);
+                            console.log("xoxo xoxo: ");
+                            //$('#inputNitUpdate').val(json.nombreEmpresa +"dddd " +json[0] + "dfsdfsd " +json["nombreEmpresa"]);
+                        }
+                    });
+                    });*/
+
+
             });
             eliminarDatos(".activarEliminar","#datatableUsuarios","queryEliminarProveedor.php",'Proveedor eliminado correctamente.',"El proveedor no se pudo eliminar se produjo un error","¿Confirmar eliminación de proveedor?","Sí, eliminar datos de proveedor");
 
@@ -131,7 +152,13 @@
                         var json = JSON.parse(data1);
             
                         var status = json.status;
-                        if(status=='success'){
+                        if(status=='yaexistenoguardado'){ 
+                            Swal.fire(
+                                'Proveedor no registrado',
+                                'El nit esta en uso.',
+                                'warning'
+                            )
+                        }else if(status=='success'){
                             $('#inputDatos').val('');
                             $('#inputDireccion').val('');
                             $('#inputNit').val('');
@@ -173,37 +200,30 @@
         <h5 class="modal-title" id="exampleModalLabel">Registrar proveedor</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-
        <form id="guardarDatosFormulario" name="guardarDatosFormulario" class="row g-3 needs-validation" novalidate>
       <div class="modal-body">
         <!-- inicio formulario-->
-
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
                 <label for="exampleFormControlInput1" class="form-label">Nit</label>
                 <input type="text" name="inputNit" class="form-control" id="inputNit" placeholder="Nit" required>
             </div>
         </div>
-
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
                 <label for="Name" class="form-label">Nombre proveedor</label>
-                <input type="text" name="inputDatos" class="form-control" placeholder="Nombre proveedor" id="inputDatos" required>
+                <input type="text" name="inputDatosUpdate" class="form-control" placeholder="Nombre proveedor" id="inputDatosUpdate" required>
             </div>
             <!--div class="invalid-feedback">
                 Looks good!
             </div-->
         </div>
-
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
                 <label for="Name" class="form-label">Direccion</label>
-                <input type="text" name="inputDireccion" class="form-control" id="inputDireccion" placeholder="Direccion" required>
+                <input type="text" name="inputDireccionUpdate" class="form-control" id="inputDireccionUpdate" placeholder="Direccion" required value="Ciudad">
             </div>
         </div>
-
-
-
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
                 <label for="exampleFormControlInput1" class="form-label">Telefono</label>
@@ -223,6 +243,61 @@
       </div>
       </form>
 
+    </div>
+  </div>
+</div>
+
+<!-- inicio agregar cliente action="javascript:void()"
+-->
+<!-- Modal -->
+<div class="modal fade" id="formularioModificarProveedor" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modificar proveedor</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+       <form id="guardarDatosFormularioModificar" name="guardarDatosFormularioModificar" class="row g-3 needs-validation" novalidate>
+      <div class="modal-body">
+        <!-- inicio formulario-->
+        <div class="mb-3 has-validation">
+            <div class="col-sm-10">
+                <label for="exampleFormControlInput1" class="form-label">Nit</label>
+                <input type="text" name="inputNitUpdate" class="form-control" id="inputNitUpdate" placeholder="Nit" required>
+            </div>
+        </div>
+        <div class="mb-3 has-validation">
+            <div class="col-sm-10">
+                <label for="Name" class="form-label">Nombre proveedor</label>
+                <input type="text" name="inputDatosModificar" class="form-control" placeholder="Nombre proveedor" id="inputDatosModificar" required>
+            </div>
+            <!--div class="invalid-feedback">
+                Looks good!
+            </div-->
+        </div>
+        <div class="mb-3 has-validation">
+            <div class="col-sm-10">
+                <label for="Name" class="form-label">Direccion</label>
+                <input type="text" name="inputDireccionModificar" class="form-control" id="inputDireccionModificar" placeholder="Direccion" required>
+            </div>
+        </div>
+        <div class="mb-3 has-validation">
+            <div class="col-sm-10">
+                <label for="exampleFormControlInput1" class="form-label">Telefono</label>
+                <input type="number" name="inputTelefonoModificar" class="form-control" id="inputTelefonoModificar" placeholder="Telefono" required>
+            </div>
+            <!--div class="invalid-feedback">
+                Ingresa un numero de telefono valido.
+            </div-->
+        </div>
+        <!-- fin formulario -->
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-primary">Guardar datos</button>
+      </div>
+      </form>
     </div>
   </div>
 </div>

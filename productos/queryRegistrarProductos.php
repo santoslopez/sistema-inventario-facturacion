@@ -8,7 +8,7 @@ include '../conexion.php';
 // LOS VALORES QUE SE COLOCAN EN EL POST CORRESPONDE A LO QUE SE ESTA ENVIANDO EN  data:{nombreApellidos:nombreApellidos,direccion:direccion,nitCliente:nitCliente,telefono:telefono}
 
 $codigoProducto=htmlspecialchars($_POST['inputCodigoProducto'],ENT_QUOTES,'UTF-8');
-$descripcionProducto=htmlspecialchars($_POST['inputDescripcionProducto'],ENT_QUOTES,'UTF-8');
+$descripcionProducto=htmlspecialchars($_POST['inputNombreProducto'],ENT_QUOTES,'UTF-8');
 
 // Realizar una verificacion que el codigo del producto no este registrado
 $consultaVerificarExistenciaProducto = "SELECT * FROM Productos where codigoProducto=$1";
@@ -17,10 +17,6 @@ pg_prepare($conexion,"prepareVerificarProductos",$consultaVerificarExistenciaPro
 
 $ejecutarConsultaVerificarProducto  = pg_execute($conexion,"prepareVerificarProductos",array($codigoProducto));
 
-
-//echo "estoy aqui: $consultaVerificarExistenciaProducto";
-
-//$ejecutarConsultaVerificarProducto = pg_query($conexion,$consultaVerificarExistenciaProducto);
 
 if(pg_num_rows($ejecutarConsultaVerificarProducto)) {
   $data['status'] = 'yaexistenoguardado';
@@ -44,10 +40,6 @@ if(pg_num_rows($ejecutarConsultaVerificarProducto)) {
   $data['status'] = 'failed';
   echo json_encode($data);
   }
-
 }
-
-
-
 
 ?>

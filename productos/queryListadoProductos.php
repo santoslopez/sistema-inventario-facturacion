@@ -15,12 +15,20 @@
     <!-- Sweet Alert2 personalizado para no usar mensajes javascript sin personalizar --->
     <script src="../assets/js/sweetalert2-10.js"></script>
     <!-- Por medio de este archivo mostramos un mensaje de confirmacion para eliminar, actualizar datos.-->
-    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
     <!-- Por medio de este archivo mostramos un mensaje de confirmacion para eliminar, actualizar datos.-->
     <script src="../assets/js/mensajesPersonalizados.js" type="text/javascript"></script>
     <link rel="stylesheet" href="../css/tablaResponsive.css"/>
 
     <link rel="stylesheet" href="../assets/css/zoomImagen.css"/>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script src="../assets/js/bootstrap5-0-2.bundle.min.js"></script>
+    
+    <script src="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.12.1/r-2.3.0/datatables.min.js"></script>
+
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.dataTables.js"></script>
 </head>
 <body>
     <?php 
@@ -59,12 +67,18 @@
         echo "<div class='alert alert-danger' role='alert'>
                 No hay productos registrados actualmente.
               </div>
-              <a class='btn btn-success' href='../productos/frmRegistrarProductos' role='button'>Registrar productos</a>";
+              <button type='button' class='btn btn-success' data-bs-toggle='modal' data-bs-target='#formularioAgregarProductos'>
+              Registrar productos
+          </button>              
+              ";
 
     }else{                                    
     # Si hay datos, entonces dibujamos el encabezado una sola vez
     echo '
-        <a href="../productos/frmRegistrarProductos" class="btn btn-success" role="button">Registrar productos</a>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#formularioAgregarProductos">
+        Registrar productos
+    </button>
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -94,12 +108,110 @@
     ?> 
 
     <script>
-		/* 
-      .opcionEliminarTiposEventos: corresponde al nombre de la propiedad "CLASS" que se le puso en el a href, dentro del while para mostrar los datos    
-    */
+		// .opcionEliminarTiposEventos: corresponde al nombre de la propiedad "CLASS" que se le puso en el a href, dentro del while para mostrar los datos    
 		var nombreClassBotonEliminar = '.opcionEliminarUsuario';
 		mensajeEliminarContenido(nombreClassBotonEliminar,"Eliminar usuario","Esto no se puede revertir","warning","Si, eliminar usuario.","../admin/index.php");
 	</script>
+
+<!-- inicio agregar cliente action="javascript:void()" -->
+<!-- Modal -->
+<div class="modal fade" id="formularioAgregarProductos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Registrar productos</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+       <form id="guardarDatosFormulario" name="guardarDatosFormulario" class="row g-3 needs-validation" novalidate>
+      <div class="modal-body">
+        <!-- inicio formulario-->
+        <div class="mb-3 has-validation">
+            <div class="col-sm-10">
+                <label for="Name" class="form-label">Codigo producto</label>
+                <input type="text" name="inputCodigoProducto" class="form-control" id="inputCodigoProducto" placeholder="Codigo producto" required>
+            </div>
+            <!--div class="invalid-feedback">
+                Looks good!
+            </div-->
+        </div>
+
+        <div class="mb-3 has-validation">
+            <div class="col-sm-10">
+                <label for="Name" class="form-label">Nombre</label>
+                <input type="text" name="inputNombreProducto" class="form-control" id="inputNombreProducto" placeholder="Nombre" require>
+            </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-primary">Guardar datos</button>
+      </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+<!-- fin agregar cliente -->
+
+
+<script>
+    $(document).on('submit','#guardarDatosFormulario',function(event){
+        event.preventDefault();
+        //var nitCliente=$('#inputNit').val();
+        var inputCodigoProducto=$('#inputCodigoProducto').val();
+        var inputNombreProducto=$('#inputNombreProducto').val();
+        //var telefono=$('#inputTelefono').val();
+        if((inputCodigoProducto!='') && (inputNombreProducto!='') ){
+            $.ajax({
+                url:"queryRegistrarProductos.php",
+                data:{inputCodigoProducto:inputCodigoProducto,inputNombreProducto:inputNombreProducto},
+                type:'post',
+                
+                    success:function(data1){
+                        var json = JSON.parse(data1);
+            
+                        var status = json.status;
+                        if(status=='yaexistenoguardado'){ 
+                            Swal.fire(
+                                'Producto no registrado',
+                                'El codigo del producto esta en uso.',
+                                'warning'
+                            )
+                        }else if(status=='success'){
+                            $('#inputCodigoProducto').val('');
+                            $('#inputNombreProducto').val('');
+
+                            $('#formularioAgregarProductos').modal('hide');
+                            //cargarDatosTabla();
+                            //var table = $('#datatableUsuarios').DataTable();
+                            //table.ajax.reload();
+
+                            Swal.fire(
+                                'Producto registrado',
+                                'Los datos se guardaron correctamente.',
+                                'success'
+                            )
+
+                            window.location.href = "queryListadoProductos.php";
+                            
+                        }else{
+                            Swal.fire(
+                                'Producto no guardado.',
+                                'Los datos no se guardaron.',
+                                'warning'
+                            )
+                        }
+                    }
+                }
+            );
+        }else{
+            alert("please fill the required fields");
+        }
+    });
+</script>
+
 
 </body>
 </html>

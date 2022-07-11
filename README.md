@@ -17,7 +17,7 @@ zdzh-sghh-uaml-bskh
 > - Lista, modifica, elimina, agrega, muestra mensaje de confirmacion al eliminar
 
 ## PROVEEDOR:
-> - Agrega, busca, elimina, "MODIFICA", pagina, muestra mensaje de confirmacion al eliminar
+> - Agrega, busca, validar nit en uso, elimina, "MODIFICA", pagina, muestra mensaje de confirmacion al eliminar
 
 ### CLIENTES:
 > - Agrega, busca, elimina, "MODIFICA", pagina, muestra mensaje de confirmacion al eliminar

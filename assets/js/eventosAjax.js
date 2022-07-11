@@ -49,3 +49,6 @@ function eliminarDatos(nameActivarBotonEliminar,nombreDataTable,urlQueryEliminar
     })
 });   
 }    
+
+
+// Utilizado para registrar usuario: registro success o fallido
