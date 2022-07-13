@@ -6,29 +6,10 @@
 
 <html lang="en">
 <head>
-    <!--meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listado lenguas</title-->
-    <link rel="stylesheet" href="../assets/css/bootstrap5-0-2.min.css">
-
-    <!-- Sweet Alert2 personalizado para no usar mensajes javascript sin personalizar --->
-    <script src="../assets/js/sweetalert2-10.js"></script>
-    <!-- Por medio de este archivo mostramos un mensaje de confirmacion para eliminar, actualizar datos.-->
-    <!-- Por medio de este archivo mostramos un mensaje de confirmacion para eliminar, actualizar datos.-->
-    <script src="../assets/js/mensajesPersonalizados.js" type="text/javascript"></script>
-    <link rel="stylesheet" href="../css/tablaResponsive.css"/>
-
-    <link rel="stylesheet" href="../assets/css/zoomImagen.css"/>
-
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
-    <script src="../assets/js/bootstrap5-0-2.bundle.min.js"></script>
-    
-    <script src="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.12.1/r-2.3.0/datatables.min.js"></script>
-
-    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.dataTables.js"></script>
+    <?php
+        //session_start();
+        include "../includes/head.php";
+    ?>
 </head>
 <body>
     <?php 
@@ -194,7 +175,7 @@
                                 'success'
                             )
 
-                            window.location.href = "queryListadoProductos.php";
+                            //window.location.href = "queryListadoProductos.php";
                             
                         }else{
                             Swal.fire(

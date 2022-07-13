@@ -8,39 +8,21 @@
 
 <html lang="en">
 <head>
-    <!--meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listado lenguas</title-->
-    <link rel="stylesheet" href="../assets/css/bootstrap5-0-2.min.css">
-
-    <!-- Sweet Alert2 personalizado para no usar mensajes javascript sin personalizar --->
-    <script src="../assets/js/sweetalert2-10.js"></script>
-
-    <!-- Por medio de este archivo mostramos un mensaje de confirmacion para eliminar, actualizar datos.-->
-    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
-    <!-- Por medio de este archivo mostramos un mensaje de confirmacion para eliminar, actualizar datos.-->
-    <script src="../assets/js/mensajesPersonalizados.js" type="text/javascript"></script>
-
-
-    <link rel="stylesheet" href="../assets/css/zoomImagen.css"/>
-
-    <!--link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css"-->
-  
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.12.1/r-2.3.0/datatables.min.css"/>
- 
- 
+    <?php
+        //session_start();
+        include "../includes/head.php";
+    ?>
 
 </head>
 <body>
     <div class="container">
         
         <div class="alert" role="alert" style="margin-top:20px;background:#201E1D;color:white;">
-            <h2>Listado de factura de compras</h2>
+            <h2>Listado de clientes</h2>
             
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#formularioAgregarCliente">
-                Registrar compras
+                Registrar cliente
             </button>
         </div>
     <?php 
@@ -48,11 +30,10 @@
     echo '
         <table class="table table-striped table-bordered nowrap" id="datatableUsuarios" name="datatableUsuarios" style="width:100%">
             <thead>
-                    <th>No. documento</th>
-                    <th>Documento proveedor</th>
-                    <th>Fecha registro</th>
-                    <th>Fecha factura proveedor</th>
-                    <th>Nit proveedor</th>
+                    <th>Nombre y apellidos</th>
+                    <th>Direccion</th>
+                    <th>Nit</th>
+                    <th>Telefono</th>
                     <th></th>
             </thead>
             <tbody>
@@ -85,7 +66,7 @@
             $(document).ready(function(){
                 $('#datatableUsuarios').DataTable({
                     "ajax":{
-                        "url":"queryFacturas.php",
+                        "url":"queryClientes.php",
                         "dataSrc":""
                     },
                     "processing": true,
@@ -108,7 +89,7 @@
                     "responsive": true,
                 });
             });
-            eliminarDatos(".activarEliminar","#datatableUsuarios","queryEliminarFacturaCompra.php",'Factura de compra se ha eliminado correctamente.',"La factura no se pudo eliminar se produjo un error","¿Confirmar eliminación de factura de compra?","Sí, eliminar factura de compra");
+            eliminarDatos(".activarEliminar","#datatableUsuarios","queryEliminarClientes.php",'Cliente eliminado correctamente.',"El cliente no se pudo eliminar se produjo un error","¿Confirmar eliminación de cliente?","Sí, eliminar datos de cliente");
 </script>
 
 
@@ -150,44 +131,38 @@
 <script>
     $(document).on('submit','#guardarDatosFormulario',function(event){
         event.preventDefault();
-        var inputDocumentoProveedor=$('#inputDocumentoProveedor').val();
-        var inputFechaFacturaProveedor=$('#inputFechaFacturaProveedor').val();
-        var inputNitProveedor=$('#inputNitProveedor').val();
-        //var telefono=$('#inputTelefono').val();
-        if((inputDocumentoProveedor!='') && (inputFechaFacturaProveedor!='') && (inputNitProveedor!='')){
+        var nombreApellidos=$('#inputDatos').val();
+        var direccion=$('#inputDireccion').val();
+        var nitCliente=$('#inputNit').val();
+        var telefono=$('#inputTelefono').val();
+        if((nombreApellidos!='') && (direccion!='') && (nitCliente!='') && (telefono!='')){
             $.ajax({
-                url:"queryRegistrarFacturaCompra.php",
-                data:{inputDocumentoProveedor:inputDocumentoProveedor,inputFechaFacturaProveedor:inputFechaFacturaProveedor,inputNitProveedor:inputNitProveedor},
+                url:"queryRegistrarClientes.php",
+                data:{nombreApellidos:nombreApellidos,direccion:direccion,nitCliente:nitCliente,telefono:telefono},
                 type:'post',
                     success:function(data1){
                         var json = JSON.parse(data1);
                      
                         var status = json.status;
-                      if(status=='yaexistenoguardado'){
-                        Swal.fire(
-                        'Factura ya existe',
-                                'Los datos no se registraron.',
-                                'error'
-                            )
-                      }else if(status=='success'){
-                            $('#inputDocumentoProveedor').val('');
-                            $('#inputFechaFacturaProveedor').val('');
-                            $('#inputNitProveedor').val('');
-                            //$('#inputTelefono').val('');
+                        if(status=='success'){
+                            $('#inputDatos').val('');
+                            $('#inputDireccion').val('');
+                            $('#inputNit').val('');
+                            $('#inputTelefono').val('');
                             $('#formularioAgregarCliente').modal('hide');
                             //cargarDatosTabla();
                             var table = $('#datatableUsuarios').DataTable();
                             table.ajax.reload();
 
                             Swal.fire(
-                                'Factura registrado',
+                                'Cliente registrado',
                                 'Los datos se guardaron correctamente.',
                                 'success'
                             )
                         }else{
                             Swal.fire(
-                                'Factura de compra no guardado.',
-                                'Los datos no se guardaron. Se produjo un error al querer guardar',
+                                'Cliente no guardado.',
+                                'Los datos no se guardaron.',
                                 'warning'
                             )
                         }
@@ -208,7 +183,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Registrar factura compras</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Registrar cliente</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
@@ -217,8 +192,8 @@
         <!-- inicio formulario-->
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
-                <label for="Name" class="form-label">Documento proveedor</label>
-                <input type="text" name="inputDocumentoProveedor" class="form-control" id="inputDocumentoProveedor" placeholder="No factura" required>
+                <label for="Name" class="form-label">Nombre y apellidos</label>
+                <input type="text" name="inputDatos" class="form-control" id="inputDatos" placeholder="Nombre y apellidos" required>
             </div>
             <!--div class="invalid-feedback">
                 Looks good!
@@ -227,22 +202,26 @@
 
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
-                <label for="Name" class="form-label">Fecha factura proveedor</label>
-                <!--input type="date" name="inputFechaFacturaProveedor" class="form-control" id="inputFechaFacturaProveedor" placeholder="Fecha facturado por proveedor" required-->
-                <input type="datetime-local" id="inputFechaFacturaProveedor" class="form-control" name="inputFechaFacturaProveedor" required>
-      
-              </div>
+                <label for="Name" class="form-label">Direccion</label>
+                <input type="text" name="inputDireccion" class="form-control" id="inputDireccion" placeholder="Direccion" require value="Ciudad">
+            </div>
         </div>
 
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
-                <label for="exampleFormControlInput1" class="form-label">Proveedor</label>
-                <?php
-                         include '../conexion.php';
-                         include "../datos/funcionesDatos.php";
-                         datosCombobox("inputNitProveedor",$conexion,"SELECT nitProveedor,nombreEmpresa FROM Proveedor");
-                         ?>
+                <label for="exampleFormControlInput1" class="form-label">Nit cliente</label>
+                <input type="text" name="inputNit" class="form-control" id="inputNit" placeholder="Nit" required value="c/f">
             </div>
+        </div>
+
+        <div class="mb-3 has-validation">
+            <div class="col-sm-10">
+                <label for="exampleFormControlInput1" class="form-label">Telefono</label>
+                <input type="number" name="inputTelefono" class="form-control" id="inputTelefono" placeholder="Telefono" required>
+            </div>
+            <!--div class="invalid-feedback">
+                Ingresa un numero de telefono valido.
+            </div-->
         </div>
         <!-- fin formulario -->
       </div>
@@ -253,7 +232,7 @@
       </form>
 
     </div>
-    
+
   </div>
 </div>
 
