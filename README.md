@@ -1,26 +1,13 @@
 # Sistemas
 
-> - 957601EdgarLopez 
-> - mynsy4791@gmail.com
-mynsy4791@gmail.com
-
-Passowrd nuevo>
-MeRobaronMiIphone.13
-icloud
-minsysolis@gmail.com
-
-
-PASSWORD DE APLICACION>
-zdzh-sghh-uaml-bskh
-
 ## Tareas realizadas 
 > - Lista, modifica, elimina, agrega, muestra mensaje de confirmacion al eliminar
 
 ## PROVEEDOR:
-> - Agrega, busca, validar nit en uso, elimina, "MODIFICA", pagina, muestra mensaje de confirmacion al eliminar
+> - Agrega, busca, validar nit en uso, elimina, modifica, pagina, muestra mensaje de confirmacion al eliminar.
 
 ### CLIENTES:
-> - Agrega, busca, elimina, "MODIFICA", pagina, muestra mensaje de confirmacion al eliminar
+> - Agrega, busca, elimina, pagina, muestra mensaje de confirmacion al eliminar
 
 ### LOGIN
 > - Verifica inicio de sesion con ajax 
@@ -55,11 +42,24 @@ zdzh-sghh-uaml-bskh
 > - Permitir fiados
 > - Reporte de clientes morosos
 > - Promedio de costo de productos 
-> - Verificar que el nit de proveedor no este en uso.
 > - Falta verificar select de empresas, 
 > - Falta actuaizar datos de compra de productos
+> - Falta modificar clientes "MODIFICA" (ya estaba pero no en datatable)
 
 ##### BUGS
 > - Nit de cliente y proveedor, con c/f ya no deja guardar los datos
 > - Corregin pagina no encontrada 404
 > - Corregir retroceso en sesion
+
+> - 957601EdgarLopez 
+> - mynsy4791@gmail.com
+mynsy4791@gmail.com
+
+Passowrd nuevo>
+MeRobaronMiIphone.13
+icloud
+minsysolis@gmail.com
+
+
+PASSWORD DE APLICACION>
+zdzh-sghh-uaml-bskh

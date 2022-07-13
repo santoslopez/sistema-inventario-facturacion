@@ -1,76 +1,43 @@
 <?php
-  
-  //session_start();
   include "../sesion/sesion.php";
   include "../config/config.php";
-
 ?>
 
 <html lang="en">
-<head>
-    <!--meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listado lenguas</title-->
-    <link rel="stylesheet" href="../assets/css/bootstrap5-0-2.min.css">
-
-    <!-- Sweet Alert2 personalizado para no usar mensajes javascript sin personalizar --->
-    <script src="../assets/js/sweetalert2-10.js"></script>
-
-    <!-- Por medio de este archivo mostramos un mensaje de confirmacion para eliminar, actualizar datos.-->
-    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
-    <!-- Por medio de este archivo mostramos un mensaje de confirmacion para eliminar, actualizar datos.-->
-    <script src="../assets/js/mensajesPersonalizados.js" type="text/javascript"></script>
-
-
-    <link rel="stylesheet" href="../assets/css/zoomImagen.css"/>
-
-    <!--link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css"-->
-  
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.12.1/r-2.3.0/datatables.min.css"/>
- 
- 
-
-</head>
+    <head>
+        <?php
+            include "../includes/head.php";
+        ?>
+        <script src="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.12.1/r-2.3.0/datatables.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.dataTables.js"></script>
+        <script src="../assets/js/eventosAjax.js"></script>
+    
+    </head>
 <body>
     <div class="container">
         
         <div class="alert alert-primary" role="alert" style="margin-top:20px">
             <h2>Proveedores</h2>
-            
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#formularioAgregarCliente">
                 Registrar proveedor
             </button>
         </div>
-    <?php 
-    //include '../conexion.php';
-    echo '
-        <table class="table table-striped table-bordered nowrap" id="datatableUsuarios" name="datatableUsuarios" style="width:100%">
-            <thead>
-                    <th>NIT</th>
-                    <th>Proveedor</th>
-                    <th>Direccion</th>
-                    <th>Telefono</th>
-                    <th></th>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-        <a class="btn btn-primary" href="../index" role="button">Menu principal</a></div>';
-
-    ?> 
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
-    <script src="../assets/js/bootstrap5-0-2.bundle.min.js"></script>
-    
-    <script src="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.12.1/r-2.3.0/datatables.min.js"></script>
-
-    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.dataTables.js"></script>
-
-       
-    <script src="../assets/js/eventosAjax.js"></script>
+        <?php 
+        echo '<table class="table table-striped table-bordered nowrap" id="datatableUsuarios" name="datatableUsuarios" style="width:100%">
+                <thead>
+                        <th>NIT</th>
+                        <th>Proveedor</th>
+                        <th>Direccion</th>
+                        <th>Telefono</th>
+                        <th>b</th>
+                        <th>a</th>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <a class="btn btn-primary" href="../index" role="button">Menu principal</a></div>';
+        ?> 
     
     <script>
 
@@ -108,7 +75,9 @@
                     "responsive": true,
                 });
                 
-                /*$('#datatableUsuarios').on('click', '.editbtn', function(event) {
+                $('#datatableUsuarios').on("click", ".editbtn", function(event) {
+                    //sino se coloca muestra mensaje que parentesis de cierre no iba
+                    event.preventDefault();
                     var table = $('#datatableUsuarios').DataTable();
                     var trid = $(this).closest('tr').attr('id');
                     var id = $(this).data('id');
@@ -119,14 +88,28 @@
                         data: {
                             id: id
                         },
-                        type: 'post',
+                        type: 'POST',
                         success: function(data) {
                             var json = JSON.parse(data);
-                            console.log("xoxo xoxo: ");
-                            //$('#inputNitUpdate').val(json.nombreEmpresa +"dddd " +json[0] + "dfsdfsd " +json["nombreEmpresa"]);
+                            
+                            /* IMPORTANTE: para obtener los datos de las columnas de la tabla
+                            todo debe estar escrito en minuscula de lo contrario json no lo reconoce.
+                            
+                            EJEMPLO: en la tabla tenemos la columna nombreEmpresa,
+                            en json se llama como nombreempresa
+                            */
+
+                            if(json.status=="sindatos"){
+                                
+                            }else {
+                                $("#inputNitUpdate").val(json.nitproveedor);
+                                $("#inputDatosModificar").val(json.nombreempresa);
+                                $("#inputDireccionModificar").val(json.direccion);
+                                $("#inputTelefonoModificar").val(json.telefono);
+                            }
                         }
                     });
-                    });*/
+                    });
 
 
             });
@@ -136,62 +119,95 @@
 
 
 <script>
-    $(document).on('submit','#guardarDatosFormulario',function(event){
+    eventoFormulario('#guardarDatosFormulario','#inputNit','#inputDatos','#inputDireccion','#inputTelefono',"queryRegistrarProveedor.php",'#formularioAgregarCliente');
+
+    eventoFormulario('#guardarDatosFormularioModificar','#inputNitUpdate','#inputDatosModificar','#inputDireccionModificar','#inputTelefonoModificar',"queryModificarProveedor.php",'#formularioModificarProveedor');
+
+    
+    function eventoFormulario(nombreSubmit,input1,input2,input3,input4,urlQuery,tipoFormulario){
+
+    $(document).on('submit',nombreSubmit,function(event){
         event.preventDefault();
-        var nitCliente=$('#inputNit').val();
-        var nombreApellidos=$('#inputDatos').val();
-        var direccion=$('#inputDireccion').val();
-        var telefono=$('#inputTelefono').val();
+
+        var nitCliente=$(input1).val();
+        var nombreApellidos=$(input2).val();
+        var direccion=$(input3).val();
+        var telefono=$(input4).val();
+
         if((nombreApellidos!='') && (direccion!='') && (nitCliente!='') && (telefono!='')){
             $.ajax({
-                url:"queryRegistrarProveedor.php",
+                url:urlQuery,
                 data:{nitCliente:nitCliente,nombreApellidos:nombreApellidos,direccion:direccion,telefono:telefono},
                 type:'post',
-                
-                    success:function(data1){
-                        var json = JSON.parse(data1);
             
-                        var status = json.status;
-                        if(status=='yaexistenoguardado'){ 
-                            Swal.fire(
-                                'Proveedor no registrado',
-                                'El nit esta en uso.',
-                                'warning'
+                    success:function(data1){
+                    
+                        if(tipoFormulario=='#formularioModificarProveedor'){
+                            //alert("JSON: "+data1);
+                            var json = JSON.parse(data1);
+                            var status = json.status;
+                            if(status=='failedupdate'){ 
+                                Swal.fire(
+                                'Proveedor no actualizado',
+                                'Los datos no se modificaron.',
+                                'error'
                             )
-                        }else if(status=='success'){
-                            $('#inputDatos').val('');
-                            $('#inputDireccion').val('');
-                            $('#inputNit').val('');
-                            $('#inputTelefono').val('');
-                            $('#formularioAgregarCliente').modal('hide');
-                            //cargarDatosTabla();
-                            var table = $('#datatableUsuarios').DataTable();
-                            table.ajax.reload();
+                            }else if(status=='success'){
+                                Swal.fire(
+                                'Proveedor actualizado',
+                                'Los datos se actualizaron correctamente.',
+                                'success')
+                                var table = $('#datatableUsuarios').DataTable();
+                                table.ajax.reload();
+                            }
+                        }else if(tipoFormulario=='#formularioAgregarCliente'){
+                            var json1 = JSON.parse(data1);
+                            var status1 = json1.status;
+                            if(status1=='yaexistenoguardado'){ 
+                                Swal.fire(
+                                    'Proveedor no registrado',
+                                    'El nit esta en uso.',
+                                    'warning'
+                                )
+                            }else if(status1=='success'){
+                                $(input1).val('');
+                                $(input2).val('');
+                                $(input3).val('');
+                                $(input4).val('');
+                                
+                                //$('#formularioAgregarCliente').modal('hide');
+                                $(tipoFormulario).modal('hide');
 
-                            Swal.fire(
-                                'Proveedor registrado',
-                                'Los datos se guardaron correctamente.',
-                                'success'
-                            )
+                                //cargarDatosTabla();
+                                var table = $('#datatableUsuarios').DataTable();
+                                table.ajax.reload();
+
+                                Swal.fire(
+                                    'Proveedor registrado',
+                                    'Los datos se guardaron correctamente.',
+                                    'success'
+                                )
+                            }else{
+                                Swal.fire(
+                                    'Proveedor no guardado.',
+                                    'Los datos no se guardaron.',
+                                    'warning'
+                                )
+                            }
                         }else{
-                            Swal.fire(
-                                'Proveedor no guardado.',
-                                'Los datos no se guardaron.',
-                                'warning'
-                            )
+
                         }
-                    }
                 }
-            );
+            });
         }else{
             alert("please fill the required fields");
         }
     });
+}
 </script>
 
 
-<!-- inicio agregar cliente action="javascript:void()"
--->
+<!-- inicio agregar cliente action="javascript:void()"-->
 <!-- Modal -->
 <div class="modal fade" id="formularioAgregarCliente" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -212,7 +228,7 @@
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
                 <label for="Name" class="form-label">Nombre proveedor</label>
-                <input type="text" name="inputDatosUpdate" class="form-control" placeholder="Nombre proveedor" id="inputDatosUpdate" required>
+                <input type="text" name="inputDatos" class="form-control" placeholder="Nombre proveedor" id="inputDatos" required>
             </div>
             <!--div class="invalid-feedback">
                 Looks good!
@@ -221,7 +237,7 @@
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
                 <label for="Name" class="form-label">Direccion</label>
-                <input type="text" name="inputDireccionUpdate" class="form-control" id="inputDireccionUpdate" placeholder="Direccion" required value="Ciudad">
+                <input type="text" name="inputDireccion" class="form-control" id="inputDireccion" placeholder="Direccion" required value="Ciudad">
             </div>
         </div>
         <div class="mb-3 has-validation">
@@ -247,9 +263,7 @@
   </div>
 </div>
 
-<!-- inicio agregar cliente action="javascript:void()"
--->
-<!-- Modal -->
+<!-- inicio agregar cliente action="javascript:void()"-->
 <div class="modal fade" id="formularioModificarProveedor" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -259,7 +273,7 @@
       </div>
        <form id="guardarDatosFormularioModificar" name="guardarDatosFormularioModificar" class="row g-3 needs-validation" novalidate>
       <div class="modal-body">
-        <!-- inicio formulario-->
+        
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
                 <label for="exampleFormControlInput1" class="form-label">Nit</label>
@@ -271,9 +285,6 @@
                 <label for="Name" class="form-label">Nombre proveedor</label>
                 <input type="text" name="inputDatosModificar" class="form-control" placeholder="Nombre proveedor" id="inputDatosModificar" required>
             </div>
-            <!--div class="invalid-feedback">
-                Looks good!
-            </div-->
         </div>
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
@@ -286,11 +297,10 @@
                 <label for="exampleFormControlInput1" class="form-label">Telefono</label>
                 <input type="number" name="inputTelefonoModificar" class="form-control" id="inputTelefonoModificar" placeholder="Telefono" required>
             </div>
-            <!--div class="invalid-feedback">
+            <div class="invalid-feedback">
                 Ingresa un numero de telefono valido.
-            </div-->
+            </div>
         </div>
-        <!-- fin formulario -->
       </div>
 
       <div class="modal-footer">
