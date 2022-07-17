@@ -38,19 +38,20 @@ if(pg_num_rows($ejecutarConsultaVerificarProducto)) {
   
   if ($ejecutarConsulta) {
     
-    /*$consultaInsertarInventario  = sprintf("INSERT INTO Inventario(codigoProducto,costoActual) VALUES('%s','%s');",
+    $consultaInsertarInventario  = sprintf("INSERT INTO Inventario(codigoProducto,cantidadComprado,costoActual) VALUES('%s','%s','%s');",
     pg_escape_string($inputCodigoProducto),
+    pg_escape_string($inputCantidadCompra),
     pg_escape_string($inputCostoProducto)
-    );*/
+    );
 
-    //$ejecutarConsultaInsertarInventario = pg_query($conexion,$consultaInsertarInventario);
+    $ejecutarConsultaInsertarInventario = pg_query($conexion,$consultaInsertarInventario);
 
-    //if($ejecutarConsultaInsertarInventario){
+    if($ejecutarConsultaInsertarInventario){
       $data = array();
       $data['status'] = 'success';
       
       echo json_encode($data);
-    //}else{
+    }
 
     //}
 
