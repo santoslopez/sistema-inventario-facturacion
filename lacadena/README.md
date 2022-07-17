@@ -29,6 +29,8 @@
 > - Crear un documento con los detalles basicos de la factura de compra
 > - Elimina la factura
 > - Busca y pagina datos
+> - Agrega productos en la factura de compra
+> - Muestra total de la factura de compra
 
 ## OTROS REALIZADOS
 > - No muestra archivos sino se ha iniciado sesion
@@ -42,6 +44,8 @@
 > - Falta verificar select de empresas, 
 > - Falta actuaizar datos de compra de productos: Listado de factura de compras
 > - Falta modificar clientes "MODIFICA" (ya estaba pero no en datatable)
+> - Actualizar total de la factura de compra automaticamente al eliminar productos en la factura
+
 
 ## BUGS
 > - Nit de cliente y proveedor, con c/f ya no deja guardar los datos
@@ -51,11 +55,16 @@
 
 ## datos
 957601EdgarLopez 
-> - mynsy4791@gmail.com
+> - 
+CORREO ICLOUD
 mynsy4791@gmail.com
-
-Passowrd nuevo>
 MeRobaronMiIphone.13
+
+
+SI PIDE INGRESAR UN CODIGO DE CONFIRMACION QUE SE ENVIO AL NUMEOR
+https://appleid.apple.com
+
+
 icloud
 minsysolis@gmail.com
 

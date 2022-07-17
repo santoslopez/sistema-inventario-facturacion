@@ -71,14 +71,14 @@ CREATE TABLE FacturaCompra(
     PRIMARY KEY (documentoProveedor),
     CONSTRAINT PK_FacturaCompra_NitProveedor FOREIGN KEY (nitProveedor) REFERENCES Proveedor(nitProveedor )  
 );
-drop 
+
 
 /*drop table DetalleFacturaCompra;*/
 
 CREATE TABLE DetalleFacturaCompra(
     idDetalle SERIAL NOT NULL,
-    precioCompra REAL NOT NULL,
-    cantidadComprado int NOT NULL,
+    precioCompra decimal(10,2) NOT NULL CHECK(precioCompra > 0),
+    cantidadComprado int NOT NULL CHECK(cantidadComprado > 0),
     codigoProducto varchar(50) NOT NULL,
     documentoProveedor VARCHAR(50) NOT NULL,
     PRIMARY KEY (idDetalle),

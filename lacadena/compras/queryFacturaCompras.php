@@ -21,7 +21,7 @@
             <h2>Listado de factura de compras</h2>
             
             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#formularioAgregarCliente">
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#formularioAgregarFacturaCompras">
                 Registrar compras
             </button>
         </div>
@@ -43,19 +43,6 @@
         <a class="btn btn-primary" href="../index" role="button">Menu principal</a></div>';
 
     ?> 
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
-    <script src="../assets/js/bootstrap5-0-2.bundle.min.js"></script>
-    
-    <script src="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.12.1/r-2.3.0/datatables.min.js"></script>
-
-    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.dataTables.js"></script>
-
-   
-    
-
-<script src="../assets/js/eventosAjax.js">
 
 </script>
 
@@ -155,12 +142,13 @@
                             $('#inputDocumentoProveedor').val('');
                             $('#inputFechaFacturaProveedor').val('');
                             $('#inputNitProveedor').val('');
-                            //$('#inputTelefono').val('');
-                            $('#formularioAgregarCliente').modal('hide');
-                            //cargarDatosTabla();
-                            var table = $('#datatableUsuarios').DataTable();
-                            table.ajax.reload();
+                            
+                            $('#formularioAgregarFacturaCompras').modal('hide');
 
+                            //cargarDatosTabla();
+                            var tabla = $('#datatableUsuarios').DataTable();
+                            tabla.ajax.reload();
+                            
                             Swal.fire(
                                 'Factura registrado',
                                 'Los datos se guardaron correctamente.',
@@ -186,7 +174,7 @@
 <!-- inicio agregar cliente action="javascript:void()"
 -->
 <!-- Modal -->
-<div class="modal fade" id="formularioAgregarCliente" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="formularioAgregarFacturaCompras" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
