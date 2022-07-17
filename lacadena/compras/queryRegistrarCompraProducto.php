@@ -37,11 +37,23 @@ if(pg_num_rows($ejecutarConsultaVerificarProducto)) {
   $ejecutarConsulta = pg_query($conexion, $consulta);
   
   if ($ejecutarConsulta) {
-    $data = array();
-    $data['status'] = 'success';
     
-    
-    echo json_encode($data);
+    /*$consultaInsertarInventario  = sprintf("INSERT INTO Inventario(codigoProducto,costoActual) VALUES('%s','%s');",
+    pg_escape_string($inputCodigoProducto),
+    pg_escape_string($inputCostoProducto)
+    );*/
+
+    //$ejecutarConsultaInsertarInventario = pg_query($conexion,$consultaInsertarInventario);
+
+    //if($ejecutarConsultaInsertarInventario){
+      $data = array();
+      $data['status'] = 'success';
+      
+      echo json_encode($data);
+    //}else{
+
+    //}
+
   }else{
   $data = array();
   $data['status'] = 'failed';

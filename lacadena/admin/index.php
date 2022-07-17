@@ -167,9 +167,10 @@
                                     </div>
                                 </div>
 
-                                <div class="card">
+                                
                                 <a style="cursor: pointer;" href="../compras/queryFacturaCompras.php">
-                                    <div>
+                                <div class="card">    
+                                <div>
                                         <!--div class="numbers">
                                             $
                                         </div-->
@@ -184,12 +185,35 @@
                                         
                                         <!--ion-icon name="cart-outline"></ion-icon-->
                                     </div>
+                                    </div>
                                     </a>
-                                </div>
+                               
 
+
+                                
+                                <a style="cursor: pointer;" href="#">
                                 <div class="card">
-                                <a style="cursor: pointer;" href="../proveedor/queryListadosProveedor.php">
                                     <div>    
+                                        <div class="cardName">
+                                            <h5>Inventario</h5>
+                                        </div>
+                                        <div>
+                                            <span class="title">Inventario</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="iconBx">
+                                        <!--ion-icon name="chatbubbles-outline"></ion-icon-->
+                                        <img src="../assets/img/stocks.png" class="zoomImagen home">                       
+                                    </div>
+                                    </div>
+                                    </a>
+                                
+
+                                
+                                <a style="cursor: pointer;" href="../proveedor/queryListadosProveedor.php">
+                                <div class="card">    
+                                <div>    
                                         <div class="cardName">
                                             <h5>Proveedores</h5>
                                         </div>
@@ -202,8 +226,9 @@
                                         <!--ion-icon name="chatbubbles-outline"></ion-icon-->
                                         <img src="../assets/img/shopping-mall.webp" class="zoomImagen home">                       
                                     </div>
+                                    </div>
                                     </a>
-                                </div>
+                                
 
                                 <!--div class="card">
                                     <a style="cursor: pointer;" href="../clientes/queryListadoClientes.php">
@@ -219,9 +244,9 @@
                                         </div>
                                     </a>
                                 </div-->
-
+                                <a href="#">
                                 <div class="card">
-                                    <a href="#">
+                                    
                                     <div>
                                        
                                         <div class="cardName numbers"><strong><h5>VENTAS</h5></strong></div>
@@ -235,8 +260,9 @@
                                         
                                         <!--ion-icon name="cart-outline"></ion-icon-->
                                     </div>
+                                    </div>
                                     </a>
-                                </div>
+                               
 
                                 <div class="card">
                                     <a href="../productos/queryListadoProductos.php">

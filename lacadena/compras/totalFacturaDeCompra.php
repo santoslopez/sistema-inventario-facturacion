@@ -6,7 +6,10 @@
 <?php 
     include '../conexion.php';
 
-    $consultaTotalFacturaCompra = "select sum(cantidadcomprado * preciocompra) as totalfacturacompra from detallefacturacompra";
+    $documentoFacturaC=$_POST['documentoFacturaCompra'];
+
+
+    $consultaTotalFacturaCompra = "select sum(cantidadcomprado * preciocompra) as totalfacturacompra from detallefacturacompra WHERE documentoProveedor='$documentoFacturaC'";
     $ejecutarConsultaObtenerInfo  = pg_query($conexion,$consultaTotalFacturaCompra);
 
     $data = array();

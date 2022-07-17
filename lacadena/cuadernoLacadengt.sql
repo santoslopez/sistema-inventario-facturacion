@@ -87,4 +87,28 @@ CREATE TABLE DetalleFacturaCompra(
 );
 
 
+CREATE TABLE Inventario(
+    codInventario SERIAL NOT NULL,
+    codigoProducto varchar(50) NOT NULL,
+    cantidadComprado int NOT NULL CHECK(cantidadComprado > 0),
+    costoActual decimal(10,2) NOT NULL CHECK(costoActual > 0),
+    PRIMARY KEY (codInventario),
+    CONSTRAINT PK_DetalleProductoCompra FOREIGN KEY (codigoProducto) REFERENCES Productos(codigoProducto)  
+);
+
+
+CREATE TRIGGER ActualizarInventario
+after insert ON DetalleFacturaCompra FOR EACH ROW
+declare
+begin
+    UPDATE Inventario 
+    SET cantidadComprado = cantidadComprado - :new.cantidadComprado 
+    WHERE codigoProducto = :new.codigoProducto;
+end;
+
+
+
+
+
+
 

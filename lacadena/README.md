@@ -29,8 +29,10 @@
 > - Crear un documento con los detalles basicos de la factura de compra
 > - Elimina la factura
 > - Busca y pagina datos
-> - Agrega productos en la factura de compra
+> - Agrega productos en la factura de compra correctamente.
 > - Muestra total de la factura de compra
+> - Muestra productos agregados en factura de compra correctamente.
+
 
 ## OTROS REALIZADOS
 > - No muestra archivos sino se ha iniciado sesion

@@ -6,10 +6,10 @@
 <?php 
     include '../conexion.php';
 
-    $documentoFacturaC=$_POST['documentoFacturaCompra'];
+    $documentoFacturaC=$_GET['documentoFacturaCompra'];
     
-    //$listadoTiposEventoUsuario = "SELECT * FROM DetalleFacturaCompra WHERE documentoProveedor='$documentoFacturaC';";
-    $listadoTiposEventoUsuario = "SELECT * FROM DetalleFacturaCompra";
+    $listadoTiposEventoUsuario = "SELECT * FROM DetalleFacturaCompra WHERE documentoProveedor='$documentoFacturaC';";
+    //$listadoTiposEventoUsuario = "SELECT * FROM DetalleFacturaCompra";
 
     $ejecutarConsultaObtenerInfo = pg_query($conexion,$listadoTiposEventoUsuario);
     

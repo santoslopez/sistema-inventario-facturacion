@@ -73,10 +73,16 @@
         /*** Nota importante: en data tienen que ir los valores en minuscula de la tabla que queremos mostrar sus datos
          */
             $(document).ready(function(){
+                //obtenemos el valor del numero de factura para enviarlo en la consulta en ajax
+                var documentoFacturaCompra = document.getElementById("facturaCompra").value;
+
                 $('#datatableCompras').DataTable({
                     "ajax":{
                         "url":"queryDetalleFacturaCompra.php",
-                        "dataSrc":""
+                        "dataSrc":"",
+                        "data":{
+                            documentoFacturaCompra:documentoFacturaCompra
+                        }
                     },
                     "processing": true,
                     //"serverSide": true,
@@ -163,9 +169,11 @@ window.onload = function() {
       
         //var nombreApellidos=$('#inputEmail').val();
         //if((nombreApellidos!='') && (direccion!='')){
+            var documentoFacturaCompra = document.getElementById("facturaCompra").value;
+            console.log("estoy aqui amor: "+documentoFacturaCompra);
             $.ajax({
                 url:"totalFacturaDeCompra.php",
-                //data:{nombreApellidos:nombreApellidos,direccion:direccion},
+                data:{documentoFacturaCompra:documentoFacturaCompra},
                 type:'POST',
                     beforeSend: function() {
                         //$("btnVerTotalFactura").prop('disabled', true);
