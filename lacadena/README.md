@@ -1,15 +1,15 @@
 # Sistemas
 
 ## PROVEEDOR:
-> - Agrega, busca, validar nit en uso, elimina, modifica, pagina, muestra mensaje de confirmacion al eliminar.
+>- Agrega, busca, validar nit en uso, elimina, modifica, pagina, muestra mensaje de confirmacion al eliminar.
 
 ## CLIENTES:
-> - Agrega, busca, elimina, pagina, muestra mensaje de confirmacion al eliminar
+>- Agrega, busca, elimina, pagina, muestra mensaje de confirmacion al eliminar
 
 ## LOGIN
-> - Verifica inicio de sesion con ajax 
-> - Bloquea archivos php y html usando .htaccess
-> - Desactiva boton de login al enviar datos
+>- Verifica inicio de sesion con ajax 
+>- Bloquea archivos php y html usando .htaccess
+>- Desactiva boton de login al enviar datos
 
 ## Empresa
 > - Registra empresa, 
@@ -32,7 +32,7 @@
 > - Agrega productos en la factura de compra correctamente.
 > - Muestra total de la factura de compra
 > - Muestra productos agregados en factura de compra correctamente.
-
+> - Actualiza compra de productos en factura
 
 ## OTROS REALIZADOS
 > - No muestra archivos sino se ha iniciado sesion
@@ -44,10 +44,9 @@
 > - Reporte de clientes morosos
 > - Promedio de costo de productos 
 > - Falta verificar select de empresas, 
-> - Falta actuaizar datos de compra de productos: Listado de factura de compras
+> - Falta actualizar con trigger el inventario, tanto al ingresar datos a la factura de compra, al modificarlo o eliminarlo.
 > - Falta modificar clientes "MODIFICA" (ya estaba pero no en datatable)
 > - Actualizar total de la factura de compra automaticamente al eliminar productos en la factura
-
 
 ## BUGS
 > - Nit de cliente y proveedor, con c/f ya no deja guardar los datos

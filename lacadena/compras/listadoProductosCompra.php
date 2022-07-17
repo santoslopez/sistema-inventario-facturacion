@@ -43,6 +43,7 @@
                     <th>Producto</th>
                     <th>Subtotal</th>
                     <th></th>
+                   
             </thead>
             <tfoot>
             <tr class="tbl_foot">
@@ -103,9 +104,43 @@
                     },
                     "responsive": true,
                 });
+
+                $('#datatableCompras').on("click", ".editbtn", function(event) {
+                    //sino se coloca muestra mensaje que parentesis de cierre no iba
+                    event.preventDefault();
+
+                    var codigoDetalle = $(this).data('id');
+
+                    let id = document.getElementById("facturaCompra").value; 
+
+                    $('#formularioModificarProductosCompra').modal('show');
+                    $.ajax({
+                        url: "obtenerDatosProductosCompraId.php",
+                        data: {
+                            id: id,codigoDetalle:codigoDetalle
+                        },
+                        type: 'POST',
+                        success: function(data) {
+                            var json = JSON.parse(data);
+                            
+                            if(json.status=="sindatos"){
+                                
+                            }else {
+                                $("#inputCostoUpdate").val(json.preciocompra);
+                                $("#inputCantidadCompradoModificar").val(json.cantidadcomprado);
+                                $("#inputProductoModificar").val(json.codigoproducto);
+                                $("#inputIdDetalle").val(json.iddetalle);                                
+                            }
+                        }
+                    });
+                    
+                    });
+
+
             });
             eliminarDatos(".activarEliminar","#datatableCompras","queryEliminarCompraProductos.php",'El producto se ha eliminado de la compra.',"El producto no se pudo eliminar se produjo un error","¿Confirmar eliminación del producto en la compra?","Sí, eliminar producto en la factura de compra");
 </script>
+
 
 
 
@@ -170,7 +205,6 @@ window.onload = function() {
         //var nombreApellidos=$('#inputEmail').val();
         //if((nombreApellidos!='') && (direccion!='')){
             var documentoFacturaCompra = document.getElementById("facturaCompra").value;
-            console.log("estoy aqui amor: "+documentoFacturaCompra);
             $.ajax({
                 url:"totalFacturaDeCompra.php",
                 data:{documentoFacturaCompra:documentoFacturaCompra},
@@ -258,8 +292,108 @@ window.onload = function() {
 </script>
 
 
-<script src="../assets/js/validation.js"></script>
 
+<!-- inicio agregar cliente action="javascript:void()"-->
+<div class="modal fade" id="formularioModificarProductosCompra" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modificar compra de producto</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+       <form id="guardarDatosFormularioModificar" name="guardarDatosFormularioModificar" class="row g-3 needs-validation" novalidate>
+      <div class="modal-body">
+        
+        <div class="mb-3 has-validation">
+            <div class="col-sm-10">
+                <label for="exampleFormControlInput1" class="form-label">Costo de producto</label>
+                <input type="number" name="inputCostoUpdate" class="form-control" id="inputCostoUpdate" placeholder="Costo de producto" required>
+            </div>
+        </div>
+        <div class="mb-3 has-validation">
+            <div class="col-sm-10">
+                <label for="Name" class="form-label">Cantidad comprado</label>
+                <input type="number" name="inputCantidadCompradoModificar" class="form-control" placeholder="Cantidad comprado" id="inputCantidadCompradoModificar" required>
+            </div>
+        </div>
+        <div class="mb-3 has-validation">
+            <div class="col-sm-10">
+                <label for="Name" class="form-label">Descripcion</label>
+                <input type="text" name="inputProductoModificar" class="form-control" id="inputProductoModificar" placeholder="Producto" required>
+                <input type="number" name="inputIdDetalle" class="form-control" id="inputIdDetalle" placeholder="IDDetalle" required readonly style="display:none">
+            </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-primary">Guardar datos</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+    eventoFormulario('#guardarDatosFormularioModificar','#inputCostoUpdate','#inputCantidadCompradoModificar','#inputProductoModificar',"queryModificarProductosCompra.php",'#formularioModificarProductosCompra');
+
+    
+    function eventoFormulario(nombreSubmit,input1,input2,input3,urlQuery,tipoFormulario){
+
+    $(document).on('submit',nombreSubmit,function(event){
+        event.preventDefault();
+
+        var precioCompra=$(input1).val();
+        var cantidadComprado=$(input2).val();
+        var codigoProducto=$(input3).val();
+        let facturaCompra = document.getElementById("facturaCompra").value; 
+
+        let inputIdDetalle = document.getElementById("inputIdDetalle").value; 
+
+        //var codigoDetalle = $(this).data('id');
+
+
+        if((precioCompra!='') && (cantidadComprado!='') && (codigoProducto!='')){
+            $.ajax({
+                url:urlQuery,
+                data:{precioCompra:precioCompra,cantidadComprado:cantidadComprado,codigoProducto:codigoProducto,facturaCompra:facturaCompra,inputIdDetalle:inputIdDetalle},
+                type:'post',
+                    success:function(data1){
+                        if(tipoFormulario=='#formularioModificarProductosCompra'){
+                            //alert("JSON: "+data1);
+                            var json = JSON.parse(data1);
+                            var status = json.status;
+                            if(status=='failedupdate'){ 
+                                Swal.fire(
+                                'Proveedor no actualizado',
+                                'Los datos no se modificaron.',
+                                'error'
+                            )
+                            }else if(status=='success'){
+                                Swal.fire(
+                                'Proveedor actualizado',
+                                'Los datos se actualizaron correctamente.',
+                                'success')
+                                var table = $('#datatableCompras').DataTable();
+                                table.ajax.reload();
+                            }
+                        }
+                }
+            });
+        }else{
+            Swal.fire(
+                                'Campos vacios',
+                                'Por favor ingresa todos los campos.',
+                                'error'
+                            )
+        }
+    });
+}
+</script>
+
+<script src="../assets/js/validation.js"></script>
 
 
 </body>

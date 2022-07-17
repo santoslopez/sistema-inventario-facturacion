@@ -28,7 +28,7 @@
             $subarray[]=$row[3];
             $multiplicacion = $row[1] * $row[2];
             $subarray[]=number_format($multiplicacion, 2, '.', '');
-            $subarray[]="<a href='javascript:void();' data-id='$row[0]' class='activarEliminar' id='id' name='id'><img src='../assets/img/delete.png' class='zoomImagen' style='width:20px;height:20px;' alt='Actualizar contenido'></a>";
+            $subarray[]="<a href='javascript:void();' data-id='$row[0]' class='editbtn' id='id' name='id'><img src='../assets/img/update.png' class='zoomImagen' style='width:20px;height:20px;' alt='Actualizar contenido'></a><a href='javascript:void();' data-id='$row[0]' class='activarEliminar' id='id' name='id'><img src='../assets/img/delete.png' class='zoomImagen' style='width:20px;height:20px;' alt='Actualizar contenido'></a>";          
             $data[]=$subarray;                                         
         }              
         echo json_encode($data);       
