@@ -151,8 +151,46 @@ $$ LANGUAGE 'plpgsql';
 
 
 CREATE TRIGGER TR_ActualizarInventarioInsertar
-AFTER UPDATE ON DetalleFacturaCompra
+AFTER INSERT ON DetalleFacturaCompra
 
 FOR EACH ROW EXECUTE PROCEDURE TR_ActualizarInventarioInsertar();
+
+
+
+CREATE OR REPLACE FUNCTION TR_ActualizarInventarioInsertar1() RETURNS TRIGGER AS 
+$$
+DECLARE 
+
+BEGIN
+
+IF NEW.cantidadComprado > OLD.cantidadComprado THEN 
+
+    UPDATE Inventario SET cantidadComprado = cantidadComprado - (NEW.cantidadComprado - OLD.cantidadComprado)
+        WHERE codigoProducto=NEW.codigoProducto;
+        return NEW;
+
+ELSE
+    UPDATE Inventario SET cantidadComprado = cantidadComprado + (OLD.cantidadComprado - NEW.cantidadComprado)
+        WHERE codigoProducto=NEW.codigoProducto;
+        return NEW;
+
+END IF;
+
+END;
+$$ LANGUAGE 'plpgsql';
+
+
+CREATE TRIGGER TR_ActualizarInventarioInsertar1
+AFTER UPDATE ON DetalleFacturaCompra
+
+FOR EACH ROW EXECUTE PROCEDURE TR_ActualizarInventarioInsertar1();
+
+DROP TRIGGER TR_ActualizarInventarioAdd on DetalleFacturaCompra;
+
+
+
+
+
+
 
 DROP TRIGGER TR_ActualizarInventarioInsertar on DetalleFacturaCompra;
