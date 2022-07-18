@@ -143,19 +143,24 @@ ON I.codigoProducto = DetalleFacturaCompra.codigoProducto
 ON DetalleFacturaCompra.codigoProducto = Productos.codigoProducto;
 
 
-CREATE OR REPLACE FUNCTION TR_ActualizarInventarioInsertar() RETURN TRIGGER AS DetalleFacturaCompra
+
+CREATE OR REPLACE FUNCTION TR_ActualizarInventarioInsertar() RETURNS TRIGGER AS 
 $$
 DECLARE 
-    UPDATE Inventario SET cantidadComprado = cantidadComprado - NEW.cantidad
+
+BEGIN
+UPDATE Inventario SET cantidadComprado = cantidadComprado + NEW.cantidadComprado
     WHERE codigoProducto=NEW.codigoProducto;
     return NEW;
-BEGIN
-END;
+    INSERT INTO Inventario VALUES(codigoProducto,cantidadComprado,costoActual);
 
+END;
 $$ LANGUAGE 'plpgsql';
 
+DROP TRIGGER TR_ActualizarInventarioInsertar on DetalleFacturaCompra;
 
-CREATE TRIGGER TR_ActualizarInventarioInsertar AFTER INSERT ON DetalleFacturaCompra
+CREATE TRIGGER TR_ActualizarInventarioInsertar 
+AFTER UPDATE ON DetalleFacturaCompra
 
 FOR EACH ROW EXECUTE PROCEDURE TR_ActualizarInventarioInsertar();
 
