@@ -241,8 +241,6 @@ window.onload = function() {
 
         var facturaCompra = $('#facturaCompra').val();
         
-
-        //var telefono=$('#inputTelefono').val();
         if((inputCostoProducto!='') && (inputCantidadCompra!='') && (inputCodigoProducto!='')){
             $.ajax({
                 url:"queryRegistrarCompraProducto.php",
@@ -252,7 +250,13 @@ window.onload = function() {
                         var json = JSON.parse(data1);
                      
                         var status = json.status;
-                        if(status=='success'){
+                        if(status=='yaexisteproducto'){
+                            Swal.fire(
+                                'Producto no agregado',
+                                'Ya esta en la tabla.',
+                                'error'
+                            )
+                        }else if(status=='success'){
                             $('#inputCostoProducto').val('');
                             $('#inputCantidadCompra').val('');
                             $('#inputCodigoProducto').val('');

@@ -1,4 +1,3 @@
-CREATE DATABASE perseverance;
 
 CREATE TABLE Rol(
     codRol serial NOT NULL,
@@ -19,6 +18,8 @@ CREATE TABLE Usuarios(
     PRIMARY KEY (correo),
     CONSTRAINT PK_ROL_USUARIOS FOREIGN KEY (codRol) REFERENCES Rol(codRol)  
 );
+
+INSERT INTO Usuarios(correo,estado,fechaRegistro,nombreApellidos,contrasena,codRol) VALUES('lopeztsantos@gmail.com','A','2022-07-19','Santos Lopez','$2y$12$7Ikmzv/CMLj7UMYPNucTZOBQEkrNSWcihinohAwXTCe83qdgR1XOO',1);
 
 CREATE TABLE Productos(
     codigoProducto varchar(30) NOT NULL,
@@ -53,13 +54,6 @@ CREATE TABLE Clientes(
     nitCliente varchar(20) NOT NULL DEFAULT 'c/f',
     telefono varchar(15),
     PRIMARY KEY (codigoCliente)
-);
-
-CREATE TABLE Productos(
-    codigoProducto varchar(50) NOT NULL,
-    nombre varchar(100) NOT NULL,
-    foto varchar(100) NOT NULL,
-    PRIMARY KEY (codigoProducto)
 );
 
 CREATE TABLE FacturaCompra(
@@ -155,12 +149,10 @@ UPDATE Inventario SET cantidadComprado = cantidadComprado + NEW.cantidadComprado
 END;
 $$ LANGUAGE 'plpgsql';
 
-DROP TRIGGER TR_ActualizarInventarioInsertar on DetalleFacturaCompra;
 
 CREATE TRIGGER TR_ActualizarInventarioInsertar
 AFTER UPDATE ON DetalleFacturaCompra
 
 FOR EACH ROW EXECUTE PROCEDURE TR_ActualizarInventarioInsertar();
 
-
-SELECT * FROM Inventario;
+DROP TRIGGER TR_ActualizarInventarioInsertar on DetalleFacturaCompra;

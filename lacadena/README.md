@@ -33,10 +33,15 @@
 - Muestra total de la factura de compra
 - Muestra productos agregados en factura de compra correctamente.
 - Actualiza compra de productos en factura
+- Evitar que se repita el producto en la tabla de compras en factura
+
+### CLIENTES
+- Cliente con c/f deja guardar los datos
 
 ### OTROS REALIZADOS
 - No muestra archivos sino se ha iniciado sesion
 - Procedimiento almacenado para agregar productos, clientes y proveedores
+
 
 ### FALTANTES 
 - Corregir update con ajax de clientes y proveedores (opcion deshabilitado)
@@ -48,12 +53,13 @@
 - Falta actualizar con trigger el inventario, tanto al ingresar datos a la factura de compra, al modificarlo o eliminarlo.
 - Falta modificar clientes "MODIFICA" (ya estaba pero no en datatable)
 - Actualizar total de la factura de compra automaticamente al eliminar productos en la factura
-- Evitar que se repita el producto en la tabla de compras en factura
+- No dejar guardar clientes con NIT existente, excepto C/f
 
 ### BUGS
-- Nit de cliente y proveedor, con c/f ya no deja guardar los datos
+-  proveedor con c/f ya no deja guardar los datos
 - Corregin pagina no encontrada 404
 - Corregir retroceso en sesion
+- Corregir formulario de registro de usuarios
 
 
 ## datos
