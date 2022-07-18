@@ -122,6 +122,19 @@ $$
     END;
 $$ LANGUAGE 'plpgsql';
 
+CREATE OR REPLACE FUNCTION PA_registrarCliente(datosNombres varchar(100), direccionCliente varchar(50), clienteNit varchar(20), telCliente varchar(15)) RETURNS BOOLEAN AS 
+$$
+    DECLARE
+
+    BEGIN
+        INSERT INTO Clientes(nombreApellidos,direccion,nitCliente,telefono) VALUES (datosNombres,direccionCliente,clienteNit,telCliente);
+        RETURN TRUE;
+
+        Exception 
+            When others then return FALSE;
+    END;
+$$ LANGUAGE 'plpgsql';
+
 
 CREATE OR REPLACE FUNCTION TR_ActualizarInventarioInsertar() RETURN TRIGGER AS DetalleFacturaCompra
 $$
