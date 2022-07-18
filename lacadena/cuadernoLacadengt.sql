@@ -152,17 +152,15 @@ BEGIN
 UPDATE Inventario SET cantidadComprado = cantidadComprado + NEW.cantidadComprado
     WHERE codigoProducto=NEW.codigoProducto;
     return NEW;
-    INSERT INTO Inventario VALUES(codigoProducto,cantidadComprado,costoActual);
-
 END;
 $$ LANGUAGE 'plpgsql';
 
 DROP TRIGGER TR_ActualizarInventarioInsertar on DetalleFacturaCompra;
 
-CREATE TRIGGER TR_ActualizarInventarioInsertar 
+CREATE TRIGGER TR_ActualizarInventarioInsertar
 AFTER UPDATE ON DetalleFacturaCompra
 
 FOR EACH ROW EXECUTE PROCEDURE TR_ActualizarInventarioInsertar();
 
 
-
+SELECT * FROM Inventario;
