@@ -135,6 +135,13 @@ $$
     END;
 $$ LANGUAGE 'plpgsql';
 
+SELECT I.codigoProducto AS COD,descripcion AS Producto,I.cantidadComprado AS UnidadesDisponibles,I.costoActual
+FROM Inventario AS I
+     INNER JOIN DetalleFacturaCompra
+ON I.codigoProducto = DetalleFacturaCompra.codigoProducto
+     INNER JOIN Productos
+ON DetalleFacturaCompra.codigoProducto = Productos.codigoProducto;
+
 
 CREATE OR REPLACE FUNCTION TR_ActualizarInventarioInsertar() RETURN TRIGGER AS DetalleFacturaCompra
 $$
