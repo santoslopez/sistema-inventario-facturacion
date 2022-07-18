@@ -24,10 +24,15 @@ if(pg_num_rows($ejecutarConsultaVerificarProducto)) {
 
 }else{
 
-  $consulta  = sprintf("INSERT INTO Productos(codigoProducto,descripcion) VALUES('%s','%s');",
+  /*$consulta  = sprintf("INSERT INTO Productos(codigoProducto,descripcion) VALUES('%s','%s');",
   pg_escape_string($codigoProducto),
   pg_escape_string($descripcionProducto)
-  );
+  );*/
+  $cod = pg_escape_string($codigoProducto);
+  $des = pg_escape_string($descripcionProducto);
+  $imagen = "default.png";
+  
+  $consulta = "SELECT PA_insertarProducto('$cod','$des','$imagen')";
   
   $ejecutarConsulta = pg_query($conexion, $consulta);
   

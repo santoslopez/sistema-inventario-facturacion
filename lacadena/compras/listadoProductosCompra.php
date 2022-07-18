@@ -13,16 +13,23 @@
 
 </head>
 <body>
-    <div class="container">        
+    <div class="container">
+       
         <div class="alert alert-primary" role="alert" style="margin-top:20px;">
-            <h5>Factura compra No: </h5>
-            <input id="facturaCompra" name="facturaCompra" type="text" value="<?php echo $_GET['documentoFacturaCompra'];?>" readonly>
-            <!-- Button trigger modal -->
+            <div class="row g-3 align-items-center">
+                <div class="col-auto">
+                    <label for="inputPassword6" class="col-form-label"><h5>Factura de compra No: </h5></label>
+                </div>
+                <div class="col-auto">
+                    <input id="facturaCompra" class="form-control" name="facturaCompra" type="text" value="<?php echo $_GET['documentoFacturaCompra'];?>" readonly>
+                    <!--input type="text" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline"-->
+                </div>
+            </div>     
+                    <!-- Button trigger modal -->
             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#formularioAgregarProductosCompras">
                 Agregar producto
             </button>
         </div>
-
 <?php 
 
 
@@ -245,14 +252,7 @@ window.onload = function() {
                         var json = JSON.parse(data1);
                      
                         var status = json.status;
-                      /*if(status=='yaexistenoguardado'){
-                        Swal.fire(
-                        'Factura ya existe',
-                                'Los datos no se registraron.',
-                                'error'
-                            )
-                      }else */
-                      if(status=='success'){
+                        if(status=='success'){
                             $('#inputCostoProducto').val('');
                             $('#inputCantidadCompra').val('');
                             $('#inputCodigoProducto').val('');

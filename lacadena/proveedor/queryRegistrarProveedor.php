@@ -30,15 +30,22 @@ if(pg_num_rows($ejecutarConsultaVerificarProducto)) {
 
 }else{
 
-  $consulta  = sprintf("INSERT INTO Proveedor(nitProveedor,nombreEmpresa,logo,direccion,telefono) VALUES('%s','%s','%s','%s','%s');",
+  /*$consulta  = sprintf("INSERT INTO Proveedor(nitProveedor,nombreEmpresa,logo,direccion,telefono) VALUES('%s','%s','%s','%s','%s');",
   pg_escape_string($nit),
   pg_escape_string($nombreEmpresa),
   "",
   pg_escape_string($direccion),
   pg_escape_string($telefono)
+  );*/
   
-  );
+  $nitEmpresa = pg_escape_string($nit);
+  $empresaNombre =  pg_escape_string($nombreEmpresa);
+  $fotoEmp = "";
+  $direccionEmpresa=pg_escape_string($direccion);
+  $telefonoEmpresa = pg_escape_string($telefono);
   
+  $consulta = "SELECT PA_registrarProveedor('$nitEmpresa','$empresaNombre','$fotoEmp','$direccionEmpresa','$telefonoEmpresa')";
+
   $ejecutarConsulta = pg_query($conexion, $consulta);
   
 if ($ejecutarConsulta) {

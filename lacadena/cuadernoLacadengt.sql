@@ -96,19 +96,48 @@ CREATE TABLE Inventario(
     CONSTRAINT PK_DetalleProductoCompra FOREIGN KEY (codigoProducto) REFERENCES Productos(codigoProducto)  
 );
 
+CREATE OR REPLACE FUNCTION PA_insertarProducto(productoCod  varchar(50), nombreProducto varchar(100), fotoProducto varchar(100)) RETURNS BOOLEAN AS 
+$$
+    DECLARE
 
-CREATE TRIGGER ActualizarInventario
-after insert ON DetalleFacturaCompra FOR EACH ROW
-declare
-begin
-    UPDATE Inventario 
-    SET cantidadComprado = cantidadComprado - :new.cantidadComprado 
-    WHERE codigoProducto = :new.codigoProducto;
-end;
+    BEGIN
+        INSERT INTO Productos VALUES (productoCod,nombreProducto,fotoProducto);
+        RETURN TRUE;
+
+        Exception 
+            When others then return FALSE;
+    END;
+$$ LANGUAGE 'plpgsql';
+
+CREATE OR REPLACE FUNCTION PA_registrarProveedor(proveedorNit varchar(20), empresaNombre varchar(60), logoEmpresa varchar(100), direccionEmpresa varchar(100), telefonoEmpresa varchar(15)) RETURNS BOOLEAN AS 
+$$
+    DECLARE
+
+    BEGIN
+        INSERT INTO Proveedor VALUES (proveedorNit,empresaNombre,logoEmpresa,direccionEmpresa,telefonoEmpresa);
+        RETURN TRUE;
+
+        Exception 
+            When others then return FALSE;
+    END;
+$$ LANGUAGE 'plpgsql';
 
 
+CREATE OR REPLACE FUNCTION TR_ActualizarInventarioInsertar() RETURN TRIGGER AS DetalleFacturaCompra
+$$
+DECLARE 
+    UPDATE Inventario SET cantidadComprado = cantidadComprado - NEW.cantidad
+    WHERE codigoProducto=NEW.codigoProducto;
+    return NEW;
+BEGIN
+END;
+
+$$ LANGUAGE 'plpgsql';
 
 
+CREATE TRIGGER TR_ActualizarInventarioInsertar AFTER INSERT ON DetalleFacturaCompra
+
+FOR EACH ROW EXECUTE PROCEDURE TR_ActualizarInventarioInsertar();
 
 
 
