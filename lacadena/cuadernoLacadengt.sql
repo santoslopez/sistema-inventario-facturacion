@@ -84,8 +84,8 @@ CREATE TABLE DetalleFacturaCompra(
 CREATE TABLE Inventario(
     codInventario SERIAL NOT NULL,
     codigoProducto varchar(50) NOT NULL,
-    cantidadComprado int NOT NULL CHECK(cantidadComprado > 0),
-    costoActual decimal(10,2) NOT NULL CHECK(costoActual > 0),
+    cantidadComprado int NOT NULL CHECK(cantidadComprado >= 0),
+    costoActual decimal(10,2) NOT NULL CHECK(costoActual >= 0),
     PRIMARY KEY (codInventario),
     CONSTRAINT PK_DetalleProductoCompra FOREIGN KEY (codigoProducto) REFERENCES Productos(codigoProducto)  
 );
@@ -97,9 +97,10 @@ $$
     BEGIN
         INSERT INTO Productos VALUES (productoCod,nombreProducto,fotoProducto);
         RETURN TRUE;
-
+        COMMIT;
         Exception 
             When others then return FALSE;
+            ROLLBACK;
     END;
 $$ LANGUAGE 'plpgsql';
 
@@ -110,9 +111,11 @@ $$
     BEGIN
         INSERT INTO Proveedor VALUES (proveedorNit,empresaNombre,logoEmpresa,direccionEmpresa,telefonoEmpresa);
         RETURN TRUE;
+        COMMIT;
 
         Exception 
             When others then return FALSE;
+            ROLLBACK;
     END;
 $$ LANGUAGE 'plpgsql';
 
@@ -123,11 +126,35 @@ $$
     BEGIN
         INSERT INTO Clientes(nombreApellidos,direccion,nitCliente,telefono) VALUES (datosNombres,direccionCliente,clienteNit,telCliente);
         RETURN TRUE;
-
+        COMMIT;
         Exception 
             When others then return FALSE;
+            ROLLBACK;
     END;
 $$ LANGUAGE 'plpgsql';
+
+
+
+
+
+CREATE OR REPLACE FUNCTION PA_actualizarDetalleFacturaCompra(precioC decimal(10,2),  cantidadC int, codigoP varchar(50),documentoP VARCHAR(50),idD ) RETURNS BOOLEAN AS 
+$$
+    DECLARE
+  
+    BEGIN
+        UPDATE DetalleFacturaCompra SET precioCompra=precioC,cantidadComprado=cantidadC,codigoProducto=codigoP WHERE documentoProveedor=documentoP AND idDetalle=idD;
+        RETURN TRUE;
+        COMMIT;
+        
+        Exception 
+            When others then return FALSE;
+            ROLLBACK;
+    END;
+$$ LANGUAGE 'plpgsql';
+
+
+
+
 
 SELECT I.codigoProducto AS COD,descripcion AS Producto,I.cantidadComprado AS UnidadesDisponibles,I.costoActual
 FROM Inventario AS I
@@ -142,13 +169,14 @@ CREATE OR REPLACE FUNCTION TR_ActualizarInventarioInsertar() RETURNS TRIGGER AS
 $$
 DECLARE 
 
-BEGIN
-UPDATE Inventario SET cantidadComprado = cantidadComprado + NEW.cantidadComprado
+BEGIN;
+    UPDATE Inventario SET cantidadComprado = cantidadComprado + OLD.cantidadComprado
     WHERE codigoProducto=NEW.codigoProducto;
+    COMMIT;
     return NEW;
+    
 END;
 $$ LANGUAGE 'plpgsql';
-
 
 CREATE TRIGGER TR_ActualizarInventarioInsertar
 AFTER INSERT ON DetalleFacturaCompra
@@ -161,18 +189,22 @@ CREATE OR REPLACE FUNCTION TR_ActualizarInventarioInsertar1() RETURNS TRIGGER AS
 $$
 DECLARE 
 
-BEGIN
+BEGIN;
 
 IF NEW.cantidadComprado > OLD.cantidadComprado THEN 
 
     UPDATE Inventario SET cantidadComprado = cantidadComprado - (NEW.cantidadComprado - OLD.cantidadComprado)
         WHERE codigoProducto=NEW.codigoProducto;
+        COMMIT;
         return NEW;
+        
 
 ELSE
     UPDATE Inventario SET cantidadComprado = cantidadComprado + (OLD.cantidadComprado - NEW.cantidadComprado)
         WHERE codigoProducto=NEW.codigoProducto;
+        COMMIT;
         return NEW;
+        
 
 END IF;
 
@@ -184,6 +216,31 @@ CREATE TRIGGER TR_ActualizarInventarioInsertar1
 AFTER UPDATE ON DetalleFacturaCompra
 
 FOR EACH ROW EXECUTE PROCEDURE TR_ActualizarInventarioInsertar1();
+
+CREATE OR REPLACE FUNCTION TR_ActualizarInventarioInsertarDel() RETURNS TRIGGER AS 
+$$
+DECLARE 
+
+BEGIN
+
+    UPDATE Inventario SET cantidadComprado =  cantidadComprado - OLD.cantidadComprado
+        WHERE codigoProducto=OLD.codigoProducto;
+        return OLD;
+        
+END;
+$$ LANGUAGE 'plpgsql';
+
+
+CREATE TRIGGER TR_ActualizarInventarioInsertarDel
+AFTER DELETE ON DetalleFacturaCompra
+
+FOR EACH ROW EXECUTE PROCEDURE TR_ActualizarInventarioInsertarDel();
+
+
+
+
+
+
 
 DROP TRIGGER TR_ActualizarInventarioAdd on DetalleFacturaCompra;
 

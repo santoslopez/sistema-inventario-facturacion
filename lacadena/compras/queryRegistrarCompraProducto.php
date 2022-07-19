@@ -26,7 +26,7 @@ if ($rs) {
   echo json_encode($data);
 }else{
 
-  $ejecutarConsulta = pg_query($conexion,$queryListadoProductos);
+  //$ejecutarConsulta = pg_query($conexion,$queryListadoProductos);
 
   // insertamos
   $consulta  = sprintf("INSERT INTO DetalleFacturaCompra(precioCompra,cantidadComprado,codigoProducto,documentoProveedor) VALUES('%s','%s','%s','%s');",

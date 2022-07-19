@@ -122,6 +122,8 @@
         var inputDocumentoProveedor=$('#inputDocumentoProveedor').val();
         var inputFechaFacturaProveedor=$('#inputFechaFacturaProveedor').val();
         var inputNitProveedor=$('#inputNitProveedor').val();
+
+       
         //var telefono=$('#inputTelefono').val();
         if((inputDocumentoProveedor!='') && (inputFechaFacturaProveedor!='') && (inputNitProveedor!='')){
             $.ajax({
@@ -154,7 +156,7 @@
                                 'Los datos se guardaron correctamente.',
                                 'success'
                             )
-                        }else{
+                        }else if(status=='failed'){
                             Swal.fire(
                                 'Factura de compra no guardado.',
                                 'Los datos no se guardaron. Se produjo un error al querer guardar',
@@ -218,7 +220,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="submit" class="btn btn-primary">Guardar datos</button>
+        <button type="submit" class="btn btn-primary" id="btnGuardarDatos" name="btnGuardarDatos">Guardar datos</button>
       </div>
       </form>
 

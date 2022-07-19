@@ -21,23 +21,26 @@
     pg_prepare($conexion,$namePrepare,$consultaModificarModulos) or die("Cannot prepare statement.");
   
     $res = pg_execute($conexion,$namePrepare,array($precioCompra,$cantidadComprado,$codigoProducto,$facturaCompra,$inputIdDetalle));
+
     
-    if ($res) {
+            // actualizamos el inventario actual que tenemos
+            //$actualizarInventarioBodega = "UPDATE Inventario SET cantidadComprado=$1,costoActual=$2 WHERE codigoProducto=$3";
+            //$namePrepareActualizarInventarioBodega = "prepareActualizarInventarioBodega";
+            //pg_prepare($conexion,$namePrepareActualizarInventarioBodega,$actualizarInventarioBodega) or die("Cannot prepare statement.");
+    
+          //  $ejecutarActualizacionInventario = pg_execute($conexion,$namePrepareActualizarInventarioBodega,array($cantidadComprado,$precioCompra,$codigoProducto));
+
+            
+    if ($res ) {
         
-        // actualizamos el inventario actual que tenemos
-        $actualizarInventarioBodega = "UPDATE Inventario SET cantidadComprado=$1,costoActual=$2 WHERE codigoProducto=$3";
-        $namePrepareActualizarInventarioBodega = "prepareActualizarInventarioBodega";
-        pg_prepare($conexion,$namePrepareActualizarInventarioBodega,$actualizarInventarioBodega) or die("Cannot prepare statement.");
 
-        $ejecutarActualizacionInventario = pg_execute($conexion,$namePrepareActualizarInventarioBodega,array($cantidadComprado,$precioCompra,$codigoProducto));
-
-        if ($ejecutarActualizacionInventario) {
+       // if ($ejecutarActualizacionInventario) {
 
         $data = array();
         $data['status'] = 'success';
         echo json_encode($data);
     
-        }
+        //}
 
     } else {
       $data['status'] = 'failedupdate';

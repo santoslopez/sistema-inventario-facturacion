@@ -54,6 +54,8 @@
 - Falta modificar clientes "MODIFICA" (ya estaba pero no en datatable)
 - Actualizar total de la factura de compra automaticamente al eliminar productos en la factura
 - No dejar guardar clientes con NIT existente, excepto C/f
+- Corregir error en listado de factura de compras, sino hay proveedor, aparentemente guarda pero se pierde el dato.
+- Problemas al modificar y eliminar productos de compra factura
 
 ### BUGS
 -  proveedor con c/f ya no deja guardar los datos

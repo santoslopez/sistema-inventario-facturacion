@@ -20,6 +20,7 @@ pg_prepare($conexion,$namePrepareStatement,$consultaVerificarExistenciaProducto)
 
 $ejecutarConsultaVerificarProducto  = pg_execute($conexion,$namePrepareStatement,array($inputNumeroFacturaProveedor));
 
+$data = array();
 
 if(pg_num_rows($ejecutarConsultaVerificarProducto)) {
   $data['status'] = 'yaexistenoguardado';
@@ -29,6 +30,7 @@ if(pg_num_rows($ejecutarConsultaVerificarProducto)) {
     date_default_timezone_set('America/Guatemala');    
     //$fechaActual = date('d-m-Y',time());
   $fechaActual = date("F j, Y, g:i a");  
+  
   $consulta  = sprintf("INSERT INTO FacturaCompra(documentoProveedor,fechaRegistro,fechaFacturaProveedor,nitProveedor) VALUES('%s','%s','%s','%s');",
   pg_escape_string($inputNumeroFacturaProveedor),
   pg_escape_string($fechaActual),
@@ -39,11 +41,9 @@ if(pg_num_rows($ejecutarConsultaVerificarProducto)) {
   $ejecutarConsulta = pg_query($conexion, $consulta);
   
   if ($ejecutarConsulta) {
-    $data = array();
     $data['status'] = 'success';
     echo json_encode($data);
   }else{
-  $data = array();
   $data['status'] = 'failed';
   echo json_encode($data);
   }

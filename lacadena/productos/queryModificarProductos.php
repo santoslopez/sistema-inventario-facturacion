@@ -52,10 +52,7 @@
     header('Location: ../admin/index.php');
     //exit('Por favor ingresa el nombre de usuario y password.');
   }else {
-    //$newRol= $_POST['selectRol'];
 
-    
-    # code...
 
     $consultaModificarProductos = "UPDATE Productos SET descripcion=$1 WHERE codigoProducto=$2";
 
@@ -65,7 +62,6 @@
   
     $res = pg_execute($conexion,$namePrepare,array($descripcionProducto,$codigoProducto));
     
-    //echo "estoy aquiiii: $res";
 
     if ($res) {
         echo "<script>Swal.fire(
