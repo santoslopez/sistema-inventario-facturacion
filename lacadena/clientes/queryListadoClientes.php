@@ -130,8 +130,8 @@
                     success:function(data1){
                         var json = JSON.parse(data1);
                      
-                        var status = json.status;
-                        if(status=='success'){
+                        //var status = json.status;
+                        if(json=='registrado'){
                             $('#inputDatos').val('');
                             $('#inputDireccion').val('');
                             $('#inputNit').val('');
@@ -149,8 +149,8 @@
                         }else{
                             Swal.fire(
                                 'Cliente no guardado.',
-                                'Los datos no se guardaron.',
-                                'warning'
+                                'Cliente esta en uso.',
+                                'error'
                             )
                         }
                     }

@@ -37,6 +37,7 @@
 
 ### CLIENTES
 - Cliente con c/f deja guardar los datos
+- Dejar guardar clientes con NIT existente, excepto C/f con transaccion
 
 ### OTROS REALIZADOS
 - No muestra archivos sino se ha iniciado sesion
@@ -53,7 +54,6 @@
 - Falta actualizar con trigger el inventario, tanto al ingresar datos a la factura de compra, al modificarlo o eliminarlo.
 - Falta modificar clientes "MODIFICA" (ya estaba pero no en datatable)
 - Actualizar total de la factura de compra automaticamente al eliminar productos en la factura
-- No dejar guardar clientes con NIT existente, excepto C/f
 - Corregir error en listado de factura de compras, sino hay proveedor, aparentemente guarda pero se pierde el dato.
 - Problemas al modificar y eliminar productos de compra factura
 

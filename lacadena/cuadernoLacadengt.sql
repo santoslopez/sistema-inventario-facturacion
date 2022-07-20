@@ -123,20 +123,22 @@ $$
     END;
 $$ LANGUAGE 'plpgsql';
 
-CREATE OR REPLACE FUNCTION PA_registrarCliente(datosNombres varchar(100), direccionCliente varchar(50), clienteNit varchar(20), telCliente varchar(15)) RETURNS BOOLEAN AS 
+CREATE OR REPLACE FUNCTION PA_insertarCliente(nombreA varchar(100),direc varchar(50),nitC varchar(20),tele varchar(15)) RETURNS varchar AS 
 $$
     DECLARE
-
     BEGIN
-        INSERT INTO Clientes(nombreApellidos,direccion,nitCliente,telefono) VALUES (datosNombres,direccionCliente,clienteNit,telCliente);
-        RETURN TRUE;
-        COMMIT;
-        Exception 
-            When others then return FALSE;
-            ROLLBACK;
+        IF (SELECT count(*) from Clientes WHERE (nitCliente=nitC) AND (nitCliente!='c/f')) > 0 THEN
+            return 'enuso';            
+        ELSE        
+            INSERT INTO Clientes (nombreApellidos,direccion,nitCliente,telefono) VALUES (nombreA,direc,nitC,tele);
+            return 'registrado';
+            COMMIT;
+        END IF;
+    EXCEPTION
+    WHEN OTHERS THEN
+        ROLLBACK;
     END;
 $$ LANGUAGE 'plpgsql';
-
 
 
 
