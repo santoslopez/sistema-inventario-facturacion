@@ -108,18 +108,21 @@ $$
 $$ LANGUAGE 'plpgsql';
 
 
-CREATE OR REPLACE FUNCTION PA_registrarProveedor(proveedorNit varchar(20), empresaNombre varchar(60), logoEmpresa varchar(100), direccionEmpresa varchar(100), telefonoEmpresa varchar(15)) RETURNS BOOLEAN AS 
+CREATE OR REPLACE FUNCTION PA_registrarProveedor(proveedorNit varchar(20), empresaNombre varchar(60), logoEmpresa varchar(100), direccionEmpresa varchar(100), telefonoEmpresa varchar(15)) RETURNS VARCHAR AS 
 $$
     DECLARE
 
     BEGIN
-        INSERT INTO Proveedor VALUES (proveedorNit,empresaNombre,logoEmpresa,direccionEmpresa,telefonoEmpresa);
-        RETURN TRUE;
-        COMMIT;
+        IF (SELECT count(*) from Proveedor WHERE nitProveedor=proveedorNit) > 0 THEN
+            return 'enuso';
+        ELSE
+            INSERT INTO Proveedor VALUES (proveedorNit,empresaNombre,logoEmpresa,direccionEmpresa,telefonoEmpresa);
+            return 'registrado';
+            COMMIT;
+        END IF;
 
-        Exception 
-            When others then return FALSE;
-            ROLLBACK;
+    Exception 
+        When others then ROLLBACK;
     END;
 $$ LANGUAGE 'plpgsql';
 

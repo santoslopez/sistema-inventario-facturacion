@@ -159,14 +159,8 @@
                             }
                         }else if(tipoFormulario=='#formularioAgregarCliente'){
                             var json1 = JSON.parse(data1);
-                            var status1 = json1.status;
-                            if(status1=='yaexistenoguardado'){ 
-                                Swal.fire(
-                                    'Proveedor no registrado',
-                                    'El nit esta en uso.',
-                                    'warning'
-                                )
-                            }else if(status1=='success'){
+                            //var status1 = json1.status;
+                            if(json1=='registrado'){
                                 $(input1).val('');
                                 $(input2).val('');
                                 $(input3).val('');

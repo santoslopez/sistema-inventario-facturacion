@@ -46,17 +46,15 @@ if(pg_num_rows($ejecutarConsultaVerificarProducto)) {
   
   $consulta = "SELECT PA_registrarProveedor('$nitEmpresa','$empresaNombre','$fotoEmp','$direccionEmpresa','$telefonoEmpresa')";
 
-  $ejecutarConsulta = pg_query($conexion, $consulta);
   
-if ($ejecutarConsulta) {
-    $data = array();
-    $data['status'] = 'success';
-    echo json_encode($data);
-}else{
+  $ejecutarConsulta = pg_query($conexion, $consulta);
   $data = array();
-  $data['status'] = 'failed';
-  echo json_encode($data);
-}
+
+  while ($row= pg_fetch_row($ejecutarConsulta)) {
+    $subarray=array();
+    $subarray[]=$row[0];
+    echo json_encode($subarray);
+  }
 
 }
 
