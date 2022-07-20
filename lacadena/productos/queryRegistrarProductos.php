@@ -12,7 +12,7 @@ $descripcionProducto=htmlspecialchars($_POST['inputNombreProducto'],ENT_QUOTES,'
 
 
 // Realizar una verificacion que el codigo del producto no este registrado
-$consultaVerificarExistenciaProducto = "SELECT * FROM Productos where codigoProducto=$1";
+/*$consultaVerificarExistenciaProducto = "SELECT * FROM Productos where codigoProducto=$1";
 
 pg_prepare($conexion,"prepareVerificarProductos",$consultaVerificarExistenciaProducto) or die("Cannot prepare statement verificar productos existentes.");
 
@@ -23,7 +23,7 @@ if(pg_num_rows($ejecutarConsultaVerificarProducto)) {
   $data['status'] = 'yaexistenoguardado';
   echo json_encode($data);
 
-}else{
+}else{*/
 
   /*$consulta  = sprintf("INSERT INTO Productos(codigoProducto,descripcion) VALUES('%s','%s');",
   pg_escape_string($codigoProducto),
@@ -34,18 +34,15 @@ if(pg_num_rows($ejecutarConsultaVerificarProducto)) {
   $imagen = "default.png";
   
   $consulta = "SELECT PA_insertarProducto('$cod','$des','$imagen')";
-  
+
   $ejecutarConsulta = pg_query($conexion, $consulta);
-  
-  if ($ejecutarConsulta) {
-    $data = array();
-    $data['status'] = 'success';
-    echo json_encode($data);
-  }else{
   $data = array();
-  $data['status'] = 'failed';
-  echo json_encode($data);
+
+  while ($row= pg_fetch_row($ejecutarConsulta)) {
+    $subarray=array();
+    //$data['status'] = 'success';
+    $subarray[]=$row[0];
+    echo json_encode($subarray);
   }
-}
 
 ?>

@@ -90,19 +90,23 @@ CREATE TABLE Inventario(
     CONSTRAINT PK_DetalleProductoCompra FOREIGN KEY (codigoProducto) REFERENCES Productos(codigoProducto)  
 );
 
-CREATE OR REPLACE FUNCTION PA_insertarProducto(productoCod  varchar(50), nombreProducto varchar(100), fotoProducto varchar(100)) RETURNS BOOLEAN AS 
+CREATE OR REPLACE FUNCTION PA_insertarProducto(productoCod  varchar(50), nombreProducto varchar(100), fotoProducto varchar(100)) RETURNS varchar AS 
 $$
     DECLARE
-
     BEGIN
-        INSERT INTO Productos VALUES (productoCod,nombreProducto,fotoProducto);
-        RETURN TRUE;
-        COMMIT;
-        Exception 
-            When others then return FALSE;
-            ROLLBACK;
+        IF (SELECT count(*) from Productos WHERE codigoProducto=productoCod) > 0 THEN
+            return 'enuso';
+        ELSE
+            INSERT INTO Productos VALUES (productoCod,nombreProducto,fotoProducto);
+            return 'registrado';
+            COMMIT;
+        END IF;
+    EXCEPTION
+    WHEN OTHERS THEN
+        ROLLBACK;
     END;
 $$ LANGUAGE 'plpgsql';
+
 
 CREATE OR REPLACE FUNCTION PA_registrarProveedor(proveedorNit varchar(20), empresaNombre varchar(60), logoEmpresa varchar(100), direccionEmpresa varchar(100), telefonoEmpresa varchar(15)) RETURNS BOOLEAN AS 
 $$

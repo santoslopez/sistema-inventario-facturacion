@@ -41,7 +41,7 @@
 ### OTROS REALIZADOS
 - No muestra archivos sino se ha iniciado sesion
 - Procedimiento almacenado para agregar productos, clientes y proveedores
-
+- Transaccion en registro de productos, verifica sisno esta en uso primero antes de insertar
 
 ### FALTANTES 
 - Corregir update con ajax de clientes y proveedores (opcion deshabilitado)

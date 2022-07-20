@@ -152,36 +152,26 @@
                 
                     success:function(data1){
                         var json = JSON.parse(data1);
-            
-                        var status = json.status;
-                        if(status=='yaexistenoguardado'){ 
-                            Swal.fire(
-                                'Producto no registrado',
-                                'El codigo del producto esta en uso.',
-                                'warning'
-                            )
-                        }else if(status=='success'){
+                        //var status = json.status;
+
+                        if(json=='registrado'){
                             $('#inputCodigoProducto').val('');
                             $('#inputNombreProducto').val('');
 
                             $('#formularioAgregarProductos').modal('hide');
-                            //cargarDatosTabla();
-                            //var table = $('#datatableUsuarios').DataTable();
-                            //table.ajax.reload();
-
+     
                             Swal.fire(
                                 'Producto registrado',
                                 'Los datos se guardaron correctamente.',
                                 'success'
                             )
-
                             //window.location.href = "queryListadoProductos.php";
                             
-                        }else{
+                        }else {
                             Swal.fire(
                                 'Producto no guardado.',
-                                'Los datos no se guardaron.',
-                                'warning'
+                                'Ya se encuentra en uso.',
+                                'error'
                             )
                         }
                     }
