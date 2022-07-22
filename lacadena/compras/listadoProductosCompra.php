@@ -247,17 +247,15 @@ window.onload = function() {
                 data:{inputCostoProducto:inputCostoProducto,inputCantidadCompra:inputCantidadCompra,inputCodigoProducto:inputCodigoProducto,facturaCompra:facturaCompra},
                 type:'post',
                     success:function(data1){
-                        //var status = JSON.parse(data1);
-                        var status = data1;
-
-                        //var status = json.status;
-                        if(status=='agregadoStock'){
+                        var json = JSON.parse(data1);
+                        console.log("follR"+json);
+                        if(json=='agregadoStock'){
                             Swal.fire(
-                                'Producto no agregado',
-                                'Ya esta en la tabla.',
-                                'error'
+                                'Producto agregado correctamente.',
+                                'Datos guardados.',
+                                'success'
                             )
-                        }else if(status=='actualizadoStock'){
+                        }else if(json=='actualizadoStock'){
                             $('#inputCostoProducto').val('');
                             $('#inputCantidadCompra').val('');
                             $('#inputCodigoProducto').val('');
@@ -269,8 +267,8 @@ window.onload = function() {
                             tabla.ajax.reload();
                             
                             Swal.fire(
-                                'Producto agregado',
-                                'Los datos se guardaron correctamente.',
+                                'Inventario actualizado',
+                                'El stock se actualizo.',
                                 'success'
                             )
                             var btnTotalFac = document.getElementById("btnVerTotalFactura");
@@ -280,7 +278,7 @@ window.onload = function() {
                             Swal.fire(
                                 'Producto no guardado.',
                                 'Los datos no se guardaron. Se produjo un error al querer guardar',
-                                'warning'
+                                'error'
                             )
                         }
                     }

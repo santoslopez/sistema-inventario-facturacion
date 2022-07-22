@@ -176,7 +176,7 @@
                                         </div-->
                                         <div class="cardName"><strong><h5>COMPRAS</strong></h5></div>
                                         <div>
-                                            <span class="title">Factura de compras</span>
+                                            <span class="title">Facturas</span>
                                         </div>
                                     </div>
                                     <div class="iconBx">
@@ -191,7 +191,7 @@
 
 
                                 
-                                <a style="cursor: pointer;" href="#">
+                                <a style="cursor: pointer;" href="../inventario/index.php">
                                 <div class="card">
                                     <div>    
                                         <div class="cardName">
@@ -204,7 +204,7 @@
 
                                     <div class="iconBx">
                                         <!--ion-icon name="chatbubbles-outline"></ion-icon-->
-                                        <img src="../assets/img/stocks.png" class="zoomImagen home">                       
+                                        <img src="../assets/img/inventario.png" class="zoomImagen home">                       
                                     </div>
                                     </div>
                                     </a>
@@ -273,7 +273,7 @@
                                     </div>
                                     <div class="iconBx">
                                         
-                                            <img src="../assets/img/ventas.webp" class="zoomImagen home">
+                                            <img src="../assets/img/shopping-cart.png" class="zoomImagen home">
                                         
                                         <!--ion-icon name="cart-outline"></ion-icon-->
                                     </div>

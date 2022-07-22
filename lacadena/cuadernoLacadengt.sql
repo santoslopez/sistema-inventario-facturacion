@@ -191,10 +191,9 @@ $$
             UPDATE Inventario SET cantidadComprado = cantidadComp + cantidadComprado,
             costoactual = ((costoactual*cantidadComprado) + (precioCompraD*cantidadComp))/(cantidadComp + cantidadComprado)
             WHERE codigoProducto=productoCod;
-           return 'actualizadoStock';
+           
+            return 'actualizadoStock'; 
             COMMIT;
-            
-            
             
         ELSE
             INSERT INTO DetalleFacturaCompra(precioCompra,cantidadComprado,codigoProducto,documentoProveedor)
@@ -202,10 +201,11 @@ $$
             
             INSERT INTO Inventario(codigoProducto,cantidadComprado,costoActual) VALUES
             (productoCod,cantidadComp,precioCompraD);
-            return 'agregadoStock';
-
-            COMMIT;
             
+
+            
+            return 'agregadoStock';
+            COMMIT;
             
         END IF;
     EXCEPTION
