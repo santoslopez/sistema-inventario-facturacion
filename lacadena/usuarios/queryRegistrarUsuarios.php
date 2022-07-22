@@ -19,10 +19,15 @@
 
 	$passw=htmlspecialchars($_POST['inputPassword'],ENT_QUOTES,'UTF-8');
 
-    $estado = "A";
-    date_default_timezone_set('America/Guatemala');    
-    $fechaActual = date('d-m-Y H:i:s',time());
+    //$estado = "A";
+    //date_default_timezone_set('America/Guatemala');    
+    //$fechaActual = date('d-m-Y H:i:s',time());
 
+
+	$correoU = pg_escape_string($correo);
+	$datosU = pg_escape_string($datos);
+	$passwordUsuario = pg_escape_string($passw);
+	//$telC = pg_escape_string($telefono);
 
 	/*if(!isset($correo,$datos,$passw)) {
 		header('Location: ../index.php');
@@ -30,13 +35,28 @@
 	
 
 	//Encriptamos la contraseña- NO IMPLEMENTADO EN POSTGRESQL
-	$passwordEncriptado = password_hash($passw,PASSWORD_BCRYPT);
+	$passwordEncriptado = password_hash($passwordEncriptado,PASSWORD_BCRYPT);
 
 
 	/**
 	 * Verificamos que el correo a registrar no este en uso, si lo esta no se guardan los datos.
 	 */
-	$verificarUsuario = "SELECT * FROM Usuarios WHERE correo=$1";
+
+
+	$consulta = "SELECT PA_registrarUsuario('$correoU','$datosU','$passwordEncriptado')";
+
+
+	$ejecutarConsulta = pg_query($conexion, $consulta);
+	$data = array();
+	
+	while ($row= pg_fetch_row($ejecutarConsulta)) {
+	  $subarray=array();
+	  $subarray[]=$row[0];
+	  echo json_encode($subarray);
+	}
+
+
+	/*$verificarUsuario = "SELECT * FROM Usuarios WHERE correo=$1";
 	
 	pg_prepare($conexion,"prepareVerificarUsuario",$verificarUsuario) or die("Cannot prepare statement.");
 	
@@ -57,14 +77,8 @@
     pg_escape_string($datos),
     password_hash($passw, PASSWORD_DEFAULT,['cost'=>12]),$rolSeleccionado
     );
-
 	$ejecutarConsulta = pg_query($conexion, $consulta);
-
-	/**
-	 * Sino hay ningun error
-	 */
 	if ($ejecutarConsulta) {
-
 		echo "<script>Swal.fire(
 			'Bienvenido',
 			'Bienvenido al sistema.',
@@ -76,6 +90,5 @@
 		echo 3;
 
 	}
-	//pg_close($conexion);
-}
+}*/
 ?>

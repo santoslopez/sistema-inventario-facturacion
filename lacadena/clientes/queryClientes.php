@@ -8,13 +8,13 @@
 
     $listadoTiposEventoUsuario = "SELECT * FROM Clientes";
     $ejecutarConsultaObtenerInfo = pg_query($conexion,$listadoTiposEventoUsuario);
-    
+    $data = array();
     if (!($ejecutarConsultaObtenerInfo)) {
         $data = "No hay clientes registrados";
         echo json_encode($data);       
 
     }else{   
-        $data = array();
+        
         //$data =  pg_fetch_all($ejecutarConsultaObtenerInfo);
         while ($row= pg_fetch_row($ejecutarConsultaObtenerInfo)) {
             // codigoTipo: este valor lo vamos a recuperar en el archivo eliminarTiposEventos.php

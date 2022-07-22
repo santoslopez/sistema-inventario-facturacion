@@ -225,6 +225,52 @@
 
 <!-- fin agregar cliente -->
 
+
+<!-- inicio agregar cliente action="javascript:void()"-->
+<div class="modal fade" id="formularioModificarCliente" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modificar cliente</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+       <form id="guardarDatosFormularioModificar" name="guardarDatosFormularioModificar" class="row g-3 needs-validation" novalidate>
+      <div class="modal-body">
+        
+        <div class="mb-3 has-validation">
+            <div class="col-sm-10">
+                <label for="exampleFormControlInput1" class="form-label">Nombre y apellidos</label>
+                <input type="text" name="inputDatosUpdate" class="form-control" id="inputDatosUpdate" placeholder="Nombre y apellidos" required>
+            </div>
+        </div>
+        <div class="mb-3 has-validation">
+            <div class="col-sm-10">
+                <label for="Name" class="form-label">Direccion</label>
+                <input type="text" name="inputDireccionModificar" class="form-control" placeholder="Direccion" id="inputDireccionModificar" required>
+            </div>
+        </div>
+        <div class="mb-3 has-validation">
+            <div class="col-sm-10">
+                <label for="exampleFormControlInput1" class="form-label">Telefono</label>
+                <input type="number" name="inputTelefonoModificar" class="form-control" id="inputTelefonoModificar" placeholder="Telefono" required>
+            </div>
+            <div class="invalid-feedback">
+                Ingresa un numero de telefono valido.
+            </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-primary">Guardar datos</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- fin modificar cliente -->
+
 <script src="../assets/js/validation.js"></script>
 
 </body>

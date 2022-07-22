@@ -16,19 +16,19 @@ $telefono=htmlspecialchars($_POST['telefono'],ENT_QUOTES,'UTF-8');
 
 
 // Realizar una verificacion que el codigo del producto no este registrado
-$consultaVerificarExistenciaProducto = "SELECT * FROM Proveedor where nitProveedor=$1";
+//$consultaVerificarExistenciaProducto = "SELECT * FROM Proveedor where nitProveedor=$1";
 
-$prepare = "prepareVerificarProveedor";
+//$prepare = "prepareVerificarProveedor";
 
-pg_prepare($conexion,$prepare,$consultaVerificarExistenciaProducto) or die("Cannot prepare statement verificar productos existentes.");
+//pg_prepare($conexion,$prepare,$consultaVerificarExistenciaProducto) or die("Cannot prepare statement verificar productos existentes.");
 
-$ejecutarConsultaVerificarProducto  = pg_execute($conexion,$prepare,array($nit));
+//$ejecutarConsultaVerificarProducto  = pg_execute($conexion,$prepare,array($nit));
 
-if(pg_num_rows($ejecutarConsultaVerificarProducto)) {
-  $data['status'] = 'yaexistenoguardado';
-  echo json_encode($data);
+//if(pg_num_rows($ejecutarConsultaVerificarProducto)) {
+  //$data['status'] = 'yaexistenoguardado';
+  //echo json_encode($data);
 
-}else{
+//}else{
 
   /*$consulta  = sprintf("INSERT INTO Proveedor(nitProveedor,nombreEmpresa,logo,direccion,telefono) VALUES('%s','%s','%s','%s','%s');",
   pg_escape_string($nit),
@@ -56,5 +56,5 @@ if(pg_num_rows($ejecutarConsultaVerificarProducto)) {
     echo json_encode($subarray);
   }
 
-}
+//}
 

@@ -10,36 +10,25 @@
         //session_start();
         include "../includes/head.php";
     ?>
+    <link rel="stylesheet" href="assets/css/tableResponsive.css"/>
+
 </head>
 <body>
     <?php 
     include '../conexion.php';
 
+    $porpagina = 10;
 
-    /*$numeroDatos = "SELECT * FROM Lenguas";
-    $ejecutarConsultaNumeroDatos = pg_query($conexion,$numeroDatos);
-    
-    $cantidadDatos=0;
-    while ($row= pg_fetch_row($ejecutarConsultaNumeroDatos)) {
-        $cantidadDatos++;
-    }
-    echo "total registros: $cantidadDatos";
-    $registrosPorPagina = 10;
-    if(empty($_GET['pagina'])){
-        $pagina=1;
-    }else{
+    if (isset($_GET['pagina'])) {
+        # code...
         $pagina=$_GET['pagina'];
+    } else {
+        $pagina=1;
     }
-   $desde = ($pagina-1)*$registrosPorPagina;
-   echo "desde: $desde";
-   $totalPaginas = ceil($cantidadDatos / $registrosPorPagina);
-   echo "total paginas: $totalPaginas";*/
 
-   //$variable = $_SESSION['nombreUsuario']; 
-
-   //$userName="santoslopez@google.com";
+    $empieza = ($pagina-1) * $porpagina;
    
-   $queryListadoProductos = "SELECT * FROM Productos;";
+   $queryListadoProductos = "SELECT * FROM Productos LIMIT $porpagina OFFSET $empieza";
 
     $ejecutarConsulta = pg_query($conexion,$queryListadoProductos);
     
@@ -53,20 +42,21 @@
           </button>              
               ";
 
-    }else{                                    
+    }else{       
+     
     # Si hay datos, entonces dibujamos el encabezado una sola vez
     echo '
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#formularioAgregarProductos">
         Registrar productos
     </button>
-        <table class="table table-hover">
+    <div class="container"><table class="table">
             <thead>
                 <tr>
-                    <td>CODIGO</td>
-                    <td>Descripcion</td>
-                    <td>Modificar</td>
-                    <td>Eliminar</td>
+                <th scope="col">CODIGO</th>
+                <th scope="col">Descripcion</th>
+                <th scope="col">Modificar</th>
+                <th scope="col">Eliminar</th>
                 </tr>
             </thead>
             <tbody>';
@@ -74,17 +64,34 @@
     while ($row= pg_fetch_row($ejecutarConsulta)) {
         // codigoTipo: este valor lo vamos a recuperar en el archivo eliminarTiposEventos.php
         echo "<tr>";
-        echo "<td data-label='Lengua'><span class='status delivered'>$row[0]</span></td>";
-        echo "<td data-label='Lengua'>$row[1]</td>";
-        echo "<td><a href=../productos/frmModificarProductos.php?codigoProducto=".urlencode($row[0])."&descripcionProducto=".urlencode($row[1])."><img src='../assets/img/update.png' class='zoomImagen imagenTabla' alt='Actualizar contenido'></a></td>";
-        echo "<td data-label='Eliminar'><a href=../productos/queryEliminarProducto.php?codigoProductoEliminar=".urlencode($row[0])." class='opcionEliminarUsuario btn'><img src='../assets/img/delete.png' class='zoomImagen imagenTabla' alt='Eliminar contenido'></a></td>";
+        echo "<td data-label='Codigo'><span class='status delivered'>$row[0]</span></td>";
+        echo "<td data-label='Descripcion'>$row[1]</td>";
+        echo "<td data-label='Modificcar'><a href=../productos/frmModificarProductos.php?codigoProducto=".urlencode($row[0])."&descripcionProducto=".urlencode($row[1])."><img src='../assets/img/update.png' class='zoomImagen' alt='Actualizar contenido' style='width: 20px;heigth: 20px;px;'></a></td>";
+        echo "<td data-label='Eliminar'><a href=../productos/queryEliminarProducto.php?codigoProductoEliminar=".urlencode($row[0])." class='opcionEliminarUsuario btn'><img src='../assets/img/delete.png' class='zoomImagen' alt='Eliminar contenido' style='width: 20px;heigth: 20px;px;'></a></td>";
         echo "</tr>";                                               
     }
-    echo "</tbody>
-    </table>
-    <a href='../index.php' class='btn btn-primary' role='button'>Regresar menu principal</a>
-    ";        
+    echo "</tbody></table></div>";        
     }
+
+
+    //paginacion    
+    $query="SELECT * FROM  Productos";
+    $resultado=pg_query($conexion,$query);
+       
+    $total_registros=pg_num_rows($resultado);
+    $total_paginas=ceil($total_registros/$porpagina);
+   
+    echo"<nav aria-label='Nav'><ul class='pagination justify-content-center'><li class='page-item'><a href='queryListadoProductos.php?pagina=1' class='page-link'>"  .'Anterior'. "</a></li>";
+    for($i=1;$i<=$total_paginas; $i++)
+    {    
+    echo"<li class='page-item'><a href='queryListadoProductos.php?pagina=".$i."' class='page-link'> ".$i." </a></li>";
+
+    }
+
+    echo"<li class='page-item'><a href='queryListadoProductos.php?pagina=$total_paginas' class='page-link'>"  .'Siguiente'. "</a></li></ul>
+    </nav>";
+    echo "<a href='../index.php' class='btn btn-primary justify-content-center' role='button'>Regresar menu principal</a>";
+
     pg_close($conexion);
     ?> 
 

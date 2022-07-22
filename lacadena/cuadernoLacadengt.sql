@@ -11,7 +11,7 @@ INSERT INTO Rol(codRol,nombreRol) VALUES(2,'cajero');
 CREATE TABLE Usuarios(
     correo varchar(50) NOT NULL,
     estado CHAR(1) CHECK(estado='A' OR estado='I') NOT NULL,
-    fechaRegistro timestamp NOT NULL,
+    fechaRegistro date NOT NULL,
     nombreApellidos varchar (100) NOT NULL,
     contrasena varchar(255) NOT NULL,
     codRol int NOT NULL,
@@ -51,7 +51,7 @@ CREATE TABLE Clientes(
     codigoCliente SERIAL NOT NULL,
     nombreApellidos varchar(100) NOT NULL,
     direccion varchar(50) NOT NULL,
-    nitCliente varchar(20) NOT NULL DEFAULT 'c/f',
+    nitCliente varchar(20) NOT NULL,
     telefono varchar(15),
     PRIMARY KEY (codigoCliente)
 );
@@ -71,7 +71,7 @@ CREATE TABLE FacturaCompra(
 
 CREATE TABLE DetalleFacturaCompra(
     idDetalle SERIAL NOT NULL,
-    precioCompra decimal(10,2) NOT NULL CHECK(precioCompra > 0),
+    precioCompra decimal(10,2) NOT NULL CHECK(precioCompra >= 0),
     cantidadComprado int NOT NULL CHECK(cantidadComprado > 0),
     codigoProducto varchar(50) NOT NULL,
     documentoProveedor VARCHAR(50) NOT NULL,
@@ -79,6 +79,16 @@ CREATE TABLE DetalleFacturaCompra(
     CONSTRAINT PK_DetalleFacturaCompra FOREIGN KEY (documentoProveedor) REFERENCES FacturaCompra(documentoProveedor),  
     CONSTRAINT PK_Producto_Detalle FOREIGN KEY (codigoProducto) REFERENCES Productos(codigoProducto)  
 );
+
+CREATE TABLE EnvioTransporte(
+    codigoEmpresa SERIAL NOT NULL,
+    nitEmpresa varchar(20) NOT NULL,
+    nombre VARCHAR(50) NOT NULL,
+    direccion VARCHAR(50) NOT NULL, 
+    telefono VARCHAR(15),
+    PRIMARY KEY (codigoEmpresa)
+);
+
 
 
 CREATE TABLE Inventario(
@@ -144,9 +154,29 @@ $$
 $$ LANGUAGE 'plpgsql';
 
 
+CREATE OR REPLACE FUNCTION PA_registrarUsuario(correoRegistrar varchar(50),datosUsuario varchar (100),passUsuario varchar(255)) RETURNS varchar AS 
+$$
+    DECLARE
+    estadoCuenta CHAR := 'A';
+    numeroRol int := 1;
+    fechaActual date :=NOW()::date;
+    BEGIN
+        IF (SELECT count(*) from  Usuarios WHERE (correo=correoRegistrar) ) > 0 THEN
+            raise exception 'enuso';            
+        ELSE        
+            INSERT INTO Usuarios (correo,estado,fechaRegistro,nombreApellidos,contrasena,codRol) VALUES (correoRegistrar,estadoCuenta,fechaActual,datosUsuario,passUsuario,numeroRol);
+            return 'registrado';
+            COMMIT;
+        END IF;
+    EXCEPTION
+    WHEN OTHERS THEN
+        ROLLBACK;
+    END;
+$$ LANGUAGE 'plpgsql';
 
 
-CREATE OR REPLACE FUNCTION PA_actualizarDetalleFacturaCompra(precioC decimal(10,2),  cantidadC int, codigoP varchar(50),documentoP VARCHAR(50),idD ) RETURNS BOOLEAN AS 
+
+CREATE OR REPLACE FUNCTION PA_actualizarDetalleFacturaCompra(precioC decimal(10,2),  cantidadC int, codigoP varchar(50),documentoP VARCHAR(50),idD int) RETURNS BOOLEAN AS 
 $$
     DECLARE
   

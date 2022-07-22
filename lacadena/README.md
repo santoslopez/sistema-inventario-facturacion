@@ -20,7 +20,7 @@
 - Se bloquea el boton para eliminar al administrador.
 
 ### PRODUCTOS
-- Crear productos
+- Crear productos, pagina, lista
 - Modifica productos, pero no modifica el codigo de producto
 - Elimina productos
 - Verifica que el producto no este en uso
@@ -42,7 +42,7 @@
 ### OTROS REALIZADOS
 - No muestra archivos sino se ha iniciado sesion
 - Procedimiento almacenado para agregar productos, clientes y proveedores
-- Transaccion en registro de productos, verifica sisno esta en uso primero antes de insertar
+- Transaccion en registro de productos, verifica sino esta en uso primero antes de insertar
 
 ### FALTANTES 
 - Corregir update con ajax de clientes y proveedores (opcion deshabilitado)
@@ -57,8 +57,8 @@
 - Corregir error en listado de factura de compras, sino hay proveedor, aparentemente guarda pero se pierde el dato.
 - Problemas al modificar y eliminar productos de compra factura
 
+
 ### BUGS
--  proveedor con c/f ya no deja guardar los datos
 - Corregin pagina no encontrada 404
 - Corregir retroceso en sesion
 - Corregir formulario de registro de usuarios

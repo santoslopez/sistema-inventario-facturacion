@@ -209,6 +209,23 @@
                                     </div>
                                     </a>
                                 
+                                    <a style="cursor: pointer;" href="#">
+                                <div class="card">
+                                    <div>    
+                                        <div class="cardName">
+                                            <h5>Envios</h5>
+                                        </div>
+                                        <div>
+                                            <span class="title">Envios o delivery</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="iconBx">
+                                        <!--ion-icon name="chatbubbles-outline"></ion-icon-->
+                                        <img src="../assets/img/delivery-bike.png" class="zoomImagen home">                       
+                                    </div>
+                                    </div>
+                                    </a>
 
                                 
                                 <a style="cursor: pointer;" href="../proveedor/queryListadosProveedor.php">
