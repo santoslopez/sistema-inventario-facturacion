@@ -13,10 +13,23 @@ $inputCodigoProducto=htmlspecialchars($_POST['inputCodigoProducto'],ENT_QUOTES,'
 
 $facturaCompra=htmlspecialchars($_POST['facturaCompra'],ENT_QUOTES,'UTF-8');
 
-$data = array();
+//$data = array();
+
+//CREATE OR REPLACE FUNCTION PA_controlInventario'$',cantidadComp int,productoCod  varchar(50), docPro VARCHAR(50)) RETURNS varchar AS 
+
+$consulta = "SELECT PA_controlInventario('$inputCostoProducto','$inputCantidadCompra','$inputCodigoProducto','$facturaCompra')";
 
 
-$result = pg_query($conexion, "SELECT * FROM DetalleFacturaCompra WHERE codigoProducto='$inputCodigoProducto' AND documentoProveedor='$facturaCompra';");
+$ejecutarConsulta = pg_query($conexion, $consulta);
+//$data = array();
+
+while ($row= pg_fetch_row($ejecutarConsulta)) {
+  $subarray=array();
+  $subarray[]=$row[0];
+  echo json_encode($subarray);
+}
+
+/*$result = pg_query($conexion, "SELECT * FROM DetalleFacturaCompra WHERE codigoProducto='$inputCodigoProducto' AND documentoProveedor='$facturaCompra';");
 
 // ESPECIAL PARA UTILIZARLO EN QUERYS
 $rs = pg_fetch_assoc($result);
@@ -54,7 +67,7 @@ if ($rs) {
     $data['status'] = 'failed';
     echo json_encode($data);
     }
-}
+}*/
 
 
 ?>

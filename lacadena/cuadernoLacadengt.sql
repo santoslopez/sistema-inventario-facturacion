@@ -97,7 +97,8 @@ CREATE TABLE Inventario(
     cantidadComprado int NOT NULL CHECK(cantidadComprado >= 0),
     costoActual decimal(10,2) NOT NULL CHECK(costoActual >= 0),
     PRIMARY KEY (codInventario),
-    CONSTRAINT PK_DetalleProductoCompra FOREIGN KEY (codigoProducto) REFERENCES Productos(codigoProducto)  
+    CONSTRAINT PK_DetalleProductoCompra FOREIGN KEY (codigoProducto) 
+    REFERENCES Productos(codigoProducto)  
 );
 
 CREATE OR REPLACE FUNCTION PA_insertarProducto(productoCod  varchar(50), nombreProducto varchar(100), fotoProducto varchar(100)) RETURNS varchar AS 
@@ -174,6 +175,47 @@ $$
     END;
 $$ LANGUAGE 'plpgsql';
 
+
+
+CREATE OR REPLACE FUNCTION PA_controlInventario(precioCompraD decimal(10,2),cantidadComp int,productoCod  varchar(50), docPro VARCHAR(50)) RETURNS varchar AS 
+$$
+    DECLARE
+    
+    
+    BEGIN
+        IF (SELECT count(*) from Inventario WHERE codigoProducto=productoCod) > 0 THEN
+  
+            INSERT INTO DetalleFacturaCompra(precioCompra,cantidadComprado,codigoProducto,documentoProveedor)
+            VALUES (precioCompraD,cantidadComp,productoCod,docPro);
+            
+            UPDATE Inventario SET cantidadComprado = cantidadComp + cantidadComprado,
+            costoactual = ((costoactual*cantidadComprado) + (precioCompraD*cantidadComp))/(cantidadComp + cantidadComprado)
+            WHERE codigoProducto=productoCod;
+           return 'actualizadoStock';
+            COMMIT;
+            
+            
+            
+        ELSE
+            INSERT INTO DetalleFacturaCompra(precioCompra,cantidadComprado,codigoProducto,documentoProveedor)
+            VALUES (precioCompraD,cantidadComp,productoCod,docPro);
+            
+            INSERT INTO Inventario(codigoProducto,cantidadComprado,costoActual) VALUES
+            (productoCod,cantidadComp,precioCompraD);
+            return 'agregadoStock';
+
+            COMMIT;
+            
+            
+        END IF;
+    EXCEPTION
+    WHEN OTHERS THEN
+        ROLLBACK;
+    END;
+$$ LANGUAGE 'plpgsql';
+
+/*lo anterior ya se verifico actualiza el stock correctamente al agregar compras,
+realiza promedio de costo de producto */
 
 
 CREATE OR REPLACE FUNCTION PA_actualizarDetalleFacturaCompra(precioC decimal(10,2),  cantidadC int, codigoP varchar(50),documentoP VARCHAR(50),idD int) RETURNS BOOLEAN AS 

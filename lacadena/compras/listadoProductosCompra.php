@@ -247,16 +247,17 @@ window.onload = function() {
                 data:{inputCostoProducto:inputCostoProducto,inputCantidadCompra:inputCantidadCompra,inputCodigoProducto:inputCodigoProducto,facturaCompra:facturaCompra},
                 type:'post',
                     success:function(data1){
-                        var json = JSON.parse(data1);
-                     
-                        var status = json.status;
-                        if(status=='yaexisteproducto'){
+                        //var status = JSON.parse(data1);
+                        var status = data1;
+
+                        //var status = json.status;
+                        if(status=='agregadoStock'){
                             Swal.fire(
                                 'Producto no agregado',
                                 'Ya esta en la tabla.',
                                 'error'
                             )
-                        }else if(status=='success'){
+                        }else if(status=='actualizadoStock'){
                             $('#inputCostoProducto').val('');
                             $('#inputCantidadCompra').val('');
                             $('#inputCodigoProducto').val('');
