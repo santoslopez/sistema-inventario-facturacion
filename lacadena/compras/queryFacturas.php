@@ -10,10 +10,10 @@
     $listadoTiposEventoUsuario = "SELECT * FROM FacturaCompra";
     $ejecutarConsultaObtenerInfo = pg_query($conexion,$listadoTiposEventoUsuario);
     
-    if (!($ejecutarConsultaObtenerInfo)) {
+    /*if (!($ejecutarConsultaObtenerInfo)) {
         $data = "No hay facturas de compras registrados.";
         echo json_encode($data);       
-    }else{   
+    }else{   */
         $data = array();
         while ($row= pg_fetch_row($ejecutarConsultaObtenerInfo)) {
             // codigoTipo: este valor lo vamos a recuperar en el archivo eliminarTiposEventos.php
@@ -27,5 +27,5 @@
             $data[]=$subarray;                                         
         }              
         echo json_encode($data);       
-    }
+    //}
 ?>

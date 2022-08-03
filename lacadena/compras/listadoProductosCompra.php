@@ -181,8 +181,9 @@
 
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
-                <label for="Name" class="form-label">Producto</label>
+                <label for="Name" class="form-label">Buscar producto: </label>
                 <input type="text" id="inputCodigoProducto" class="form-control" name="inputCodigoProducto" required >
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Buscar productos</button>
             </div>
         </div>        
 
@@ -255,6 +256,9 @@ window.onload = function() {
                                 'Datos guardados.',
                                 'success'
                             )
+                            var tabla = $('#datatableCompras').DataTable();
+                            tabla.ajax.reload();
+                            
                         }else if(json=='actualizadoStock'){
                             $('#inputCostoProducto').val('');
                             $('#inputCantidadCompra').val('');

@@ -13,7 +13,7 @@
     <script src="../assets/js/sweetalert2-10.js"></script>
 
     <!-- Por medio de este archivo mostramos un mensaje de confirmacion para eliminar, actualizar datos.-->
-    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Por medio de este archivo mostramos un mensaje de confirmacion para eliminar, actualizar datos.-->
     <script src="../assets/js/mensajesPersonalizados.js" type="text/javascript"></script>
     <link rel="stylesheet" href="../assets/css/bootstrap5-0-2.min.css">
@@ -85,8 +85,8 @@
     //pg_close($conexion);
 
     ?> 
-        <a class="btn btn-primary" href="../index" role="button">Menu principal</a>
-
+        <a class="btn btn-primary" href="javascript:history.back()" role="button">Menu principal</a>
+        
     </div>
 
     <script src="../assets/js/bootstrap5-0-2.bundle.min.js"></script>

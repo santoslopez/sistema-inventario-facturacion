@@ -286,7 +286,6 @@ ELSE
         COMMIT;
         return NEW;
         
-
 END IF;
 
 END;
@@ -332,3 +331,47 @@ DROP TRIGGER TR_ActualizarInventarioAdd on DetalleFacturaCompra;
 
 
 DROP TRIGGER TR_ActualizarInventarioInsertar on DetalleFacturaCompra;
+
+
+CREATE OR REPLACE FUNCTION PA_consultarInventario(buscarProducto varchar(30)) RETURNS 
+
+AS 
+$$
+    DECLARE
+    stockActual int := 0;
+    BEGIN
+        IF (SELECT count(*) from  Inventario WHERE (codigoProducto=buscarProducto) ) > 0 THEN
+            
+            return query select I.codigoproducto,descripcion,I.cantidadComprado,I.costoActual from productos
+            INNER JOIN Inventario AS I ON I.codigoProducto=Productos.codigoProducto AND Productos.codigoProducto=buscarProducto;
+            
+            
+        END IF;
+       
+    END;
+$$ LANGUAGE 'plpgsql';
+
+SELECT * FROM INVENTARIO;
+select I.codigoproducto,descripcion,I.cantidadComprado,I.costoActual from productos
+            INNER JOIN Inventario AS I ON I.codigoProducto=Productos.codigoProducto AND Productos.codigoProducto='19000';
+            
+       
+       
+       CREATE OR REPLACE FUNCTION PA_consultarInventario(buscarProducto varchar(30)) RETURNS integer
+AS $$
+    DECLARE
+     stockActual integer;
+    BEGIN
+            stockActual = (SELECT cantidadcomprado from  Inventario WHERE (codigoProducto=buscarProducto));
+        IF ( stockActual) > 0 THEN
+            
+        
+            RETURN stockActual;
+        
+        ELSE
+            RETURN -1;
+        
+        END IF;
+       
+    END;
+$$ LANGUAGE 'plpgsql';

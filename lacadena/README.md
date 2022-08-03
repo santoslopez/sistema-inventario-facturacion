@@ -49,9 +49,8 @@
 - Crear comprobantes
 - Permitir fiados
 - Reporte de clientes morosos
-- Promedio de costo de productos 
 - Falta verificar select de empresas, 
-- Falta actualizar con trigger el inventario, tanto al ingresar datos a la factura de compra, al modificarlo o eliminarlo.
+- Falta actualizar con trigger el inventario al modificarlo o eliminarlo.
 - Falta modificar clientes "MODIFICA" (ya estaba pero no en datatable)
 - Actualizar total de la factura de compra automaticamente al eliminar productos en la factura
 - Corregir error en listado de factura de compras, sino hay proveedor, aparentemente guarda pero se pierde el dato.

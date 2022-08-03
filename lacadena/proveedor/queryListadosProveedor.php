@@ -167,7 +167,7 @@
                                 $(input4).val('');
                                 
                                 //$('#formularioAgregarCliente').modal('hide');
-                                $(tipoFormulario).modal('hide');
+                                //$(tipoFormulario).modal('hide');
 
                                 //cargarDatosTabla();
                                 var table = $('#datatableUsuarios').DataTable();
@@ -191,7 +191,11 @@
                 }
             });
         }else{
-            alert("please fill the required fields");
+            Swal.fire(
+                                    'Campos vacios.',
+                                    'Por favor llena todos los campos.',
+                                    'warning'
+                                )
         }
     });
 }
@@ -304,7 +308,7 @@
 </div>
 
 <!-- fin agregar cliente -->
-<script src="../assets/js/validation.js"></script>
+<!--script src="../assets/js/validation.js"></script-->
 
 </body>
 </html>

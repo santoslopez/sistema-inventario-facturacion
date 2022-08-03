@@ -17,17 +17,34 @@
 <body>
     <div class="container">
         
-        <div class="alert" role="alert" style="margin-top:20px;background:#201E1D;color:white;">
-            <h2>Listado de factura de compras</h2>
-            
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#formularioAgregarFacturaCompras">
-                Registrar compras
-            </button>
-        </div>
     <?php 
+      include "../conexion.php";
+
+    $verificarSiHayProductos = "SELECT * FROM Productos";
+    $ejecutarConsultaProductos = pg_query($conexion,$verificarSiHayProductos );
+    $data = array();
+    if (pg_num_rows($ejecutarConsultaProductos)==0) {
+        echo '<div class="alert alert-danger" role="alert" style="margin-left:10%;margin-right:10%;margin-top:10%">
+        Sin productos, por favor registra productos primero.
+        </div>
+        <div class="d-grid gap-2 col-6 mx-auto">
+            <a class="btn btn-primary" href="../index.php">Menu principal</a>
+        </div>
+        
+        ';   
+    }else{
+
     //include '../conexion.php';
     echo '
+    <div class="alert" role="alert" style="margin-top:20px;background:#201E1D;color:white;">
+    <h2>Listado de factura de compras</h2>
+    
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#formularioAgregarFacturaCompras">
+        Registrar compras
+    </button>
+    </div>
+
         <table class="table table-striped table-bordered nowrap" id="datatableUsuarios" name="datatableUsuarios" style="width:100%">
             <thead>
                     <th>No. documento</th>
@@ -42,6 +59,7 @@
         </table>
         <a class="btn btn-primary" href="../index" role="button">Menu principal</a></div>';
 
+    }
     ?> 
 
 </script>
