@@ -102,6 +102,35 @@ CREATE TABLE DetalleFacturaVenta(
 );
 
 
+CREATE TABLE DetalleFacturaVenta(
+    idDetalle SERIAL NOT NULL,
+    codigoProducto varchar(50) NOT NULL,
+    cantidadComprado int NOT NULL CHECK(cantidadComprado > 0),
+    precioCompra decimal(10,2) NOT NULL CHECK(precioCompra >= 0),
+    numeroDocumentoFacturaVenta int NOT NULL,
+    PRIMARY KEY (idDetalle),
+    CONSTRAINT PK_DetalleFacturaVenta FOREIGN KEY (numeroDocumentoFacturaVenta) REFERENCES FacturaVenta(numeroDocumentoFacturaVenta),  
+    CONSTRAINT PK_Producto_Detalle FOREIGN KEY (codigoProducto) REFERENCES Productos(codigoProducto)
+);
+
+
+CREATE OR REPLACE FUNCTION TG_ActualizarStockVender() RETURNS TRIGGER AS 
+$$
+DECLARE 
+
+BEGIN
+    UPDATE Inventario SET cantidadComprado = cantidadComprado - NEW.cantidadComprado
+    WHERE codigoProducto=NEW.codigoProducto;
+    return NEW;
+END;
+$$ LANGUAGE 'plpgsql';
+
+CREATE TRIGGER TG_ActualizarStockVender
+AFTER INSERT ON DetalleFacturaVenta
+FOR EACH ROW EXECUTE PROCEDURE TG_ActualizarStockVender();
+
+
+
 
 CREATE TABLE EnvioTransporte(
     codigoEmpresa SERIAL NOT NULL,

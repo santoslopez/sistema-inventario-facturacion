@@ -88,4 +88,10 @@ https://www.youtube.com/watch?v=Mnl5tq59U9s
 
 
 ## EN ventas
-Quitar mensaje de alerta menor precio a compra
+- Quitar mensaje de alerta menor precio a compra
+- Aparentemente vende si el stock es vacio, pero no resta (esto esta bien)
+- Muestra mensaje que estas a punto de vender,... 
+- Hace el insert en factura de cliente sino hay stock,
+pero no lo pone en detalle de factura cliente (bien)
+
+https://www.youtube.com/watch?v=Y50yBgai050
