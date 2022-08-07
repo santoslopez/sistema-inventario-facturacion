@@ -5,3 +5,5 @@ $row=pg_fetch_assoc($ejecutarConsultaObtenerInfo);
 
 ## Si se quier obtener varios datos
 Se utiliza un while, ejemplos en proveedor
+
+

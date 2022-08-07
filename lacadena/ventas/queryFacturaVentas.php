@@ -119,6 +119,8 @@
 </table>
 
 
+<button onclick="guardarVenta()" class="btn btn-primary">Guardar venta</button>
+
 <a class="btn btn-primary" href="../index" role="button">Menu principal</a></div>';
 
     }
@@ -344,6 +346,56 @@ $(document).ready(function () {
 
 });
 </script>
+
+
+
+<script>
+    function guardarVenta(){
+        alert("presiono");
+        //event.preventDefault();
+        var tableJSON = table.data().toArray();//SI FUNCIONA
+        
+        //var object = table.data();//
+        var table123 = JSON.stringify(tableJSON);
+
+        //var table123 = table.rows().data().toArray();
+                
+            $.ajax({
+                url:"queryRegistrarVentas.php",
+                //data:{tableJSON:JSON.stringify(tableJSON)}, //SI FUNCIONA DOBLE CORCH
+                data: {
+                    tableJSON: table123
+                },
+                "columns":[
+                    {"data":"col1"},
+                    {"data":"col2"},
+                    {"data":"col3"},
+                    {"data":"col4"}
+                ],
+
+                type:'post',
+                    success:function(data1){
+
+
+                        console.log("mexicox 1: "+data1);
+                        
+                        var json = JSON.parse(data1);
+                        // devuelve sin string
+                        console.log("longitud arreglo x: "+json);
+                        console.log("xxx: "+json[0]);
+
+       
+                    
+                    }
+                }
+            );
+
+    
+
+
+    }
+</script>
+
 
 
 <script src="https://cdn.datatables.net/plug-ins/1.12.1/api/sum().js"> </script>
