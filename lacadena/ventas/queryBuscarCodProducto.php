@@ -8,7 +8,7 @@
 
     $inputCodigoProducto = $_POST['inputCodigoProducto'];
 
-    $obtenerNombreProducto = "SELECT Inventario.codigoProducto AS codigo,descripcion AS descripcion,Inventario.cantidadComprado,Inventario.costoActual  FROM Productos INNER JOIN Inventario ON Productos.codigoProducto = '$inputCodigoProducto'";
+    $obtenerNombreProducto = "SELECT Inventario.codigoProducto AS codigo,descripcion AS descripcion,Inventario.cantidadComprado AS unidadesdesdisponibles,Inventario.costoActual AS costopromedio FROM Productos INNER JOIN Inventario ON Productos.codigoProducto = '$inputCodigoProducto'";
     
     $ejecutarConsultaObtenerInfo = pg_query($conexion,$obtenerNombreProducto);
     

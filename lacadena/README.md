@@ -84,3 +84,8 @@ zdzh-sghh-uaml-bskh
 
 
 https://www.youtube.com/watch?v=Mnl5tq59U9s
+
+
+
+## EN ventas
+Quitar mensaje de alerta menor precio a compra

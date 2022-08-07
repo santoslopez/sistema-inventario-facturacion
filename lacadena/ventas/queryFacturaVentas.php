@@ -29,7 +29,7 @@
     }else{
         echo '
     <div class="alert alert-primary" role="alert" style="margin-left:5%;margin-right:5%;margin-top:20px;">
-    <h2>Crear factura de ventas</h2>
+    <h2>Crear comprobante de ventas</h2>
     
     <!-- Button trigger modal -->
     
@@ -72,8 +72,14 @@
     </div>
   <div class="col-auto">
     <label for="inputCantidadVendido">Cantidad</label>
-    <input type="number" class="form-control" id="inputCantidadVendido" name="inputCantidadVendido" placeholder="Cantidad"  pattern="[1-9]+" required>
-  </div>
+    <input type="number" min="1" class="form-control" id="inputCantidadVendido" name="inputCantidadVendido" placeholder="Cantidad"  pattern="[1-9]+" required>
+        
+    <input type="number" class="form-control" id="inputUnidadesDisponibles" name="inputUnidadesDisponibles" placeholder="Cantidad"  pattern="[1-9]+" required readonly style="display:none">
+    <input type="number" class="form-control" id="inputCostoProductoActual" name="inputCostoProductoActual" placeholder="Cantidad"  required readonly style="display:none">
+
+    
+    
+    </div>
   <div class="col-auto">
   <label for="inputCantidadVendido">Precio vendido</label>
   <input type="number" class="form-control" id="inputPrecioVendido" name="inputPrecioVendido" placeholder="Precio" required>
@@ -121,6 +127,7 @@
 </script>
 
 <script>
+    var estadoCodigoProducto;
     function buscarProducto(){
         
         var inputCodigoProducto = $("#inputCodigoProducto").val();
@@ -146,9 +153,17 @@
                         'Es posible que el codigo sea incorrecto',
                         'error'
                         )
+                        estadoCodigoProducto="noaceptado";
                 }else{
                     $("#inputNombreProducto").val(json.descripcion);
+                    
+                    $("#inputUnidadesDisponibles").val(json.unidadesdesdisponibles);
+                    $("#inputCostoProductoActual").val(json.costopromedio);
                    
+
+                    estadoCodigoProducto="aceptado";
+
+
                 }
 
 
@@ -189,6 +204,8 @@
                         )
                 }else{
                     $("#inputNombreCliente").val(json.nombreapellidos);
+
+                    
                     //alert("nombre: "+json.nombreapellidos);
                     //alert("nit: "+json.direccion);
 
@@ -214,7 +231,7 @@ $(document).ready(function () {
         api.column( 3, {page:'current'} ).data().sum()
       );*/
       $(api.columns(4).footer()).html(
-        'Total: '+api.column(4, {page:'current'} ).data().sum()
+        'Total: Q.'+api.column(4, {page:'current'} ).data().sum()
       );
     },
     buttons: [
@@ -232,12 +249,62 @@ $(document).ready(function () {
         let cantidadVendido =  document.getElementById("inputCantidadVendido").value;
         let precioVendido =  document.getElementById("inputPrecioVendido").value;
 
+        let cantidadEnBodega = document.getElementById("inputUnidadesDisponibles").value;
+
+        // verifica que campos no esten vacios y sirve para hacer la verificacion que sea el campo correo, por ejemplo que sea entero,etc.
         if((codigoProducto !='') && (nombreProducto!='') && (cantidadVendido!='') && (precioVendido!='')){
-            table.row.add([codigoProducto,nombreProducto,cantidadVendido,precioVendido,cantidadVendido*precioVendido]).draw(false);
-            document.getElementById("inputCodigoProducto").value = "";
-       document.getElementById("inputNombreProducto").value = "";
-       document.getElementById("inputCantidadVendido").value = "";
-       document.getElementById("inputPrecioVendido").value = "";
+            
+            if(estadoCodigoProducto=="noaceptado"){
+                Swal.fire('Codigo producto erroneo','El codigo del producto es incorrecto','warning')
+
+            }else{
+                let unidadesStock = document.getElementById("inputUnidadesDisponibles").val;
+                if(unidadesStock==0){
+                        Swal.fire(                  
+                            'Productos sin unidades disponibles',
+                        'Actualmente no tenemos unidades para vender',
+                        'error'
+                        )
+                    }
+
+            // verificamos que la cantidad que se desea vender no sea mayor al stock o cantidad disponible en inventario
+            if ((cantidadVendido<=cantidadEnBodega) && (cantidadVendido>=1)) {
+                
+                //if (cantidadVendido>=1) {
+
+                    
+                if((precioVendido>=0)){
+                    
+                    //if(precioVendido<=inputCostoProductoActual){
+                        
+                    //}
+                    
+                    Swal.fire('Estas a punto de vender a un precio menor al que compraste','Precio que estas vendiendo es menor al precio que compraste','warning')
+
+                    table.row.add([codigoProducto,nombreProducto,cantidadVendido,precioVendido,cantidadVendido*precioVendido]).draw(false);
+                document.getElementById("inputCodigoProducto").value = "";
+                document.getElementById("inputNombreProducto").value = "";
+                document.getElementById("inputCantidadVendido").value = "";
+                document.getElementById("inputPrecioVendido").value = "";
+                document.getElementById("inputUnidadesDisponibles").value = "";
+
+                document.getElementById("inputCostoProductoActual").value = "";
+
+
+                }
+            }else{
+                Swal.fire(
+  'Stock insuficiente',
+  'El numero de unidades no se tiene en inventario. Disponible: '+cantidadEnBodega,
+  'warning'
+)
+            }
+
+
+            }
+
+
+
 
         }else{
 
