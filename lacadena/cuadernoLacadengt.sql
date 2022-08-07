@@ -86,7 +86,7 @@ CREATE TABLE FacturaVenta(
     numeroDocumentoFacturaVenta SERIAL NOT NULL,
     codigoCliente int NOT NULL,
     totalVenta float NOT NULL,
-    PRIMARY KEY (numeroDocumentoFacturaVenta),
+    PRIMARY KEY (numeroDocumentoFacturaVenta) ON DELETE CASCADE,
     CONSTRAINT PK_FacturaVentaCliente FOREIGN KEY (codigoCliente) REFERENCES Clientes(codigoCliente)
 );
 
@@ -97,19 +97,7 @@ CREATE TABLE DetalleFacturaVenta(
     precioCompra decimal(10,2) NOT NULL CHECK(precioCompra >= 0),
     numeroDocumentoFacturaVenta int NOT NULL,
     PRIMARY KEY (idDetalle),
-    CONSTRAINT PK_DetalleFacturaVenta FOREIGN KEY (numeroDocumentoFacturaVenta) REFERENCES FacturaVenta(numeroDocumentoFacturaVenta),  
-    CONSTRAINT PK_Producto_Detalle FOREIGN KEY (codigoProducto) REFERENCES Productos(codigoProducto)
-);
-
-
-CREATE TABLE DetalleFacturaVenta(
-    idDetalle SERIAL NOT NULL,
-    codigoProducto varchar(50) NOT NULL,
-    cantidadComprado int NOT NULL CHECK(cantidadComprado > 0),
-    precioCompra decimal(10,2) NOT NULL CHECK(precioCompra >= 0),
-    numeroDocumentoFacturaVenta int NOT NULL,
-    PRIMARY KEY (idDetalle),
-    CONSTRAINT PK_DetalleFacturaVenta FOREIGN KEY (numeroDocumentoFacturaVenta) REFERENCES FacturaVenta(numeroDocumentoFacturaVenta),  
+    CONSTRAINT PK_DetalleFacturaVenta FOREIGN KEY (numeroDocumentoFacturaVenta) REFERENCES FacturaVenta(numeroDocumentoFacturaVenta) ON DELETE CASCADE,  
     CONSTRAINT PK_Producto_Detalle FOREIGN KEY (codigoProducto) REFERENCES Productos(codigoProducto)
 );
 
@@ -128,6 +116,22 @@ $$ LANGUAGE 'plpgsql';
 CREATE TRIGGER TG_ActualizarStockVender
 AFTER INSERT ON DetalleFacturaVenta
 FOR EACH ROW EXECUTE PROCEDURE TG_ActualizarStockVender();
+
+
+CREATE OR REPLACE FUNCTION TG_ActualizarStockAnularVenta() RETURNS TRIGGER AS 
+$$
+DECLARE 
+
+BEGIN
+    UPDATE Inventario SET cantidadComprado = cantidadComprado + OLD.cantidadComprado
+    WHERE codigoProducto=OLD.codigoProducto;
+    return OLD;
+END;
+$$ LANGUAGE 'plpgsql';
+
+CREATE TRIGGER TTG_ActualizarStockAnularVenta
+AFTER DELETE ON DetalleFacturaVenta
+FOR EACH ROW EXECUTE PROCEDURE TG_ActualizarStockAnularVenta();
 
 
 

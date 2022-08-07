@@ -149,8 +149,8 @@
               </svg-->
             </a>
           </li>
-          <li class="nav__item">
-            
+          <!--li class="nav__item">
+          
             <a
               href="#"
               class="nav__link focus--box-shadow"
@@ -169,7 +169,7 @@
               >
               <img src="../assets/img/menu/delivery.png" alt="Inventario" class="zoomImagen">
 
-              <!--svg
+              <svg
                 class="nav__icon"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -178,10 +178,10 @@
                 <path
                   d="M12,11a1,1,0,0,0-1,1v3a1,1,0,0,0,2,0V12A1,1,0,0,0,12,11Zm0-3a1,1,0,1,0,1,1A1,1,0,0,0,12,8Zm0-6A10,10,0,0,0,2,12a9.89,9.89,0,0,0,2.26,6.33l-2,2a1,1,0,0,0-.21,1.09A1,1,0,0,0,3,22h9A10,10,0,0,0,12,2Zm0,18H5.41l.93-.93a1,1,0,0,0,.3-.71,1,1,0,0,0-.3-.7A8,8,0,1,1,12,20Z"
                 />
-              </svg-->
+              </svg>
             </a>
-          </li>
-          <li class="nav__item">
+          </li-->
+          <!--li class="nav__item">
             <a
               href="#"
               class="nav__link focus--box-shadow"
@@ -199,7 +199,7 @@
             >
             <img src="../assets/img/menu/shopping-cart.png" alt="Ventas" class="zoomImagen">
 
-              <!--svg
+              <svg
                 class="nav__icon"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -208,10 +208,10 @@
                 <path
                   d="M2.5,10.56l9,5.2a1,1,0,0,0,1,0l9-5.2a1,1,0,0,0,0-1.73l-9-5.2a1,1,0,0,0-1,0l-9,5.2a1,1,0,0,0,0,1.73ZM12,5.65l7,4-7,4.05L5,9.69Zm8.5,7.79L12,18.35,3.5,13.44a1,1,0,0,0-1.37.36,1,1,0,0,0,.37,1.37l9,5.2a1,1,0,0,0,1,0l9-5.2a1,1,0,0,0,.37-1.37A1,1,0,0,0,20.5,13.44Z"
                 />
-              </svg-->
+              </svg>
             </a>
-          </li>
-          <li class="nav__item">
+          </li-->
+          <!--li class="nav__item">
             <a
               href="#"
               class="nav__link focus--box-shadow"
@@ -227,7 +227,7 @@
             >
             <img src="../assets/img/menu/drill.png" alt="Productos" class="zoomImagen">
 
-              <!--svg
+              <svg
                 class="nav__icon"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -236,9 +236,9 @@
                 <path
                   d="M6,13H2a1,1,0,0,0-1,1v8a1,1,0,0,0,1,1H6a1,1,0,0,0,1-1V14A1,1,0,0,0,6,13ZM5,21H3V15H5ZM22,9H18a1,1,0,0,0-1,1V22a1,1,0,0,0,1,1h4a1,1,0,0,0,1-1V10A1,1,0,0,0,22,9ZM21,21H19V11h2ZM14,1H10A1,1,0,0,0,9,2V22a1,1,0,0,0,1,1h4a1,1,0,0,0,1-1V2A1,1,0,0,0,14,1ZM13,21H11V3h2Z"
                 />
-              </svg-->
+              </svg>
             </a>
-          </li>
+          </li-->
 
 
           <li class="nav__item">
@@ -271,7 +271,7 @@
           </li>
 
 
-          <li class="nav__item">
+          <!--li class="nav__item">
             <a
               href="#"
               class="nav__link focus--box-shadow"
@@ -287,7 +287,7 @@
             >
             <img src="../img/dashboardAdmin/profile-user.png" alt="Usuarios registrados" class="zoomImagen">
 
-              <!--svg
+              <svg
                 class="nav__icon"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -296,9 +296,9 @@
                 <path
                   d="M6,13H2a1,1,0,0,0-1,1v8a1,1,0,0,0,1,1H6a1,1,0,0,0,1-1V14A1,1,0,0,0,6,13ZM5,21H3V15H5ZM22,9H18a1,1,0,0,0-1,1V22a1,1,0,0,0,1,1h4a1,1,0,0,0,1-1V10A1,1,0,0,0,22,9ZM21,21H19V11h2ZM14,1H10A1,1,0,0,0,9,2V22a1,1,0,0,0,1,1h4a1,1,0,0,0,1-1V2A1,1,0,0,0,14,1ZM13,21H11V3h2Z"
                 />
-              </svg-->
+              </svg>
             </a>
-          </li>
+          </li-->
 
           <!--li class="nav__item">
             <a
@@ -367,7 +367,7 @@
 
           <div class="tab-pane fade show active" id="acerca" role="tabpanel" aria-labelledby="acerca-tab">
             
-            <div class="alert alert-success" role="alert">
+            <div class="alert alert-primary" role="alert">
               <h3>Ventas de hoy</h3>
             </div>
             <?php
@@ -381,17 +381,17 @@
   <div class="col-sm-6">
     <div class="card">
       <div class="card-body">
-        <h5 class="card-title"><?php
-                                            date_default_timezone_set('America/Guatemala');    
-                                            $fechaActual = date('d-m-Y',time());
-                                            echo "Ventas de $fechaActual";
-                                            ?></h5>
+        <h5 class="card-title">
+          <?php
+            date_default_timezone_set('America/Guatemala');    
+            $fechaActual = date('d-m-Y',time());
+            echo "Ventas de $fechaActual";
+          ?>
+        </h5>
         <p class="card-text">Mis ventas</p>
         <a style="cursor: pointer;" class="btn btn-primary" href="../ventas/queryFacturaVentas.php">
-        <img src="../assets/img/shopping-cart.png" class="zoomImagen home">
-
-      </a>
-
+          <img src="../assets/img/shopping-cart.png" class="zoomImagen home">
+        </a>
       </div>
     </div>
   </div>
@@ -399,22 +399,39 @@
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">Clientes</h5>
-
         <p class="card-text">Listado de clientes.</p>
         <a style="cursor: pointer;" class="btn btn-primary" href="../clientes/queryListadoClientes.php">
-        <img src="../assets/img/clientes.webp" class="zoomImagen home">                       
+          <img src="../assets/img/clientes.webp" class="zoomImagen home">                       
+        </a>
+      </div>
 
-      </a>
+    </div>
+
+  </div>
+
+
+  <div class="col-sm-6" style="margin-top:5%">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Resumen hoy</h5>
+        <p class="card-text">Resumen ventas de hoy.</p>
+        <a style="cursor: pointer;" class="btn btn-primary" href="../resumenventas/queryTablaVentasHoy.php">
+          <img src="../assets/img/money.png" class="zoomImagen home">                       
+        </a>
       </div>
     </div>
   </div>
+
+
+
+
 </div>
           </div>
 <!--FIN DIV DE COMPRAS-->
 
           <div class="tab-pane fade " id="home" role="tabpanel" aria-labelledby="home-tab">
           
-            <div class="alert alert-success" role="alert">
+            <div class="alert alert-primary" role="alert">
               <h3>Mis compras</h3>
             </div>
             <!-- INICIO DIV DE COMPRAS-->
@@ -508,7 +525,7 @@
           
           <div class="tab-pane fade" id="modulos" role="tabpanel" aria-labelledby="modulos-tab">
             
-            <div class="alert alert-success" role="alert">
+            <div class="alert alert-primary" role="alert">
               <h3>Productos</h3>
             </div>
 
@@ -544,44 +561,40 @@
             
 
           </div>
-          <div class="tab-pane fade" id="submodulos" role="tabpanel" aria-labelledby="submodulos-tab">
+          <!--div class="tab-pane fade" id="submodulos" role="tabpanel" aria-labelledby="submodulos-tab">
             
-            <div class="alert alert-success" role="alert">
+            <div class="alert alert-primary" role="alert">
               <h2>Envios por transporte</h2>
             </div>
             No disponible.
 
-              <!--script>
+              <script>
 		//opcionEliminarTiposEventos: corresponde al nombre de la propiedad "CLASS" que se le puso en el a href, dentro del while para mostrar los datos    
     		var nombreClassBotonEliminar = '.opcionEliminarSubModulos';
 		mensajeEliminarContenido(nombreClassBotonEliminar,"Eliminar submodulos","Esto no se puede revertir","warning","Si, eliminar informacion.");
-	</script-->
+	</script>
 
-          </div>
+          </div-->
 
 
-          <div class="tab-pane fade" id="lecciones" role="tabpanel" aria-labelledby="lecciones-tab">
+          <!--div class="tab-pane fade" id="lecciones" role="tabpanel" aria-labelledby="lecciones-tab">
             
             <div class="alert alert-success" role="alert">
               <h2>Pendiente opcion</h2>
             </div>
             
-            <!--?php
-              require_once("../leccion/listadoLecciones.php");
-            ?-->
+          
             ddf
-          </div>
+          </div-->
 
-          <div class="tab-pane fade" id="juego" role="tabpanel" aria-labelledby="juego-tab">
+          <!--div class="tab-pane fade" id="juego" role="tabpanel" aria-labelledby="juego-tab">
             
             <div class="alert alert-success" role="alert">
               <h2>Listado de juego</h2>
             </div>
-            <!--?php
-              require_once("../contenidoJuego/listadoContenidoJuego.php");
-            ?-->
+           
             Listado contenido juego 
-          </div>
+          </div-->
 
           <div class="tab-pane fade" id="contenidosAprobados" role="tabpanel" aria-labelledby="contenidosAprobados-tab">
             
@@ -626,15 +639,13 @@
           </div>
 
 
-          <div class="tab-pane fade" id="usuariosRegistrados" role="tabpanel" aria-labelledby="usuariosRegistrados-tab">
+          <!--div class="tab-pane fade" id="usuariosRegistrados" role="tabpanel" aria-labelledby="usuariosRegistrados-tab">
             
             <div class="alert alert-success" role="alert">
               <h2>Usuarios registrados</h2>
             </div>
-            <!--?php
-              require_once("../usuarios/listadoUsuariosRegistrados.php");
-            ?-->
-          </div>
+           
+          </div-->
     
         </div>
 

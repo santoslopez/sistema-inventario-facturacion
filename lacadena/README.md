@@ -7,14 +7,14 @@
 - Agrega, busca, elimina, pagina, muestra mensaje de confirmacion al eliminar
 
 ## LOGIN
-- Verifica inicio de sesion con ajax
+- Verifica inicio de sesion con ajax 
 - Bloquea archivos php y html usando .htaccess
 - Desactiva boton de login al enviar datos
 
 ### Empresa
-- Registra empresa,
+- Registra empresa, 
 - Modifica excepto el nit de empresa.
-- Carga los datos para editar empresa y
+- Carga los datos para editar empresa y 
 
 ### USUARIO ADMINISTRADOR
 - Se bloquea el boton para eliminar al administrador.
@@ -44,12 +44,12 @@
 - Procedimiento almacenado para agregar productos, clientes y proveedores
 - Transaccion en registro de productos, verifica sino esta en uso primero antes de insertar
 
-### FALTANTES
+### FALTANTES 
 - Corregir update con ajax de clientes y proveedores (opcion deshabilitado)
 - Crear comprobantes
 - Permitir fiados
 - Reporte de clientes morosos
-- Falta verificar select de empresas,
+- Falta verificar select de empresas, 
 - Falta actualizar con trigger el inventario al modificarlo o eliminarlo.
 - Falta modificar clientes "MODIFICA" (ya estaba pero no en datatable)
 - Actualizar total de la factura de compra automaticamente al eliminar productos en la factura
@@ -64,8 +64,8 @@
 
 
 ## datos
-957601EdgarLopez
-> -
+957601EdgarLopez 
+> - 
 CORREO ICLOUD
 mynsy4791@gmail.com
 MeRobaronMiIphone.13
@@ -90,11 +90,18 @@ https://www.youtube.com/watch?v=Mnl5tq59U9s
 ## EN ventas
 - Quitar mensaje de alerta menor precio a compra
 - Aparentemente vende si el stock es vacio, pero no resta (esto esta bien)
-- Muestra mensaje que estas a punto de vender,...
+- Muestra mensaje que estas a punto de vender,... 
 - Hace el insert en factura de cliente sino hay stock,
 pero no lo pone en detalle de factura cliente (bien)
+-Bloquear boton para que facture sino esta todo bien
+-Validar que no ingrese si la tabla esta vacio
+
+- Si anulamos factura, recupera los valores y los actualiza en el stock, sin embargo
+no elimina la factura donde aparece el cliente solo su detalle
+
+
+
+
+
 
 https://www.youtube.com/watch?v=Y50yBgai050
-
-
-https://www.youtube.com/watch?v=zPFrzchWBf0
