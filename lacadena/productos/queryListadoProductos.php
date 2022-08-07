@@ -6,6 +6,12 @@
 
 <html lang="en">
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Listado de productos</title>
     <?php
         //session_start();
         include "../includes/head.php";
@@ -34,7 +40,7 @@
     
     // verificamos que existen registros, sino no dibujamos la tabla
     if (!(pg_num_rows($ejecutarConsulta))) {
-        echo "<div class='alert alert-danger' role='alert'>
+        echo "<div class='alert alert-danger' role='alert' style='margin-left:5%;margin-right:5%;margin-top:5%'>
                 No hay productos registrados actualmente.
               </div>
               <button type='button' class='btn btn-success' data-bs-toggle='modal' data-bs-target='#formularioAgregarProductos'>
@@ -43,20 +49,21 @@
               ";
 
     }else{       
-     
     # Si hay datos, entonces dibujamos el encabezado una sola vez
     echo '
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#formularioAgregarProductos">
-        Registrar productos
-    </button>
+    <div class="alert alert-success" role="alert" style="margin-left:5%;margin-right:5%;margin-top:5%">
+        Registro y listado de productos
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#formularioAgregarProductos">
+            Registrar productos
+        </button>
+    </div>
     <div class="container"><table class="table">
             <thead>
                 <tr>
                 <th scope="col">CODIGO</th>
                 <th scope="col">Descripcion</th>
-                <th scope="col">Modificar</th>
-                <th scope="col">Eliminar</th>
+                <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>';
@@ -66,8 +73,7 @@
         echo "<tr>";
         echo "<td data-label='Codigo'><span class='status delivered'>$row[0]</span></td>";
         echo "<td data-label='Descripcion'>$row[1]</td>";
-        echo "<td data-label='Modificcar'><a href=../productos/frmModificarProductos.php?codigoProducto=".urlencode($row[0])."&descripcionProducto=".urlencode($row[1])."><img src='../assets/img/update.png' class='zoomImagen' alt='Actualizar contenido' style='width: 20px;heigth: 20px;px;'></a></td>";
-        echo "<td data-label='Eliminar'><a href=../productos/queryEliminarProducto.php?codigoProductoEliminar=".urlencode($row[0])." class='opcionEliminarUsuario btn'><img src='../assets/img/delete.png' class='zoomImagen' alt='Eliminar contenido' style='width: 20px;heigth: 20px;px;'></a></td>";
+        echo "<td data-label='Modificcar'><a href=../productos/frmModificarProductos.php?codigoProducto=".urlencode($row[0])."&descripcionProducto=".urlencode($row[1])."><img src='../assets/img/update.png' class='zoomImagen' alt='Actualizar contenido' style='width: 20px;heigth: 20px;px;'></a><a href=../productos/queryEliminarProducto.php?codigoProductoEliminar=".urlencode($row[0])." class='opcionEliminarUsuario btn'><img src='../assets/img/delete.png' class='zoomImagen' alt='Eliminar contenido' style='width: 20px;heigth: 20px;px;'></a></td>";
         echo "</tr>";                                               
     }
     echo "</tbody></table></div>";        
@@ -90,7 +96,10 @@
 
     echo"<li class='page-item'><a href='queryListadoProductos.php?pagina=$total_paginas' class='page-link'>"  .'Siguiente'. "</a></li></ul>
     </nav>";
-    echo "<a href='../index.php' class='btn btn-primary justify-content-center' role='button'>Regresar menu principal</a>";
+
+    echo "<div class='d-grid gap-2 col-6 mx-auto'>
+    <a href='../index.php' class='btn btn-primary justify-content-center' role='button'>Regresar menu principal</a>
+  </div>";
 
     pg_close($conexion);
     ?> 
@@ -98,7 +107,7 @@
     <script>
 		// .opcionEliminarTiposEventos: corresponde al nombre de la propiedad "CLASS" que se le puso en el a href, dentro del while para mostrar los datos    
 		var nombreClassBotonEliminar = '.opcionEliminarUsuario';
-		mensajeEliminarContenido(nombreClassBotonEliminar,"Eliminar usuario","Esto no se puede revertir","warning","Si, eliminar usuario.","../admin/index.php");
+		mensajeEliminarContenido(nombreClassBotonEliminar,"Eliminar productos","Esto no se puede revertir","warning","Si, eliminar productos.","../admin/index.php");
 	</script>
 
 <!-- inicio agregar cliente action="javascript:void()" -->
@@ -185,11 +194,15 @@
                 }
             );
         }else{
-            alert("please fill the required fields");
+            Swal.fire('Campos vacios.',
+                    'Por favor llena todos los campos.',
+                    'error'
+                    )
         }
     });
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 </body>
 </html>

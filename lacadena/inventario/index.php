@@ -1,108 +1,81 @@
-<!doctype html>
+<?php
+  include "../sesion/sesion.php";
+  include "../config/config.php";
+?>
+
 <html lang="en">
     <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <!--link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
-      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    /-->
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
-
+        <?php
+            include "../includes/head.php";
+        ?>
 
     </head>
-
-  <body>
-
-  <div class="container" style="margin-top:40px;margin-bottom:20px">
-    <div class="row justify-content-center">
-        <div class="col-12 col-md-10 col-lg-8">
-            <form class="card card-sm" novalidate id="frmBuscar" name="frmBuscar">
-                <div class="card-body row no-gutters align-items-center">
-                    <div class="col-auto">
-                        <i class="fas fa-search h4 text-body"></i>
-                    </div>
-                    <!--end of col-->
-                    <div class="col">
-                        <input id="txtCodigoProductoBuscar" name="txtCodigoProductoBuscar"  class="form-control form-control-lg form-control-borderless" type="search" placeholder="Buscar">
-                    </div>
-                    <!--end of col-->
-                    <div class="col-auto">
-                        <button class="btn btn-lg btn-success" type="submit">Buscar</button>
-                    </div>
-                </div>
-            </form>
+<body>
+    <div class="container">
+        
+        <div class="alert alert-primary" role="alert" style="margin-top:20px">
+            <h2>Inventario de productos</h2>
         </div>
-    </div>
-
-
-    <div id="resultados" name="resultados" style="margin-top:2%">
-    </div>
-    <a class="btn btn-primary" href="../index.php" role="button" style="margin-left:50%;margin-top:2%">Regresar</a>
-
-</div>
-
+        <?php 
+        echo '<table class="table table-striped table-bordered nowrap" id="datatableInventario" name="datatableInventario" style="width:100%">
+                <thead>
+                        <th>Codigo</th>
+                        <th>Nombre producto</th>
+                        <th>Cantidad disponible</th>
+                        <th>Costo promedio actual</th>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <a class="btn btn-primary" href="../index" role="button">Menu principal</a></div>';
+        ?> 
     
     <script>
-        $(document).on('submit','#frmBuscar',function(event){
-            event.preventDefault();
-            var buscarCodigoProducto = document.getElementById("txtCodigoProductoBuscar").value;
-            //alert("hola "+buscarCodigoProducto);
-            $.ajax({
-                url:"queryBuscarInventario.php",
-                data:{buscarCodigoProducto:buscarCodigoProducto},
-                type:'POST',
-                    beforeSend: function() {
-                        //$("btnVerTotalFactura").prop('disabled', true);
+
+        
+        /*** Nota importante: en data tienen que ir los valores en minuscula de la tabla que queremos mostrar sus datos
+         
+                echo "<td><a href=../proveedor/frmModificarProveedor?nitDatos=$row[0]&empresaDatos=".urlencode($row[1])."&direccion=".urlencode($row[3])."&telefono=".urlencode($row[4])."><img src='../assets/img/update.png' class='zoomImagen imagenTabla' alt='Actualizar contenido'></a></td>";       
+
+        echo "<td data-label='Eliminar'><a href=../proveedor/queryEliminarProveedor.php?nitEliminarProveedor=".urlencode($row[0])." class='opcionEliminarProveedor btn'><img src='../assets/img/delete.png' class='zoomImagen imagenTabla' alt='Eliminar contenido'></a></td>";
+     
+        */
+            $(document).ready(function(){
+                $('#datatableInventario').DataTable({
+                    "ajax":{
+                        "url":"queryInventario.php",
+                        "dataSrc":""
                     },
-                    success:function(data1){
+                    "processing": true,
+                    //"serverSide": true,
+                    /*"columns":[
+                        {"data":"nombreapellidos"},
+                        {"data":"direccion"},
+                        {"data":"nitcliente"},
+                        {"data":"telefono"}
+                    ]*/
+                    "lengthMenu": [
+                        //[10,15, -1],
+                        //[10,20, 'All'],
+                        [10,15],
+                        [10,15],
+                    ],
+                    "language":{
+                        "url":"https://cdn.datatables.net/plug-ins/1.12.1/i18n/es-ES.json"
+                    },
+                    "responsive": true,
+                });
+                
+            });
 
-                        console.log("aquiiiii"+data1.codigoProducto);
-                        var json = JSON.parse(data1);
-
-                        console.log("data: "+data1['codigoproducto']+ "follar: "+data1 + "dddddd3333333 "+data1[0]+"----"+data1.codigoproducto);
-                        
-                        console.log("data: "+data1);
-                        console.log("json: "+json);
-                        console.log("json1: "+json[0]);
-                        console.log("json2: "+json.codigoproducto);
-                        //console.log("json3: "+json["codigoproducto"]);
-
-
-                        /*if (data1=='-1') {
-                            var targetDiv = document.getElementById('resultados');
-                            targetDiv.innerHTML = "<div class='alert alert-danger' role='alert'>El codigo del producto es incorrecto o no existe.</div>";
-                        }else {
-                            var codigo = data1[0];
-
-                                
-                            var targetDiv = document.getElementById('resultados');
-                            //targetDiv.innerHTML = "<h4>Codigo:</h4> "+codigo + " <h4>Disponible en bodega:</h4> "+cantidadActual + " <h4>Costo actual:</h4> "+costoActual;
-                            targetDiv.innerHTML = "<h4>Codigo:</h4> "+codigo;
-
-                        }*/
-
-
-
-                       
-                    }
-                }
-            );
-        });
 </script>
 
 
-
-    <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-
-  </body>
+</body>
 </html>
+
+
+
+
+
+

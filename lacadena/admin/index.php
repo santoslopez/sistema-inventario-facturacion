@@ -59,7 +59,7 @@
           <li class="nav__item nav__item--isActive">
             <a
               href="#"
-              class="nav__link focus--box-shadow  active"
+              class="nav__link focus--box-shadow active"
               role="menuitem"
               aria-label="Acerca"
       
@@ -70,9 +70,10 @@
               role="tab" 
               aria-controls="acerca" 
               aria-selected="true"
-
+              style="background:#AAD8FF"
             >
-            <img src="../assets/img/menu/home-button.png" alt="Acerca" class="zoomImagen">
+            <!--img src="../assets/img/menu/home-button.png" alt="Acerca" class="zoomImagen"-->
+            <img src="../assets/img/menu/shopping-cart.png" alt="Ventas" class="zoomImagen">
 
               <!--svg
                 class="nav__icon"
@@ -366,7 +367,7 @@
 
           <div class="tab-pane fade show active" id="acerca" role="tabpanel" aria-labelledby="acerca-tab">
             
-            <div class="alert alert-primary" role="alert">
+            <div class="alert alert-success" role="alert">
               <h3>Ventas de hoy</h3>
             </div>
             <?php
@@ -386,7 +387,7 @@
                                             echo "Ventas de $fechaActual";
                                             ?></h5>
         <p class="card-text">Mis ventas</p>
-        <a style="cursor: pointer;" class="btn btn-primary" href="../compras/queryFacturaCompras.php">
+        <a style="cursor: pointer;" class="btn btn-primary" href="../ventas/queryFacturaVentas.php">
         <img src="../assets/img/shopping-cart.png" class="zoomImagen home">
 
       </a>
@@ -413,7 +414,7 @@
 
           <div class="tab-pane fade " id="home" role="tabpanel" aria-labelledby="home-tab">
           
-            <div class="alert alert-primary" role="alert">
+            <div class="alert alert-success" role="alert">
               <h3>Mis compras</h3>
             </div>
             <!-- INICIO DIV DE COMPRAS-->
@@ -507,7 +508,7 @@
           
           <div class="tab-pane fade" id="modulos" role="tabpanel" aria-labelledby="modulos-tab">
             
-            <div class="alert alert-primary" role="alert">
+            <div class="alert alert-success" role="alert">
               <h3>Productos</h3>
             </div>
 
@@ -545,7 +546,7 @@
           </div>
           <div class="tab-pane fade" id="submodulos" role="tabpanel" aria-labelledby="submodulos-tab">
             
-            <div class="alert alert-primary" role="alert">
+            <div class="alert alert-success" role="alert">
               <h2>Envios por transporte</h2>
             </div>
             No disponible.
@@ -561,7 +562,7 @@
 
           <div class="tab-pane fade" id="lecciones" role="tabpanel" aria-labelledby="lecciones-tab">
             
-            <div class="alert alert-primary" role="alert">
+            <div class="alert alert-success" role="alert">
               <h2>Pendiente opcion</h2>
             </div>
             
@@ -573,7 +574,7 @@
 
           <div class="tab-pane fade" id="juego" role="tabpanel" aria-labelledby="juego-tab">
             
-            <div class="alert alert-primary" role="alert">
+            <div class="alert alert-success" role="alert">
               <h2>Listado de juego</h2>
             </div>
             <!--?php
@@ -584,7 +585,7 @@
 
           <div class="tab-pane fade" id="contenidosAprobados" role="tabpanel" aria-labelledby="contenidosAprobados-tab">
             
-            <div class="alert alert-primary" role="alert">
+            <div class="alert alert-success" role="alert">
               <h2>Mi empresa</h2>
             </div>
 
@@ -627,7 +628,7 @@
 
           <div class="tab-pane fade" id="usuariosRegistrados" role="tabpanel" aria-labelledby="usuariosRegistrados-tab">
             
-            <div class="alert alert-primary" role="alert">
+            <div class="alert alert-success" role="alert">
               <h2>Usuarios registrados</h2>
             </div>
             <!--?php

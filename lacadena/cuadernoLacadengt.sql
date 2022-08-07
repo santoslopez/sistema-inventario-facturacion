@@ -80,6 +80,29 @@ CREATE TABLE DetalleFacturaCompra(
     CONSTRAINT PK_Producto_Detalle FOREIGN KEY (codigoProducto) REFERENCES Productos(codigoProducto)  
 );
 
+CHECK(precioCompra >= 0)
+
+CREATE TABLE FacturaVenta(
+    numeroDocumentoFacturaVenta SERIAL NOT NULL,
+    codigoCliente int NOT NULL,
+    totalVenta float NOT NULL,
+    PRIMARY KEY (numeroDocumentoFacturaVenta),
+    CONSTRAINT PK_FacturaVentaCliente FOREIGN KEY (codigoCliente) REFERENCES Clientes(codigoCliente),
+);
+
+CREATE TABLE DetalleFacturaVenta(
+    idDetalle SERIAL NOT NULL,
+    precioCompra decimal(10,2) NOT NULL CHECK(precioCompra >= 0),
+    cantidadComprado int NOT NULL CHECK(cantidadComprado > 0),
+    codigoProducto varchar(50) NOT NULL,
+    numeroDocumentoFacturaVenta VARCHAR(50) NOT NULL,
+    PRIMARY KEY (idDetalle),
+    CONSTRAINT PK_DetalleFacturaCompra FOREIGN KEY (numeroDocumentoFacturaVenta) REFERENCES FacturaVenta(numeroDocumentoFacturaVenta),  
+    CONSTRAINT PK_Producto_Detalle FOREIGN KEY (codigoProducto) REFERENCES Productos(codigoProducto),
+);
+
+
+
 CREATE TABLE EnvioTransporte(
     codigoEmpresa SERIAL NOT NULL,
     nitEmpresa varchar(20) NOT NULL,
