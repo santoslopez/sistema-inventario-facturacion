@@ -5,8 +5,6 @@
 <link rel="stylesheet" href="../assets/css/bootstrap5-0-2.min.css">
 
 <link rel="stylesheet" href="../assets/css/zoomImagen.css"/>
-
-
  
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.12.1/r-2.3.0/datatables.min.css"/>
  

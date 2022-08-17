@@ -27,7 +27,7 @@
                 <tbody>
                 </tbody>
             </table>
-            <a class="btn btn-primary" href="../index" role="button">Menu principal</a></div>';
+            <a class="btn btn-primary" href="../index.php" role="button">Menu principal</a></div>';
         ?> 
     
     <script>

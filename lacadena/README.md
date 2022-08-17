@@ -93,15 +93,5 @@ https://www.youtube.com/watch?v=Mnl5tq59U9s
 - Muestra mensaje que estas a punto de vender,... 
 - Hace el insert en factura de cliente sino hay stock,
 pero no lo pone en detalle de factura cliente (bien)
--Bloquear boton para que facture sino esta todo bien
--Validar que no ingrese si la tabla esta vacio
-
-- Si anulamos factura, recupera los valores y los actualiza en el stock, sin embargo
-no elimina la factura donde aparece el cliente solo su detalle
-
-
-
-
-
 
 https://www.youtube.com/watch?v=Y50yBgai050

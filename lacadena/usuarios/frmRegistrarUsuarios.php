@@ -79,7 +79,7 @@
 
 					<button type="submit" class="btn btn-primary submit_btn w-100 my-4">Registrar usuario</button>
 					<div class="mt-2 text-end">
-						<a href="../index" class="btn btn-success fw-bold text-decoration-none">Menu principal</a>
+						<a href="../index.php" class="btn btn-success fw-bold text-decoration-none">Menu principal</a>
 					</div>
 					<!--div class="text-center text-muted text-uppercase mb-3">or</div-->
 					<!--a href="#" class="btn btn-light login_with w-100 mb-3">

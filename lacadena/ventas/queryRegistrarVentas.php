@@ -17,7 +17,16 @@ include '../conexion.php';
   
   $consultaFactura =  "INSERT INTO FacturaVenta(codigoCliente,totalVenta) VALUES ('$codCliente','$total')";
   $ejecutarConsulta1 = pg_query($conexion,$consultaFactura);
-
+  
+  if ($ejecutarConsulta1) {
+  
+  
+  
+  }else{
+      echo json_encode("invalidocliente");
+  
+  }
+  
 
 
 
@@ -36,16 +45,18 @@ include '../conexion.php';
 
 
 
-  
-  
+
+$consulta11 =  "INSERT INTO DetalleFacturaVenta(codigoProducto,cantidadComprado,precioCompra,numeroDocumentoFacturaVenta) VALUES $queryFinal";
+$ejecutarConsultaa = pg_query($conexion,$consulta11);
+if ($ejecutarConsultaa) {
+  echo json_encode($consulta11);
+
+}else{
+  echo json_encode("invalido");
+}
 
 
-    $consulta11 =  "INSERT INTO DetalleFacturaVenta(codigoProducto,cantidadComprado,precioCompra,numeroDocumentoFacturaVenta) VALUES $queryFinal";
-    $ejecutarConsultaa = pg_query($conexion,$consulta11);
-    if ($ejecutarConsultaa && $ejecutarConsulta1) {
-      echo json_encode("ventaregistrado");
-    }else{
-      echo json_encode("ventanoregistrado");
-    }
-    
+
+
+
 ?>

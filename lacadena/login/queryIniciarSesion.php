@@ -1,4 +1,6 @@
 <?php
+    session_set_cookie_params(60*60*24*1); // 1 día
+    // Inicializar la sesión.
     session_start();
     require_once("../conexion.php");
 
@@ -13,9 +15,8 @@
             $passwordUsuario = $_POST['direccion'];
 
             // regenerar el id de sesion
-            session_start();
             session_regenerate_id();
-
+            // sesion para mostrar si esta activo o no el usuario
             $_SESSION['loggedin'] = TRUE;
             $_SESSION['nombreUsuario'] = $nombreUsuario;	
             $_SESSION['contrasena'] = $pass;	

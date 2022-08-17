@@ -39,7 +39,7 @@
             <tbody>
             </tbody>
         </table>
-        <a class="btn btn-primary" href="../index" role="button">Menu principal</a></div>';
+        <a class="btn btn-primary" href="../index.php" role="button">Menu principal</a></div>';
 
     ?> 
 
@@ -146,11 +146,17 @@
                                 'Los datos se guardaron correctamente.',
                                 'success'
                             )
+                        }else if(json=='enuso'){
+                            Swal.fire(
+                                'Cliente no guardado.',
+                                'El nit se encuentra registrado.',
+                                'error'
+                            )
                         }else{
                             Swal.fire(
                                 'Cliente no guardado.',
-                                'Cliente esta en uso.',
-                                'error'
+                                'No se guardaron los datos.',
+                                'info'
                             )
                         }
                     }
@@ -197,7 +203,8 @@
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
                 <label for="exampleFormControlInput1" class="form-label">Nit cliente</label>
-                <input type="text" name="inputNit" class="form-control" id="inputNit" placeholder="Nit" required value="c/f">
+                <input type="checkbox" id="cboxSinNit" value="c/f"> <label for="cbox2">No tiene nit</label>
+                <input type="text" name="inputNit" class="form-control" id="inputNit" placeholder="Nit" required>
             </div>
         </div>
 
@@ -270,6 +277,22 @@
 </div>
 
 <!-- fin modificar cliente -->
+<script >
+    // id de combo box
+    var miCheckbox = document.getElementById("cboxSinNit");
+    // id de nit
+    var inputNit = document.getElementById("inputNit");
+    miCheckbox.addEventListener('click', function() {
+    // si esta seleccionado el checkbox
+    if(miCheckbox.checked) {
+        inputNit.value = 'c/f';
+        inputNit.disabled = true;
+    } else {
+        inputNit.disabled = false;
+        inputNit.value = "";
+    }
+    });
+</script>
 
 <script src="../assets/js/validation.js"></script>
 

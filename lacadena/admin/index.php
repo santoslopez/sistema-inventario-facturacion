@@ -149,26 +149,19 @@
               </svg-->
             </a>
           </li>
-          <!--li class="nav__item">
-          
+          <!--li class="nav__item">            
             <a
               href="#"
               class="nav__link focus--box-shadow"
               role="menuitem"
               aria-label="Informational messages"
-
-
-
               id="submodulos-tab" data-bs-toggle="tab" 
               data-bs-target="#submodulos" 
-               
               role="tab" 
               aria-controls="profile" 
               aria-selected="false"
-
               >
               <img src="../assets/img/menu/delivery.png" alt="Inventario" class="zoomImagen">
-
               <svg
                 class="nav__icon"
                 xmlns="http://www.w3.org/2000/svg"
@@ -181,6 +174,7 @@
               </svg>
             </a>
           </li-->
+
           <!--li class="nav__item">
             <a
               href="#"
@@ -195,7 +189,6 @@
               role="tab" 
               aria-controls="profile" 
               aria-selected="false"
-
             >
             <img src="../assets/img/menu/shopping-cart.png" alt="Ventas" class="zoomImagen">
 
@@ -381,17 +374,17 @@
   <div class="col-sm-6">
     <div class="card">
       <div class="card-body">
-        <h5 class="card-title">
-          <?php
-            date_default_timezone_set('America/Guatemala');    
-            $fechaActual = date('d-m-Y',time());
-            echo "Ventas de $fechaActual";
-          ?>
-        </h5>
+        <h5 class="card-title"><?php
+                                            date_default_timezone_set('America/Guatemala');    
+                                            $fechaActual = date('d-m-Y',time());
+                                            echo "Ventas de $fechaActual";
+                                            ?></h5>
         <p class="card-text">Mis ventas</p>
         <a style="cursor: pointer;" class="btn btn-primary" href="../ventas/queryFacturaVentas.php">
-          <img src="../assets/img/shopping-cart.png" class="zoomImagen home">
-        </a>
+        <img src="../assets/img/shopping-cart.png" class="zoomImagen home">
+
+      </a>
+
       </div>
     </div>
   </div>
@@ -399,32 +392,15 @@
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">Clientes</h5>
+
         <p class="card-text">Listado de clientes.</p>
         <a style="cursor: pointer;" class="btn btn-primary" href="../clientes/queryListadoClientes.php">
-          <img src="../assets/img/clientes.webp" class="zoomImagen home">                       
-        </a>
-      </div>
+        <img src="../assets/img/clientes.webp" class="zoomImagen home">                       
 
-    </div>
-
-  </div>
-
-
-  <div class="col-sm-6" style="margin-top:5%">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">Resumen hoy</h5>
-        <p class="card-text">Resumen ventas de hoy.</p>
-        <a style="cursor: pointer;" class="btn btn-primary" href="../resumenventas/queryTablaVentasHoy.php">
-          <img src="../assets/img/money.png" class="zoomImagen home">                       
-        </a>
+      </a>
       </div>
     </div>
   </div>
-
-
-
-
 </div>
           </div>
 <!--FIN DIV DE COMPRAS-->
@@ -568,18 +544,14 @@
             </div>
             No disponible.
 
-              <script>
-		//opcionEliminarTiposEventos: corresponde al nombre de la propiedad "CLASS" que se le puso en el a href, dentro del while para mostrar los datos    
-    		var nombreClassBotonEliminar = '.opcionEliminarSubModulos';
-		mensajeEliminarContenido(nombreClassBotonEliminar,"Eliminar submodulos","Esto no se puede revertir","warning","Si, eliminar informacion.");
-	</script>
+         
 
           </div-->
 
 
           <!--div class="tab-pane fade" id="lecciones" role="tabpanel" aria-labelledby="lecciones-tab">
             
-            <div class="alert alert-success" role="alert">
+            <div class="alert alert-primary" role="alert">
               <h2>Pendiente opcion</h2>
             </div>
             
@@ -589,7 +561,7 @@
 
           <!--div class="tab-pane fade" id="juego" role="tabpanel" aria-labelledby="juego-tab">
             
-            <div class="alert alert-success" role="alert">
+            <div class="alert alert-primary" role="alert">
               <h2>Listado de juego</h2>
             </div>
            
@@ -598,7 +570,7 @@
 
           <div class="tab-pane fade" id="contenidosAprobados" role="tabpanel" aria-labelledby="contenidosAprobados-tab">
             
-            <div class="alert alert-success" role="alert">
+            <div class="alert alert-primary" role="alert">
               <h2>Mi empresa</h2>
             </div>
 
@@ -641,10 +613,10 @@
 
           <!--div class="tab-pane fade" id="usuariosRegistrados" role="tabpanel" aria-labelledby="usuariosRegistrados-tab">
             
-            <div class="alert alert-success" role="alert">
+            <div class="alert alert-primary" role="alert">
               <h2>Usuarios registrados</h2>
             </div>
-           
+          
           </div-->
     
         </div>

@@ -67,8 +67,6 @@ CREATE TABLE FacturaCompra(
 );
 
 
-/*drop table DetalleFacturaCompra;*/
-
 CREATE TABLE DetalleFacturaCompra(
     idDetalle SERIAL NOT NULL,
     precioCompra decimal(10,2) NOT NULL CHECK(precioCompra >= 0),
@@ -86,7 +84,7 @@ CREATE TABLE FacturaVenta(
     numeroDocumentoFacturaVenta SERIAL NOT NULL,
     codigoCliente int NOT NULL,
     totalVenta float NOT NULL,
-    PRIMARY KEY (numeroDocumentoFacturaVenta) ON DELETE CASCADE,
+    PRIMARY KEY (numeroDocumentoFacturaVenta),
     CONSTRAINT PK_FacturaVentaCliente FOREIGN KEY (codigoCliente) REFERENCES Clientes(codigoCliente)
 );
 
@@ -97,44 +95,9 @@ CREATE TABLE DetalleFacturaVenta(
     precioCompra decimal(10,2) NOT NULL CHECK(precioCompra >= 0),
     numeroDocumentoFacturaVenta int NOT NULL,
     PRIMARY KEY (idDetalle),
-    CONSTRAINT PK_DetalleFacturaVenta FOREIGN KEY (numeroDocumentoFacturaVenta) REFERENCES FacturaVenta(numeroDocumentoFacturaVenta) ON DELETE CASCADE,  
+    CONSTRAINT PK_DetalleFacturaVenta FOREIGN KEY (numeroDocumentoFacturaVenta) REFERENCES FacturaVenta(numeroDocumentoFacturaVenta),  
     CONSTRAINT PK_Producto_Detalle FOREIGN KEY (codigoProducto) REFERENCES Productos(codigoProducto)
 );
-
-
-CREATE OR REPLACE FUNCTION TG_ActualizarStockVender() RETURNS TRIGGER AS 
-$$
-DECLARE 
-
-BEGIN
-    UPDATE Inventario SET cantidadComprado = cantidadComprado - NEW.cantidadComprado
-    WHERE codigoProducto=NEW.codigoProducto;
-    return NEW;
-END;
-$$ LANGUAGE 'plpgsql';
-
-CREATE TRIGGER TG_ActualizarStockVender
-AFTER INSERT ON DetalleFacturaVenta
-FOR EACH ROW EXECUTE PROCEDURE TG_ActualizarStockVender();
-
-
-CREATE OR REPLACE FUNCTION TG_ActualizarStockAnularVenta() RETURNS TRIGGER AS 
-$$
-DECLARE 
-
-BEGIN
-    UPDATE Inventario SET cantidadComprado = cantidadComprado + OLD.cantidadComprado
-    WHERE codigoProducto=OLD.codigoProducto;
-    return OLD;
-END;
-$$ LANGUAGE 'plpgsql';
-
-CREATE TRIGGER TTG_ActualizarStockAnularVenta
-AFTER DELETE ON DetalleFacturaVenta
-FOR EACH ROW EXECUTE PROCEDURE TG_ActualizarStockAnularVenta();
-
-
-
 
 CREATE TABLE EnvioTransporte(
     codigoEmpresa SERIAL NOT NULL,
@@ -157,6 +120,24 @@ CREATE TABLE Inventario(
     REFERENCES Productos(codigoProducto)  
 );
 
+
+CREATE OR REPLACE FUNCTION TG_ActualizarStockVender() RETURNS TRIGGER AS 
+$$
+DECLARE 
+
+BEGIN
+    UPDATE Inventario SET cantidadComprado = cantidadComprado - NEW.cantidadComprado
+    WHERE codigoProducto=NEW.codigoProducto;
+    return NEW;
+END;
+$$ LANGUAGE 'plpgsql';
+
+CREATE TRIGGER TG_ActualizarStockVender
+AFTER INSERT ON DetalleFacturaVenta
+FOR EACH ROW EXECUTE PROCEDURE TG_ActualizarStockVender();
+
+
+
 CREATE OR REPLACE FUNCTION PA_insertarProducto(productoCod  varchar(50), nombreProducto varchar(100), fotoProducto varchar(100)) RETURNS varchar AS 
 $$
     DECLARE
@@ -170,6 +151,7 @@ $$
         END IF;
     EXCEPTION
     WHEN OTHERS THEN
+        return 'errorsucedido';
         ROLLBACK;
     END;
 $$ LANGUAGE 'plpgsql';
@@ -189,7 +171,10 @@ $$
         END IF;
 
     Exception 
-        When others then ROLLBACK;
+        
+        When others then 
+        return 'errorsucedido';
+        ROLLBACK;
     END;
 $$ LANGUAGE 'plpgsql';
 
@@ -206,6 +191,7 @@ $$
         END IF;
     EXCEPTION
     WHEN OTHERS THEN
+        return 'errorsucedido';
         ROLLBACK;
     END;
 $$ LANGUAGE 'plpgsql';
@@ -227,11 +213,10 @@ $$
         END IF;
     EXCEPTION
     WHEN OTHERS THEN
+        return 'errorsucedido';
         ROLLBACK;
     END;
 $$ LANGUAGE 'plpgsql';
-
-
 
 CREATE OR REPLACE FUNCTION PA_controlInventario(precioCompraD decimal(10,2),cantidadComp int,productoCod  varchar(50), docPro VARCHAR(50)) RETURNS varchar AS 
 $$
@@ -258,14 +243,13 @@ $$
             INSERT INTO Inventario(codigoProducto,cantidadComprado,costoActual) VALUES
             (productoCod,cantidadComp,precioCompraD);
             
-
-            
             return 'agregadoStock';
             COMMIT;
             
         END IF;
     EXCEPTION
     WHEN OTHERS THEN
+        return 'errorsucedido';
         ROLLBACK;
     END;
 $$ LANGUAGE 'plpgsql';
@@ -274,160 +258,3 @@ $$ LANGUAGE 'plpgsql';
 realiza promedio de costo de producto */
 
 
-CREATE OR REPLACE FUNCTION PA_actualizarDetalleFacturaCompra(precioC decimal(10,2),  cantidadC int, codigoP varchar(50),documentoP VARCHAR(50),idD int) RETURNS BOOLEAN AS 
-$$
-    DECLARE
-  
-    BEGIN
-        UPDATE DetalleFacturaCompra SET precioCompra=precioC,cantidadComprado=cantidadC,codigoProducto=codigoP WHERE documentoProveedor=documentoP AND idDetalle=idD;
-        RETURN TRUE;
-        COMMIT;
-        
-        Exception 
-            When others then return FALSE;
-            ROLLBACK;
-    END;
-$$ LANGUAGE 'plpgsql';
-
-
-
-
-
-SELECT I.codigoProducto AS COD,descripcion AS Producto,I.cantidadComprado AS UnidadesDisponibles,I.costoActual
-FROM Inventario AS I
-     INNER JOIN DetalleFacturaCompra
-ON I.codigoProducto = DetalleFacturaCompra.codigoProducto
-     INNER JOIN Productos
-ON DetalleFacturaCompra.codigoProducto = Productos.codigoProducto;
-
-
-
-CREATE OR REPLACE FUNCTION TR_ActualizarInventarioInsertar() RETURNS TRIGGER AS 
-$$
-DECLARE 
-
-BEGIN;
-    UPDATE Inventario SET cantidadComprado = cantidadComprado + OLD.cantidadComprado
-    WHERE codigoProducto=NEW.codigoProducto;
-    COMMIT;
-    return NEW;
-    
-END;
-$$ LANGUAGE 'plpgsql';
-
-CREATE TRIGGER TR_ActualizarInventarioInsertar
-AFTER INSERT ON DetalleFacturaCompra
-
-FOR EACH ROW EXECUTE PROCEDURE TR_ActualizarInventarioInsertar();
-
-
-
-CREATE OR REPLACE FUNCTION TR_ActualizarInventarioInsertar1() RETURNS TRIGGER AS 
-$$
-DECLARE 
-
-BEGIN;
-
-IF NEW.cantidadComprado > OLD.cantidadComprado THEN 
-
-    UPDATE Inventario SET cantidadComprado = cantidadComprado - (NEW.cantidadComprado - OLD.cantidadComprado)
-        WHERE codigoProducto=NEW.codigoProducto;
-        COMMIT;
-        return NEW;
-        
-
-ELSE
-    UPDATE Inventario SET cantidadComprado = cantidadComprado + (OLD.cantidadComprado - NEW.cantidadComprado)
-        WHERE codigoProducto=NEW.codigoProducto;
-        COMMIT;
-        return NEW;
-        
-END IF;
-
-END;
-$$ LANGUAGE 'plpgsql';
-
-
-CREATE TRIGGER TR_ActualizarInventarioInsertar1
-AFTER UPDATE ON DetalleFacturaCompra
-
-FOR EACH ROW EXECUTE PROCEDURE TR_ActualizarInventarioInsertar1();
-
-CREATE OR REPLACE FUNCTION TR_ActualizarInventarioInsertarDel() RETURNS TRIGGER AS 
-$$
-DECLARE 
-
-BEGIN
-
-    UPDATE Inventario SET cantidadComprado =  cantidadComprado - OLD.cantidadComprado
-        WHERE codigoProducto=OLD.codigoProducto;
-        return OLD;
-        
-END;
-$$ LANGUAGE 'plpgsql';
-
-
-CREATE TRIGGER TR_ActualizarInventarioInsertarDel
-AFTER DELETE ON DetalleFacturaCompra
-
-FOR EACH ROW EXECUTE PROCEDURE TR_ActualizarInventarioInsertarDel();
-
-
-
-
-
-
-
-DROP TRIGGER TR_ActualizarInventarioAdd on DetalleFacturaCompra;
-
-
-
-
-
-
-
-DROP TRIGGER TR_ActualizarInventarioInsertar on DetalleFacturaCompra;
-
-
-CREATE OR REPLACE FUNCTION PA_consultarInventario(buscarProducto varchar(30)) RETURNS 
-
-AS 
-$$
-    DECLARE
-    stockActual int := 0;
-    BEGIN
-        IF (SELECT count(*) from  Inventario WHERE (codigoProducto=buscarProducto) ) > 0 THEN
-            
-            return query select I.codigoproducto,descripcion,I.cantidadComprado,I.costoActual from productos
-            INNER JOIN Inventario AS I ON I.codigoProducto=Productos.codigoProducto AND Productos.codigoProducto=buscarProducto;
-            
-            
-        END IF;
-       
-    END;
-$$ LANGUAGE 'plpgsql';
-
-SELECT * FROM INVENTARIO;
-select I.codigoproducto,descripcion,I.cantidadComprado,I.costoActual from productos
-            INNER JOIN Inventario AS I ON I.codigoProducto=Productos.codigoProducto AND Productos.codigoProducto='19000';
-            
-       
-       
-       CREATE OR REPLACE FUNCTION PA_consultarInventario(buscarProducto varchar(30)) RETURNS integer
-AS $$
-    DECLARE
-     stockActual integer;
-    BEGIN
-            stockActual = (SELECT cantidadcomprado from  Inventario WHERE (codigoProducto=buscarProducto));
-        IF ( stockActual) > 0 THEN
-            
-        
-            RETURN stockActual;
-        
-        ELSE
-            RETURN -1;
-        
-        END IF;
-       
-    END;
-$$ LANGUAGE 'plpgsql';

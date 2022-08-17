@@ -33,7 +33,7 @@
                 <tbody>
                 </tbody>
             </table>
-            <a class="btn btn-primary" href="../index" role="button">Menu principal</a></div>';
+            <a class="btn btn-primary" href="../index.php" role="button">Menu principal</a></div>';
         ?> 
     
     <script>
@@ -178,11 +178,17 @@
                                     'Los datos se guardaron correctamente.',
                                     'success'
                                 )
+                            }else if(json1=='enuso'){
+                                Swal.fire(
+                                    'Proveedor no guardado.',
+                                    'Los datos estan en uso.',
+                                    'warning'
+                                )
                             }else{
                                 Swal.fire(
                                     'Proveedor no guardado.',
-                                    'Los datos no se guardaron.',
-                                    'warning'
+                                    'Se produjo un error.',
+                                    'info'
                                 )
                             }
                         }else{

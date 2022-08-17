@@ -249,7 +249,7 @@ window.onload = function() {
                 type:'post',
                     success:function(data1){
                         var json = JSON.parse(data1);
-                        console.log("follR"+json);
+                       
                         if(json=='agregadoStock'){
                             Swal.fire(
                                 'Producto agregado correctamente.',

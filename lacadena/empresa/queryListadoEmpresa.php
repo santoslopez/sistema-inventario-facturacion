@@ -44,7 +44,7 @@
         echo "<div class='alert alert-danger' role='alert'>
                 No hay ninguna empresa registrado.
               </div>
-              <a class='btn btn-success' href='../empresa/frmRegistrarEmpresa'>
+              <a class='btn btn-success' href='../empresa/frmRegistrarEmpresa.php'>
                                 No hay ninguna empresa registrado.
               </a>";
     }else{                                    

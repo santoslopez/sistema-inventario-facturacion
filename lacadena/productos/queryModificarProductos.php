@@ -31,7 +31,7 @@
   </head>
   <body>
     <h1>Modificar producto</h1>
-    <a href="../index">Menu principal</a>
+    <a href="../index.php">Menu principal</a>
     <?php
   /**
    * Archivo necesario para obtener la variable $conexion necesario para conectarse a la base de datos.

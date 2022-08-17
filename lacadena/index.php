@@ -1,6 +1,7 @@
 <?php
   
-  
+  session_set_cookie_params(60*60*24*1); // 1 día
+  // Inicializar la sesión.
   session_start();
   //Sino hemos iniciado sesion indicamos la ruta por defecto
   //if(empty($_SESSION['nombreUsuario'])){

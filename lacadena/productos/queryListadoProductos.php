@@ -6,11 +6,8 @@
 
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>Listado de productos</title>
     <?php
         //session_start();
@@ -174,19 +171,36 @@
                             $('#inputCodigoProducto').val('');
                             $('#inputNombreProducto').val('');
 
-                            $('#formularioAgregarProductos').modal('hide');
-     
-                            Swal.fire(
-                                'Producto registrado',
-                                'Los datos se guardaron correctamente.',
-                                'success'
-                            )
+                            //$('#formularioAgregarProductos').modal('hide');
+    
+                           
+
+                            Swal.fire({
+  title: 'Producto registrado',
+  text: "Los datos se guardaron correctamente.",
+  icon: 'success',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Recargar la pagina, para ver los cambios'
+}).then((result) => {
+  if (result.isConfirmed) {
+    window.location.href = "queryListadoProductos.php";
+  }
+})
+
                             //window.location.href = "queryListadoProductos.php";
-                            
-                        }else {
+                        }else if(json=='enuso'){
                             Swal.fire(
                                 'Producto no guardado.',
                                 'Ya se encuentra en uso.',
+                                'error'
+                            )        
+                    
+                        }else if(json=='errorsucedido'){
+                            Swal.fire(
+                                'Error',
+                                'No se pudo registrar el producto.',
                                 'error'
                             )
                         }
