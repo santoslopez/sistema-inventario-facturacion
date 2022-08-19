@@ -27,8 +27,7 @@
                         <th>Proveedor</th>
                         <th>Direccion</th>
                         <th>Telefono</th>
-                        <th>b</th>
-                        <th>a</th>
+                        <th></th>
                 </thead>
                 <tbody>
                 </tbody>
@@ -181,7 +180,7 @@
                             }else if(json1=='enuso'){
                                 Swal.fire(
                                     'Proveedor no guardado.',
-                                    'Los datos estan en uso.',
+                                    'El nit del proveedor esta registrado.',
                                     'warning'
                                 )
                             }else{
@@ -278,7 +277,7 @@
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
                 <label for="exampleFormControlInput1" class="form-label">Nit</label>
-                <input type="text" name="inputNitUpdate" class="form-control" id="inputNitUpdate" placeholder="Nit" required>
+                <input type="text" name="inputNitUpdate" class="form-control" id="inputNitUpdate" placeholder="Nit" required readonly>
             </div>
         </div>
         <div class="mb-3 has-validation">

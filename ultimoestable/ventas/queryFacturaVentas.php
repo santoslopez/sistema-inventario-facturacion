@@ -30,13 +30,9 @@
         echo '
     <div class="alert alert-primary" role="alert" style="margin-left:5%;margin-right:5%;margin-top:20px;">
     <h2>Crear comprobante de ventas</h2>
-    
-    <!-- Button trigger modal -->
-    
-    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#formularioAgregarFacturaCompras">
-        Registrar compras
-    </button>
+        
     </div>
+    
     <nav class="navbar navbar-light bg-light">
     <div class="container-fluid">
     <form class="row g-3">
@@ -54,11 +50,9 @@
         <img src="../assets/img/menu/add-contact.png" style="width: 32px;heigth: 32px;" class="zoomImagen">
         </a>
     </div>
-
   </form>
   </div>
   </nav>
-
   <nav class="navbar" style="background:#F8FCFF">
   <div class="container-fluid">
   <form class="row g-3">
@@ -74,9 +68,8 @@
     <label for="inputCantidadVendido">Cantidad</label>
     <input type="number" min="1" class="form-control" id="inputCantidadVendido" name="inputCantidadVendido" placeholder="Cantidad"  pattern="[1-9]+" required>
         
-    <input type="number" class="form-control" id="inputUnidadesDisponibles" name="inputUnidadesDisponibles" placeholder="Cantidad"  pattern="[1-9]+" required readonly style="display:none">
-    <input type="number" class="form-control" id="inputCostoProductoActual" name="inputCostoProductoActual" placeholder="Cantidad"  required readonly style="display:none">
-
+    <input type="number" class="form-control" id="inputUnidadesDisponibles" name="inputUnidadesDisponibles" placeholder="Cantidad"  pattern="[1-9]+" required readonly style="display:block111">
+    <input type="number" class="form-control" id="inputCostoProductoActual" name="inputCostoProductoActual" placeholder="Cantidad"  required readonly style="display:none11">
     
     
     </div>
@@ -90,13 +83,11 @@
       <img src="../assets/img/menu/drill.png" style="width: 32px;heigth: 32px;" class="zoomImagen">
       </a>
   </div>
-
 </form>
 </div>
 </nav>
 <button id="addRow" class="btn btn-success">Agregar producto</button>
 <button id="button" class="btn btn-danger">Eliminar fila productos</button>
-
 <table id="example" class="display" style="width:100%">
 <thead style="background:black;color:white">
     <tr>
@@ -117,11 +108,15 @@
     </tr>
 </tfoot>
 </table>
+<div class="d-grid gap-2 col-6 mx-auto">
+<button onclick="guardarVenta()" class="btn btn-success" type="button" id="botonGuardarVenta" name="botonGuardarVenta">
+Guardar venta
+<img src="../assets/img/menu/save.png" style="width: 64px;heigth: 64px;" class="zoomImagen">
+</button>
+<a class="btn btn-primary" href="../index.php" role="button">Menu principal</a></div>
+</div>';
 
 
-<button onclick="guardarVenta()" class="btn btn-primary">Guardar venta</button>
-
-<a class="btn btn-primary" href="../index" role="button">Menu principal</a></div>';
 
     }
     ?> 
@@ -181,7 +176,6 @@
     function buscarCliente(){
         
         var inputNitCliente = $("#inputNitCliente").val();
-        //var parametros = {inputNitCliente:inputNitCliente};
 
         $.ajax({
             url:'queryBuscarCliente.php',
@@ -207,10 +201,6 @@
                 }else{
                     $("#inputNombreCliente").val(json.nombreapellidos);
 
-                    
-                    //alert("nombre: "+json.nombreapellidos);
-                    //alert("nit: "+json.direccion);
-
                 }
 
 
@@ -225,6 +215,7 @@
 <script>
      var table;
 $(document).ready(function () {
+    
     table = $('#example').DataTable( {
         dom: 'Bfrtip',
     drawCallback: function () {
@@ -241,82 +232,62 @@ $(document).ready(function () {
         ],
   } );
 
-
-
-    //var counter = 1;
+     
     
     $('#addRow').on('click', function () {
+
+  
         let codigoProducto =  document.getElementById("inputCodigoProducto").value;
         let nombreProducto =  document.getElementById("inputNombreProducto").value;
-        let cantidadVendido =  document.getElementById("inputCantidadVendido").value;
-        let precioVendido =  document.getElementById("inputPrecioVendido").value;
+        var cantidadVendido =  document.getElementById("inputCantidadVendido").value;
+        var precioVendido =  document.getElementById("inputPrecioVendido").value;
 
         let cantidadEnBodega = document.getElementById("inputUnidadesDisponibles").value;
 
         // verifica que campos no esten vacios y sirve para hacer la verificacion que sea el campo correo, por ejemplo que sea entero,etc.
         if((codigoProducto !='') && (nombreProducto!='') && (cantidadVendido!='') && (precioVendido!='')){
-            
-            if(estadoCodigoProducto=="noaceptado"){
+            table.row.add([codigoProducto,nombreProducto,cantidadVendido,precioVendido,cantidadVendido*precioVendido]).draw(false);
+
+            /*if(estadoCodigoProducto=="noaceptado"){
                 Swal.fire('Codigo producto erroneo','El codigo del producto es incorrecto','warning')
 
             }else{
-                let unidadesStock = document.getElementById("inputUnidadesDisponibles").val;
-                if(unidadesStock==0){
-                        Swal.fire(                  
-                            'Productos sin unidades disponibles',
-                        'Actualmente no tenemos unidades para vender',
-                        'error'
-                        )
-                    }
+                if(cantidadEnBodega==0){
+                    Swal.fire(                  
+                    'Productos sin unidades disponibles',
+                    'Actualmente no tenemos unidades para vender',
+                    'error'
+                    )
+                    // verificamos que la cantidad que se desea vender no sea mayor al stock o cantidad disponible en inventario
 
-            // verificamos que la cantidad que se desea vender no sea mayor al stock o cantidad disponible en inventario
-            if ((cantidadVendido<=cantidadEnBodega) && (cantidadVendido>=1)) {
-                
-                //if (cantidadVendido>=1) {
+                }else if ((cantidadVendido<=cantidadEnBodega) && (cantidadVendido>=1)) {
+                    if((precioVendido>=0)){
+                        Swal.fire('Estas a punto de vender a un precio menor al que compraste','Precio que estas vendiendo es menor al precio que compraste','warning')
 
-                    
-                if((precioVendido>=0)){
-                    
-                    //if(precioVendido<=inputCostoProductoActual){
-                        
-                    //}
-                    
-                    Swal.fire('Estas a punto de vender a un precio menor al que compraste','Precio que estas vendiendo es menor al precio que compraste','warning')
+                        table.row.add([codigoProducto,nombreProducto,cantidadVendido,precioVendido,cantidadVendido*precioVendido]).draw(false);
+                    document.getElementById("inputCodigoProducto").value = "";
+                    document.getElementById("inputNombreProducto").value = "";
+                    document.getElementById("inputCantidadVendido").value = "";
+                    document.getElementById("inputPrecioVendido").value = "";
+                    document.getElementById("inputUnidadesDisponibles").value = "";
 
-                    table.row.add([codigoProducto,nombreProducto,cantidadVendido,precioVendido,cantidadVendido*precioVendido]).draw(false);
-                document.getElementById("inputCodigoProducto").value = "";
-                document.getElementById("inputNombreProducto").value = "";
-                document.getElementById("inputCantidadVendido").value = "";
-                document.getElementById("inputPrecioVendido").value = "";
-                document.getElementById("inputUnidadesDisponibles").value = "";
-
-                document.getElementById("inputCostoProductoActual").value = "";
-
-
+                    document.getElementById("inputCostoProductoActual").value = "";
                 }
             }else{
                 Swal.fire(
-  'Stock insuficiente',
-  'El numero de unidades no se tiene en inventario. Disponible: '+cantidadEnBodega,
-  'warning'
-)
+                    'Stock insuficiente',
+                    'El numero de unidades no se tiene en inventario. Disponible: '+cantidadEnBodega,
+                    'warning')
             }
-
-
-            }
-
-
-
-
-        }else{
-
-            Swal.fire(
-  'Campos incorrectos o vacios',
-  'En precio y unidades tiene que ser numerico',
-  'info'
-)
-        //counter++;
-        }
+        
+        }*/
+    }else{
+        Swal.fire(
+            'Campos incorrectos o vacios',
+            'En precio y unidades tiene que ser numerico',
+            'info'
+            )
+    }
         //console.log("Cantidad de elementos: "+table.data().length);
 
 
@@ -351,49 +322,44 @@ $(document).ready(function () {
 
 <script>
     function guardarVenta(){
-        alert("presiono");
-        //event.preventDefault();
         var tableJSON = table.data().toArray();//SI FUNCIONA
-        
         //var object = table.data();//
         var table123 = JSON.stringify(tableJSON);
-
+       // var cantidadFilas = table.rows().count();
         //var table123 = table.rows().data().toArray();
-                
-            $.ajax({
+
+    $.ajax({
                 url:"queryRegistrarVentas.php",
                 //data:{tableJSON:JSON.stringify(tableJSON)}, //SI FUNCIONA DOBLE CORCH
                 data: {
                     tableJSON: table123
                 },
-                "columns":[
+                /*"columns":[
                     {"data":"col1"},
                     {"data":"col2"},
                     {"data":"col3"},
                     {"data":"col4"}
-                ],
-
-                type:'post',
+                ]*/
+                type:'POST',
                     success:function(data1){
-
-
-                        console.log("mexicox 1: "+data1);
-                        
                         var json = JSON.parse(data1);
-                        // devuelve sin string
-                        console.log("longitud arreglo x: "+json);
-                        console.log("xxx: "+json[0]);
-
-       
-                    
+                        if (json=="ventaregistrado") {
+                            Swal.fire(
+                    'Venta registrado correctamente',
+                    'Los datos se guardadon correctamente',
+                    'success')
+                        }else if (json=="ventanoregistrado") {
+                            Swal.fire(
+                    'Venta no efectuado',
+                    'No se guardo la venta',
+                    'info')
+                        }else{
+                        }
                     }
                 }
-            );
-
-    
-
-
+            );  
     }
+
 </script>
 
 

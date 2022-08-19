@@ -30,6 +30,7 @@
     echo '
         <table class="table table-striped table-bordered nowrap" id="datatableUsuarios" name="datatableUsuarios" style="width:100%">
             <thead>
+                    <th></th>
                     <th>Nombre y apellidos</th>
                     <th>Direccion</th>
                     <th>Nit</th>
@@ -116,6 +117,10 @@
 	</script-->
 
 <script>
+
+        
+
+
     $(document).on('submit','#guardarDatosFormulario',function(event){
         event.preventDefault();
         var nombreApellidos=$('#inputDatos').val();
