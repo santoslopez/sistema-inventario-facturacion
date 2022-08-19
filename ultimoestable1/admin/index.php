@@ -361,46 +361,64 @@
           <div class="tab-pane fade show active" id="acerca" role="tabpanel" aria-labelledby="acerca-tab">
             
             <div class="alert alert-primary" role="alert">
-              <h3>Ventas de hoy</h3>
+              <h3>Crear venta de hoy</h3>
             </div>
             <?php
-                            $user = $_SESSION["nombreUsuario"];
-
-                            echo "<h5 style='margin-left:10px;'>Bienvenido: $user</h5>";
-                        ?>
+              $user = $_SESSION["nombreUsuario"];
+                echo "<h5 style='margin-left:10px;'>Bienvenido: $user</h5>";
+            ?>
             
             <!-- INICIO DIV DE COMPRAS-->
             <div class="row">
-  <div class="col-sm-6">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title"><?php
-                                            date_default_timezone_set('America/Guatemala');    
-                                            $fechaActual = date('d-m-Y',time());
-                                            echo "Ventas de $fechaActual";
-                                            ?></h5>
-        <p class="card-text">Mis ventas</p>
-        <a style="cursor: pointer;" class="btn btn-primary" href="../ventas/queryFacturaVentas.php">
-        <img src="../assets/img/shopping-cart.png" class="zoomImagen home">
+              
+              <div class="col-sm-6">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      <?php
+                        date_default_timezone_set('America/Guatemala');    
+                        $fechaActual = date('d-m-Y',time());
+                        echo "Ventas de $fechaActual";
+                      ?>
+                    </h5>
+                    <p class="card-text">Mis ventas</p>
+                    <a style="cursor: pointer;" class="btn btn-primary" href="../ventas/queryFacturaVentas.php">
+                      <img src="../assets/img/shopping-cart.png" class="zoomImagen home">
+                    </a>
+                  </div>
+                </div>
+              </div>
 
-      </a>
 
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-6">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">Clientes</h5>
-
-        <p class="card-text">Listado de clientes.</p>
-        <a style="cursor: pointer;" class="btn btn-primary" href="../clientes/queryListadoClientes.php">
-        <img src="../assets/img/clientes.webp" class="zoomImagen home">                       
-
-      </a>
-      </div>
-    </div>
-  </div>
+              <div class="col-sm-6">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      <?php
+                        date_default_timezone_set('America/Guatemala');    
+                        $fechaActual = date('d-m-Y',time());
+                        echo "Resumen de hoy $fechaActual";
+                      ?>
+                    </h5>
+                    <p class="card-text">Resumen de hoy</p>
+                    <a style="cursor: pointer;" class="btn btn-primary" href="../resumenventas/queryTablaVentasHoy.php">
+                      <img src="../assets/img/bar-graph.png" class="zoomImagen home">
+                    </a>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-sm-6" style="margin-top:5%">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">Clientes</h5>
+                    <p class="card-text">Listado de clientes.</p>
+                    <a style="cursor: pointer;" class="btn btn-primary" href="../clientes/queryListadoClientes.php">
+                      <img src="../assets/img/clientes.webp" class="zoomImagen home">                       
+                    </a>
+                  </div>
+                </div>
+              </div>
 </div>
           </div>
 <!--FIN DIV DE COMPRAS-->

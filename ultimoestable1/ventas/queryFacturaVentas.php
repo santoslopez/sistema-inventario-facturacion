@@ -38,6 +38,8 @@
     <form class="row g-3">
     <div class="col-auto">
       <label for="inputNitCliente">Nit de cliente</label>
+      <input type="text" class="form-control" id="inputCodigoCliente" name="inputCodigoCliente" style="display:none">
+
       <input type="text" class="form-control" id="inputNitCliente" name="inputNitCliente" placeholder="Nit de cliente" onblur="buscarCliente();">
     </div>
     <div class="col-auto">
@@ -66,7 +68,7 @@
     </div>
   <div class="col-auto">
     <label for="inputCantidadVendido">Cantidad</label>
-    <input type="number" min="1" class="form-control" id="inputCantidadVendido" name="inputCantidadVendido" placeholder="Cantidad"  pattern="[1-9]+" required>
+    <input type="number" class="form-control" id="inputCantidadVendido" name="inputCantidadVendido" placeholder="Cantidad"  pattern="[1-9]+" required>
         
     <input type="number" class="form-control" id="inputUnidadesDisponibles" name="inputUnidadesDisponibles" placeholder="Cantidad"  pattern="[1-9]+" required readonly style="display:block111">
     <input type="number" class="form-control" id="inputCostoProductoActual" name="inputCostoProductoActual" placeholder="Cantidad"  required readonly style="display:none11">
@@ -111,7 +113,7 @@
 <div class="d-grid gap-2 col-6 mx-auto">
 <button onclick="guardarVenta()" class="btn btn-success" type="button" id="botonGuardarVenta" name="botonGuardarVenta">
 Guardar venta
-<img src="../assets/img/menu/save.png" style="width: 64px;heigth: 64px;" class="zoomImagen">
+<img src="../assets/img/disk.png" style="width: 64px;heigth: 64px;" class="zoomImagen">
 </button>
 <a class="btn btn-primary" href="../index.php" role="button">Menu principal</a></div>
 </div>';
@@ -128,6 +130,9 @@ Guardar venta
     function buscarProducto(){
         
         var inputCodigoProducto = $("#inputCodigoProducto").val();
+
+
+
 
         $.ajax({
             url:'queryBuscarCodProducto.php',
@@ -200,6 +205,7 @@ Guardar venta
                         )
                 }else{
                     $("#inputNombreCliente").val(json.nombreapellidos);
+                    $("#inputCodigoCliente").val(json.codigocliente);
 
                 }
 
@@ -214,6 +220,8 @@ Guardar venta
 
 <script>
      var table;
+
+     var totalVentaComprobante;
 $(document).ready(function () {
     
     table = $('#example').DataTable( {
@@ -226,6 +234,8 @@ $(document).ready(function () {
       $(api.columns(4).footer()).html(
         'Total: Q.'+api.column(4, {page:'current'} ).data().sum()
       );
+      
+      totalVentaComprobante=api.column(4, {page:'current'} ).data().sum();
     },
     buttons: [
             'copy', 'csv', 'excel', 'pdf', 'print'
@@ -235,13 +245,10 @@ $(document).ready(function () {
      
     
     $('#addRow').on('click', function () {
-
-  
         let codigoProducto =  document.getElementById("inputCodigoProducto").value;
         let nombreProducto =  document.getElementById("inputNombreProducto").value;
         var cantidadVendido =  document.getElementById("inputCantidadVendido").value;
         var precioVendido =  document.getElementById("inputPrecioVendido").value;
-
         let cantidadEnBodega = document.getElementById("inputUnidadesDisponibles").value;
 
 
@@ -249,50 +256,43 @@ $(document).ready(function () {
 
         // verifica que campos no esten vacios y sirve para hacer la verificacion que sea el campo correo, por ejemplo que sea entero,etc.
         if((codigoProducto !='') && (nombreProducto!='') && (cantidadVendido!='') && (precioVendido!='')){
-            table.row.add([codigoProducto,nombreProducto,cantidadVendido,precioVendido,cantidadVendido*precioVendido]).draw(false);
 
-            /*if(estadoCodigoProducto=="noaceptado"){
+            if(estadoCodigoProducto=="noaceptado"){
                 Swal.fire('Codigo producto erroneo','El codigo del producto es incorrecto','warning')
-
             }else{
-                if(cantidadEnBodega==0){
+                if(parseInt(cantidadEnBodega)==0){
                     Swal.fire(                  
                     'Productos sin unidades disponibles',
                     'Actualmente no tenemos unidades para vender',
                     'error'
                     )
-                    // verificamos que la cantidad que se desea vender no sea mayor al stock o cantidad disponible en inventario
 
-                }else if ((cantidadVendido<=cantidadEnBodega) && (cantidadVendido>=1)) {
-                    if((precioVendido>=0)){
-                        Swal.fire('Estas a punto de vender a un precio menor al que compraste','Precio que estas vendiendo es menor al precio que compraste','warning')
-
+                }else{
+                    // se hace la conversion de texto a numero
+                    if ((parseInt(cantidadVendido)<=parseInt(cantidadEnBodega)) && (parseInt(cantidadVendido)>0))  {
+                        
                         table.row.add([codigoProducto,nombreProducto,cantidadVendido,precioVendido,cantidadVendido*precioVendido]).draw(false);
-                    document.getElementById("inputCodigoProducto").value = "";
-                    document.getElementById("inputNombreProducto").value = "";
-                    document.getElementById("inputCantidadVendido").value = "";
-                    document.getElementById("inputPrecioVendido").value = "";
-                    document.getElementById("inputUnidadesDisponibles").value = "";
-
-                    document.getElementById("inputCostoProductoActual").value = "";
+                        document.getElementById("inputCodigoProducto").value = "";
+                        document.getElementById("inputNombreProducto").value = "";
+                        document.getElementById("inputCantidadVendido").value = "";
+                        document.getElementById("inputPrecioVendido").value = "";
+                        document.getElementById("inputUnidadesDisponibles").value = "";
+                        document.getElementById("inputCostoProductoActual").value = "";
+                    }else{
+                        Swal.fire(
+                        'Stock insuficiente',
+                        'El numero de unidades es invalido o no se tiene en inventario. Disponible: '+cantidadEnBodega,
+                        'warning')
+                    }
                 }
-            }else{
-                Swal.fire(
-                    'Stock insuficiente',
-                    'El numero de unidades no se tiene en inventario. Disponible: '+cantidadEnBodega,
-                    'warning')
             }
-        
-        }*/
-    }else{
-        Swal.fire(
-            'Campos incorrectos o vacios',
-            'En precio y unidades tiene que ser numerico',
-            'info'
+        }else{
+            Swal.fire(
+                'Campos incorrectos o vacios',
+                'En precio y unidades tiene que ser numerico',
+                'info'
             )
-    }
-        //console.log("Cantidad de elementos: "+table.data().length);
-
+        }
 
     });
  
@@ -310,7 +310,6 @@ $(document).ready(function () {
     $('#button').click(function () {
         table.row('.selected').remove().draw(false);
     });
-    //var data11 = table.rows().data();
    
     // Automatically add a first row of data
 
@@ -326,85 +325,88 @@ $(document).ready(function () {
 <script>
     function guardarVenta(){
 
-
-        var tableJSON = table.data().toArray();//SI FUNCIONA
-        //var object = table.data();//
-        var table123 = JSON.stringify(tableJSON);
        
-
         // se verifica que existan filas en la tabla
         var cantidadFilas = table.rows().count();
        
         if (cantidadFilas==0) {
            Swal.fire(
-                    'Sin productos',
-                    'Debe agregar productos para guardar la venta.',
-                    'warning'
-                    )
-           //document.getElementById('botonGuardarVenta').disabled = true;
+                'Sin productos',
+                'Debe agregar productos para guardar la venta.',
+                'warning'
+                )
         }else{
            
-           //habilitamos el boton
-           //document.getElementById('botonGuardarVenta').disabled = false;
+            var tableJSON = table.data().toArray();//SI FUNCIONA
+            var table123 = JSON.stringify(tableJSON);
 
 
-            
 
-            $.ajax({
-                url:"queryRegistrarVentas.php",
-                //data:{tableJSON:JSON.stringify(tableJSON)}, //SI FUNCIONA DOBLE CORCH
-                data: {
-                    tableJSON: table123
-                },
-                /*"columns":[
-                    {"data":"col1"},
-                    {"data":"col2"},
-                    {"data":"col3"},
-                    {"data":"col4"}
-                ]*/
-                type:'POST',
+           Swal.fire({
+            title: '¿Registrar la venta?',
+            showDenyButton: true,
+            //showCancelButton: true,
+            icon: 'info',
+            confirmButtonText: 'Guardar la venta',
+            denyButtonText: `No guardar la venta`,
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+
+                
+                var  inputCodigoCliente = document.getElementById("inputCodigoCliente").value;
+
+                var totalVentaEfectuado = totalVentaComprobante;
+
+                alert("total venta comprobante: "+totalVentaEfectuado);
+                        
+                //var inputNitCliente = document.getElementById("inputNitCliente").value;
+
+                Swal.fire('Venta registrado correctamente','', 'success')
+                // else if (result.isDenied) {
+                    $.ajax({
+                        url:"queryRegistrarVentas.php",
+                        //data:{tableJSON:JSON.stringify(tableJSON)}, //SI FUNCIONA DOBLE CORCH
+                        data: {
+                            tableJSON:table123,inputCodigoCliente:inputCodigoCliente,totalVentaEfectuado:totalVentaEfectuado
+                        },
+                    /*"columns":[
+                        {"data":"col1"},
+                        {"data":"col2"},
+                        {"data":"col3"},
+                        {"data":"col4"}
+                    ]*/
+                    type:'POST',
                     success:function(data1){
                         var json = JSON.parse(data1);
+                        
                         if (json=="ventaregistrado") {
                             Swal.fire(
-                    'Venta registrado correctamente',
-                    'Los datos se guardadon correctamente',
-                    'success')
+                            'Venta registrado correctamente',
+                            'Los datos se guardadon correctamente',
+                            'success')
                         }else if (json=="ventanoregistrado") {
                             Swal.fire(
-                    'Venta no efectuado',
-                    'No se guardo la venta',
-                    'info')
+                            'Venta no efectuado',
+                            'No se guardo la venta',
+                            'info')
                         }else{
+                            Swal.fire(
+                            'Error controlado',
+                            'No se guardo la venta',
+                            'info')
                         }
                     }
-                }
-            ); 
-
-
-
-
-        }
-
- 
+                }); 
+            }
+        })
     }
-
-
-
-
-       // }
-        //var table123 = table.rows().data().toArray();
-
-
+}
 </script>
 
-
-
 <script src="https://cdn.datatables.net/plug-ins/1.12.1/api/sum().js"> </script>
-
-
-
 <script src="../assets/js/validation.js"></script>
 
 </body>
+
 </html>

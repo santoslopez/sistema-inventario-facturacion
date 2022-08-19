@@ -339,7 +339,7 @@ CREATE OR REPLACE FUNCTION PA_insertarCliente(nombreA varchar(100),direc varchar
 $$
     DECLARE
     BEGIN
-        IF (SELECT count(*) from Clientes WHERE (nitCliente=nitC) AND (nitCliente!='c/f')) > 0 THEN
+        IF (SELECT count(*) from Clientes WHERE (nitCliente=nitC) AND (nitCliente!='c.f')) > 0 THEN
             return 'enuso';            
         ELSE        
             INSERT INTO Clientes (nombreApellidos,direccion,nitCliente,telefono) VALUES (nombreA,direc,nitC,tele);
