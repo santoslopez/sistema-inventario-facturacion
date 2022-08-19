@@ -147,7 +147,7 @@
                                 'Proveedor no actualizado',
                                 'Los datos no se modificaron.',
                                 'error'
-                            )
+                                )
                             }else if(status=='success'){
                                 Swal.fire(
                                 'Proveedor actualizado',
@@ -155,6 +155,12 @@
                                 'success')
                                 var table = $('#datatableUsuarios').DataTable();
                                 table.ajax.reload();
+                            }else{
+                                Swal.fire(
+                                'Error',
+                                'Se produjo el siguiente error: '+json,
+                                'error'
+                                )
                             }
                         }else if(tipoFormulario=='#formularioAgregarCliente'){
                             var json1 = JSON.parse(data1);

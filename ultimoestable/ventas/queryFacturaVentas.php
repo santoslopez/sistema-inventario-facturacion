@@ -244,6 +244,9 @@ $(document).ready(function () {
 
         let cantidadEnBodega = document.getElementById("inputUnidadesDisponibles").value;
 
+
+
+
         // verifica que campos no esten vacios y sirve para hacer la verificacion que sea el campo correo, por ejemplo que sea entero,etc.
         if((codigoProducto !='') && (nombreProducto!='') && (cantidadVendido!='') && (precioVendido!='')){
             table.row.add([codigoProducto,nombreProducto,cantidadVendido,precioVendido,cantidadVendido*precioVendido]).draw(false);
@@ -322,13 +325,32 @@ $(document).ready(function () {
 
 <script>
     function guardarVenta(){
+
+
         var tableJSON = table.data().toArray();//SI FUNCIONA
         //var object = table.data();//
         var table123 = JSON.stringify(tableJSON);
-       // var cantidadFilas = table.rows().count();
-        //var table123 = table.rows().data().toArray();
+       
 
-    $.ajax({
+        // se verifica que existan filas en la tabla
+        var cantidadFilas = table.rows().count();
+       
+        if (cantidadFilas==0) {
+           Swal.fire(
+                    'Sin productos',
+                    'Debe agregar productos para guardar la venta.',
+                    'warning'
+                    )
+           //document.getElementById('botonGuardarVenta').disabled = true;
+        }else{
+           
+           //habilitamos el boton
+           //document.getElementById('botonGuardarVenta').disabled = false;
+
+
+            
+
+            $.ajax({
                 url:"queryRegistrarVentas.php",
                 //data:{tableJSON:JSON.stringify(tableJSON)}, //SI FUNCIONA DOBLE CORCH
                 data: {
@@ -357,8 +379,22 @@ $(document).ready(function () {
                         }
                     }
                 }
-            );  
+            ); 
+
+
+
+
+        }
+
+ 
     }
+
+
+
+
+       // }
+        //var table123 = table.rows().data().toArray();
+
 
 </script>
 

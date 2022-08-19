@@ -208,7 +208,7 @@
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
                 <label for="exampleFormControlInput1" class="form-label">Nit cliente</label>
-                <input type="checkbox" id="cboxSinNit" value="c/f"> <label for="cbox2">No tiene nit</label>
+                <input type="checkbox" id="cboxSinNit" value="c.f"> <label for="cbox2">No tiene nit</label>
                 <input type="text" name="inputNit" class="form-control" id="inputNit" placeholder="Nit" required>
             </div>
         </div>
@@ -290,7 +290,7 @@
     miCheckbox.addEventListener('click', function() {
     // si esta seleccionado el checkbox
     if(miCheckbox.checked) {
-        inputNit.value = 'c/f';
+        inputNit.value = 'c.f';
         inputNit.disabled = true;
     } else {
         inputNit.disabled = false;

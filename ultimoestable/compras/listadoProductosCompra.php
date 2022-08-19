@@ -278,10 +278,16 @@ window.onload = function() {
                             var btnTotalFac = document.getElementById("btnVerTotalFactura");
                             btnTotalFac.addEventListener('click', updateTotal());
                         
-                        }else{
+                        }else  if(json=='errorsucedido'){
                             Swal.fire(
-                                'Producto no guardado.',
-                                'Los datos no se guardaron. Se produjo un error al querer guardar',
+                                'Error.',
+                                'El error se controlo, no se guardaron los datos.',
+                                'error'
+                            )
+                        }else if(json=='productonoexiste'){
+                            Swal.fire(
+                                'Producto no encontrado.',
+                                'El producto no existe o el codigo es incorrecto',
                                 'error'
                             )
                         }

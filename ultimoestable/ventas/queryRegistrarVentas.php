@@ -4,25 +4,14 @@
 
   $arraysTabla = json_decode(filter_input(INPUT_POST,'tableJSON'));
 
-  $codCliente = 5;
+  $codCliente = 1;
   $total = 1000;
   
   $consultaFactura =  "INSERT INTO FacturaVenta(codigoCliente,totalVenta) VALUES ('$codCliente','$total')";
   $ejecutarConsulta1 = pg_query($conexion,$consultaFactura);
 
 
-  if ($ejecutarConsulta1) {
-    
-
-  }else{
-    
-  
-  }
-
-
-
-
-  $numeroDocumento=42;
+  $numeroDocumento=7;
 
   $corcheteSimple="'";
 
@@ -38,7 +27,7 @@
   $ejecutarConsultaa = pg_query($conexion,$consulta11);
 
 
-  if ($ejecutarConsultaa) {
+  if ($ejecutarConsulta1 && $ejecutarConsultaa) {
     echo json_encode("ventaregistrado");
   }else{
     echo json_encode("ventanoregistrado");

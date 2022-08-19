@@ -18,14 +18,17 @@
     pg_prepare($conexion,$namePrepare,$consultaModificarModulos) or die("Cannot prepare statement.");
   
     $res = pg_execute($conexion,$namePrepare,array($nit,$empresa,$direccion,$telefono));
-    
-    if ($res) {
-          $data = array();
-          $data['status'] = 'success';
-          echo json_encode($data);
+    try {
+      if ($res) {
+            $data = array();
+            $data['status'] = 'success';
+            echo json_encode($data);
 
-    } else {
-      $data['status'] = 'failedupdate';
-      echo json_encode($data);
+      } else {
+        $data['status'] = 'failedupdate';
+        echo json_encode($data);
+      }
+    } catch (Exception $e) {
+      echo json_encode($e->getMessage());
     }
 ?>

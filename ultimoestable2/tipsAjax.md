@@ -7,3 +7,4 @@ $row=pg_fetch_assoc($ejecutarConsultaObtenerInfo);
 Se utiliza un while, ejemplos en proveedor
 
 
+https://www.onlineregister.com/epson/web/

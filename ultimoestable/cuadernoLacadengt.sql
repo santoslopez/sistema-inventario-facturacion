@@ -224,29 +224,36 @@ $$
     
     
     BEGIN
-        IF (SELECT count(*) from Inventario WHERE codigoProducto=productoCod) > 0 THEN
-  
-            INSERT INTO DetalleFacturaCompra(precioCompra,cantidadComprado,codigoProducto,documentoProveedor)
-            VALUES (precioCompraD,cantidadComp,productoCod,docPro);
+
+        IF (SELECT count(*) from Productos WHERE codigoProducto=productoCod) > 0 THEN
+
+            IF (SELECT count(*) from Inventario WHERE codigoProducto=productoCod) > 0 THEN
+    
+                INSERT INTO DetalleFacturaCompra(precioCompra,cantidadComprado,codigoProducto,documentoProveedor)
+                VALUES (precioCompraD,cantidadComp,productoCod,docPro);
+                
+                UPDATE Inventario SET cantidadComprado = cantidadComp + cantidadComprado,
+                costoactual = ((costoactual*cantidadComprado) + (precioCompraD*cantidadComp))/(cantidadComp + cantidadComprado)
+                WHERE codigoProducto=productoCod;
             
-            UPDATE Inventario SET cantidadComprado = cantidadComp + cantidadComprado,
-            costoactual = ((costoactual*cantidadComprado) + (precioCompraD*cantidadComp))/(cantidadComp + cantidadComprado)
-            WHERE codigoProducto=productoCod;
-           
-            return 'actualizadoStock'; 
-            COMMIT;
-            
+                return 'actualizadoStock'; 
+                COMMIT;
+                
+            ELSE
+                INSERT INTO DetalleFacturaCompra(precioCompra,cantidadComprado,codigoProducto,documentoProveedor)
+                VALUES (precioCompraD,cantidadComp,productoCod,docPro);
+                
+                INSERT INTO Inventario(codigoProducto,cantidadComprado,costoActual) VALUES
+                (productoCod,cantidadComp,precioCompraD);
+                
+                return 'agregadoStock';
+                COMMIT;
+                
+            END IF;
         ELSE
-            INSERT INTO DetalleFacturaCompra(precioCompra,cantidadComprado,codigoProducto,documentoProveedor)
-            VALUES (precioCompraD,cantidadComp,productoCod,docPro);
-            
-            INSERT INTO Inventario(codigoProducto,cantidadComprado,costoActual) VALUES
-            (productoCod,cantidadComp,precioCompraD);
-            
-            return 'agregadoStock';
-            COMMIT;
-            
-        END IF;
+            return 'productonoexiste';
+         END IF;
+
     EXCEPTION
     WHEN OTHERS THEN
         return 'errorsucedido';

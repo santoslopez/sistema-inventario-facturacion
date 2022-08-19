@@ -20,12 +20,17 @@
   
   $res = pg_execute($conexion,$namePrepare,array($cliente,$direccion,$telefono,$nit));
   
-  if ($res) {
-    $data = array();
-    $data['status'] = 'success';
-    echo json_encode($data);
-  } else {
-    $data['status'] = 'failedupdate';
-    echo json_encode($data);
+  try {
+    if ($res) {
+      $data = array();
+      $data['status'] = 'success';
+      echo json_encode($data);
+    } else {
+      $data['status'] = 'failedupdate';
+      echo json_encode($data);
+    }
+  } catch (Exception $e) {
+    echo json_encode($e->getMessage());
   }
+
 ?>

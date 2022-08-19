@@ -3,15 +3,22 @@
   include '../conexion.php';
 
   $arraysTabla = json_decode(filter_input(INPUT_POST,'tableJSON'));
+  
+  // se obtiene el codigo del nit de cliente
+  $codCliente = $_POST['inputCodigoCliente'];
 
-  $codCliente = 1;
   $total = 1000;
   
-  $consultaFactura =  "INSERT INTO FacturaVenta(codigoCliente,totalVenta) VALUES ('$codCliente','$total')";
-  $ejecutarConsulta1 = pg_query($conexion,$consultaFactura);
+  // se hace una consulta del numero actual de documentos de comprobantes
+  $consultaValorMaximoFactura="SELECT max(numerodocumentofacturaventa) FROM FacturaVenta";
+
+  $documentoActual=pg_fetch_assoc($consultaValorMaximoFactura);
 
 
-  $numeroDocumento=7;
+  $consultaFactura =  "INSERT INTO FacturaVenta(codigoCliente,totalVenta) VALUES ('$codCliente',$total)";
+
+  //se incrementa a uno el documento
+  $numeroDocumento=$documentoActual+1;
 
   $corcheteSimple="'";
 
@@ -23,14 +30,21 @@
   $queryInsertMultiple=rtrim($queryInsertMultipleConComa,",");
   $queryFinal=$queryInsertMultiple.';';
 
-  $consulta11 =  "INSERT INTO DetalleFacturaVenta(codigoProducto,cantidadComprado,precioCompra,numeroDocumentoFacturaVenta) VALUES $queryFinal";
-  $ejecutarConsultaa = pg_query($conexion,$consulta11);
+  pg_query("BEGIN") or die("Could not start transaction\n");
+
+  $consultaInsertDetalleFacturaVenta =  "INSERT INTO DetalleFacturaVenta(codigoProducto,cantidadComprado,precioCompra,numeroDocumentoFacturaVenta) VALUES $queryFinal";
+  
+  $ejecutarConsulta1 = pg_query($conexion,$consultaFactura);
+
+  $ejecutarConsulta2 = pg_query($conexion,$consultaInsertDetalleFacturaVenta);
 
 
-  if ($ejecutarConsulta1 && $ejecutarConsultaa) {
+  if ($ejecutarConsulta1 and $ejecutarConsulta2) {
+    pg_query("COMMIT") or die("Transaction commit failed\n");
     echo json_encode("ventaregistrado");
   }else{
+    pg_query("ROLLBACK") or die("Transaction rollback failed\n");;
     echo json_encode("ventanoregistrado");
-  }  
-
+  } 
+  
 ?>

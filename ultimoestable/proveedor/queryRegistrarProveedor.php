@@ -48,7 +48,6 @@ $telefono=htmlspecialchars($_POST['telefono'],ENT_QUOTES,'UTF-8');
 
   
   $ejecutarConsulta = pg_query($conexion, $consulta);
-  $data = array();
 
   while ($row= pg_fetch_row($ejecutarConsulta)) {
     $subarray=array();

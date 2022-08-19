@@ -18,13 +18,11 @@ $telC = pg_escape_string($telefono);
 
 $consulta = "SELECT PA_insertarCliente('$datosC','$dirC','$nitCliente','$telC')";
 
-
 $ejecutarConsulta = pg_query($conexion, $consulta);
-$data = array();
 
 while ($row= pg_fetch_row($ejecutarConsulta)) {
   $subarray=array();
   $subarray[]=$row[0];
-  echo json_encode($subarray);
 }
+echo json_encode($subarray);
 ?>
