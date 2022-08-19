@@ -220,6 +220,8 @@ Guardar venta
 
 <script>
      var table;
+
+     var totalVentaComprobante;
 $(document).ready(function () {
     
     table = $('#example').DataTable( {
@@ -232,6 +234,8 @@ $(document).ready(function () {
       $(api.columns(4).footer()).html(
         'Total: Q.'+api.column(4, {page:'current'} ).data().sum()
       );
+      
+      totalVentaComprobante=api.column(4, {page:'current'} ).data().sum();
     },
     buttons: [
             'copy', 'csv', 'excel', 'pdf', 'print'
@@ -349,12 +353,14 @@ $(document).ready(function () {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
 
-
-               
+                
                 var  inputCodigoCliente = document.getElementById("inputCodigoCliente").value;
 
+                var totalVentaEfectuado = totalVentaComprobante;
+
+                alert("total venta comprobante: "+totalVentaEfectuado);
+                        
                 //var inputNitCliente = document.getElementById("inputNitCliente").value;
-                //var inputNitCliente = JSON.stringify(inputNitCliente1);
 
                 Swal.fire('Venta registrado correctamente','', 'success')
                 // else if (result.isDenied) {
@@ -362,7 +368,7 @@ $(document).ready(function () {
                         url:"queryRegistrarVentas.php",
                         //data:{tableJSON:JSON.stringify(tableJSON)}, //SI FUNCIONA DOBLE CORCH
                         data: {
-                            tableJSON:table123,inputCodigoCliente:inputCodigoCliente
+                            tableJSON:table123,inputCodigoCliente:inputCodigoCliente,totalVentaEfectuado:totalVentaEfectuado
                         },
                     /*"columns":[
                         {"data":"col1"},
@@ -390,7 +396,6 @@ $(document).ready(function () {
                             'No se guardo la venta',
                             'info')
                         }
-                        //alert("obtuve: "+json);
                     }
                 }); 
             }

@@ -3,7 +3,7 @@
     include '../conexion.php';
     include '../datos/funcionesDatos.php';
    
-    $queryEliminar = "DELETE FROM DetalleFacturaVenta WHERE numerodocumentofacturaventa=$1;";
+    $queryEliminar = "DELETE FROM DetalleFacturaVenta WHERE numerodocumentofacturaventa=$1";
     $consultaEliminarLenguas = $queryEliminar;
     $namePrepareStatement="prepareStatementEliminarFacturaVenta";
     $obtenerCodigoEvento = $_POST["id"];

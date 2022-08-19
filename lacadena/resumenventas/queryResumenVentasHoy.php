@@ -9,11 +9,6 @@
     $listadoTiposEventoUsuario = "SELECT * FROM FacturaVenta";
     $ejecutarConsultaObtenerInfo = pg_query($conexion,$listadoTiposEventoUsuario);
     
-    /*if (!($ejecutarConsultaObtenerInfo)) {
-        $data = "No hay informacion de ventas de hoy";
-        echo json_encode($data);       
-
-    }else{   } */
     $data = array();
     while ($row= pg_fetch_row($ejecutarConsultaObtenerInfo)) {
         $subarray=array();

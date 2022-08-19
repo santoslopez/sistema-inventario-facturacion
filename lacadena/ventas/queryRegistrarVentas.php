@@ -7,13 +7,13 @@
   // se obtiene el codigo del nit de cliente
   $codCliente = $_POST['inputCodigoCliente'];
 
-  $total = 1000;
+  // obtenemos el total de la venta del datatable
+  $total = $_POST['totalVentaEfectuado'];
   
   // se hace una consulta del numero actual de documentos de comprobantes
   $consultaValorMaximoFactura="SELECT max(numerodocumentofacturaventa) FROM FacturaVenta";
 
   $documentoActual=pg_fetch_assoc($consultaValorMaximoFactura);
-
 
   $consultaFactura =  "INSERT INTO FacturaVenta(codigoCliente,totalVenta) VALUES ('$codCliente',$total)";
 
@@ -37,7 +37,6 @@
   $ejecutarConsulta1 = pg_query($conexion,$consultaFactura);
 
   $ejecutarConsulta2 = pg_query($conexion,$consultaInsertDetalleFacturaVenta);
-
 
   if ($ejecutarConsulta1 and $ejecutarConsulta2) {
     pg_query("COMMIT") or die("Transaction commit failed\n");

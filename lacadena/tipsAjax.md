@@ -8,3 +8,6 @@ Se utiliza un while, ejemplos en proveedor
 
 
 https://www.onlineregister.com/epson/web/
+
+
+https://www.youtube.com/watch?v=HPZizVFimOY 

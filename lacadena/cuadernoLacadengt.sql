@@ -196,7 +196,6 @@ $$
     END;
 $$ LANGUAGE 'plpgsql';
 
-
 CREATE OR REPLACE FUNCTION PA_registrarUsuario(correoRegistrar varchar(50),datosUsuario varchar (100),passUsuario varchar(255)) RETURNS varchar AS 
 $$
     DECLARE
@@ -262,16 +261,35 @@ $$
 $$ LANGUAGE 'plpgsql';
 
 /*lo anterior ya se verifico actualiza el stock correctamente al agregar compras,
-realiza promedio de costo de producto 
+realiza promedio de costo de producto al comprar si hay productos existentes,
+al vender resta el stock.
+
+*/
 
 
 
 
 
+CREATE OR REPLACE FUNCTION TR_eliminarDetalleComprobanteVenta() RETURNS TRIGGER AS
 
-dddd*/
+$$
+DECLARE
+BEGIN
+ UPDATE Inventario SET cantidadComprado = cantidadComprado + OLD.cantidadComprado
+              
+                WHERE codigoProducto=OLD.codigoProducto;
+ 
+ RETURN OLD;
+
+END;
+$$ LANGUAGE 'plpgsql';
 
 
+CREATE TRIGGER TR_eliminarDetalleComprobanteVenta
+AFTER DELETE ON DetalleFacturaVenta
+FOR EACH ROW EXECUTE PROCEDURE TR_eliminarDetalleComprobanteVenta();
+/*pendiente anterior
+*/
 
 
 
@@ -283,7 +301,6 @@ FROM Inventario AS I
 ON I.codigoProducto = DetalleFacturaCompra.codigoProducto
      INNER JOIN Productos
 ON DetalleFacturaCompra.codigoProducto = Productos.codigoProducto;
-
 
 
 CREATE TRIGGER TR_ActualizarInventarioInsertar
@@ -326,34 +343,10 @@ FOR EACH ROW EXECUTE PROCEDURE TR_ActualizarInventarioInsertar1();
 
 
 
-
-
 DROP TRIGGER TR_ActualizarInventarioAdd on DetalleFacturaCompra;
 DROP TRIGGER TR_ActualizarInventarioInsertar on DetalleFacturaCompra;
 
-
-       DROP FUNCTION PA_insertarCliente;
-
-
-CREATE OR REPLACE FUNCTION PA_insertarCliente(nombreA varchar(100),direc varchar(50),nitC varchar(20),tele varchar(15)) RETURNS varchar AS 
-$$
-    DECLARE
-    BEGIN
-        IF (SELECT count(*) from Clientes WHERE (nitCliente=nitC) AND (nitCliente!='c.f')) > 0 THEN
-            return 'enuso';            
-        ELSE        
-            INSERT INTO Clientes (nombreApellidos,direccion,nitCliente,telefono) VALUES (nombreA,direc,nitC,tele);
-            return 'registrado';
-            COMMIT;
-        END IF;
-    EXCEPTION
-    WHEN OTHERS THEN
-        return 'errorsucedido';
-        ROLLBACK;
-    END;
-$$ LANGUAGE 'plpgsql';
-
-
+DROP FUNCTION PA_insertarCliente;
 
 CREATE OR REPLACE FUNCTION PA_consultarInventario(buscarProducto varchar(30)) RETURNS 
 
