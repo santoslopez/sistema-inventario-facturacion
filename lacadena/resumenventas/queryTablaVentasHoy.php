@@ -17,7 +17,7 @@
 <body>
     <div class="container">
         <div class="alert alert-primary" role="alert" style="margin-top:20px">
-            <h2>Total ventas de hoy</h2>
+            <h2>Resumen ventas de hoy</h2>
             <!-- Button trigger modal -->
         </div>
         <?php
@@ -42,6 +42,7 @@
                         <th>Codigo cliente</th>
                         <th>Total venta</th>
                         <th>Anular factura de venta</th>
+                        <th>Detalles</th>
                 </thead>
                 <tbody>
                 </tbody>

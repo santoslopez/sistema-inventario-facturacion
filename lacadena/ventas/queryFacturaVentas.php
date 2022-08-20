@@ -157,13 +157,14 @@ Guardar venta
                         )
                         estadoCodigoProducto="noaceptado";
                 }else{
+                    estadoCodigoProducto="aceptado";
+
                     $("#inputNombreProducto").val(json.descripcion);
                     
-                    $("#inputUnidadesDisponibles").val(json.unidadesdesdisponibles);
-                    $("#inputCostoProductoActual").val(json.costopromedio);
+                    $("#inputUnidadesDisponibles").val(json.cantidadcomprado);
+                    $("#inputCostoProductoActual").val(json.costoactual);
                    
 
-                    estadoCodigoProducto="aceptado";
 
 
                 }
@@ -379,7 +380,7 @@ $(document).ready(function () {
                     type:'POST',
                     success:function(data1){
                         var json = JSON.parse(data1);
-                        
+                        //alert("hola: "+json);
                         if (json=="ventaregistrado") {
                             Swal.fire(
                             'Venta registrado correctamente',

@@ -13,6 +13,16 @@
         include "../includes/head.php";
     ?>
 
+    <style>
+        label {
+            display: block;
+            font: 1rem 'Fira Sans', sans-serif;
+        }
+        input,
+        label {
+            margin: .4rem 0;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -191,6 +201,8 @@
 </script>
 
 
+
+
 <!-- inicio agregar cliente action="javascript:void()"
 -->
 <!-- Modal -->
@@ -219,7 +231,7 @@
             <div class="col-sm-10">
                 <label for="Name" class="form-label">Fecha factura proveedor</label>
                 <!--input type="date" name="inputFechaFacturaProveedor" class="form-control" id="inputFechaFacturaProveedor" placeholder="Fecha facturado por proveedor" required-->
-                <input type="datetime-local" id="inputFechaFacturaProveedor" class="form-control" name="inputFechaFacturaProveedor" required>
+                <input type="date" id="inputFechaFacturaProveedor" class="form-control" name="inputFechaFacturaProveedor" required>
       
               </div>
         </div>
