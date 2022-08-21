@@ -9,18 +9,19 @@
     
     $id = $_POST['id'];
 
-    $listadoTiposEventoUsuario = "SELECT * FROM Proveedor WHERE  nitProveedor='$id'";
-    
-    //echo json_encode($listadoTiposEventoUsuario);
-    
-    $ejecutarConsultaObtenerInfo = pg_query($conexion,$listadoTiposEventoUsuario);
-    
-    if (!($ejecutarConsultaObtenerInfo)) {
-        $data['status'] = 'sindatos';
-        echo json_encode($data);    
+    if(!(isset($_POST['id']))) {
+        header('Location: ../index.php');
     }else{
-        //$data['status'] = 'success';   
-        $row=pg_fetch_assoc($ejecutarConsultaObtenerInfo);
-        echo json_encode($row);       
+        $listadoTiposEventoUsuario = "SELECT * FROM Proveedor WHERE  nitProveedor='$id'";
+            
+        $ejecutarConsultaObtenerInfo = pg_query($conexion,$listadoTiposEventoUsuario);
+        
+        if (!($ejecutarConsultaObtenerInfo)) {
+            $data['status'] = 'sindatos';
+            echo json_encode($data);    
+        }else{
+            $row=pg_fetch_assoc($ejecutarConsultaObtenerInfo);
+            echo json_encode($row);       
+        }    
     }
 ?>

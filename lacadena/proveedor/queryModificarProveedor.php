@@ -11,6 +11,11 @@
   $direccion = $_POST['direccion'];
   $telefono= $_POST['telefono'];
 
+
+  if(!(isset($_POST['nombreApellidos'],$_POST['nitCliente'],$_POST['direccion'],$_POST['telefono']) )) {
+    header('Location: ../index.php');
+  }else{
+
     $consultaModificarModulos = "UPDATE Proveedor SET nombreEmpresa=$2,direccion=$3,telefono=$4 WHERE nitproveedor=$1";
 
     $namePrepare = "prepareModificarProveedor";
@@ -31,4 +36,7 @@
     } catch (Exception $e) {
       echo json_encode($e->getMessage());
     }
+
+  }
+
 ?>

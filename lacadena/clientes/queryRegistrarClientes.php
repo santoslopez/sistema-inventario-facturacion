@@ -16,13 +16,18 @@ $dirC = pg_escape_string($direccion);
 $nitCliente = pg_escape_string($nit);
 $telC = pg_escape_string($telefono);
 
-$consulta = "SELECT PA_insertarCliente('$datosC','$dirC','$nitCliente','$telC')";
+if(!(isset($_POST['nombreApellidos'],$_POST['direccion'],$_POST['nitCliente'],$_POST['telefono']))) {
+  header('Location: ../index.php');
+}else{
+  $consulta = "SELECT PA_insertarCliente('$datosC','$dirC','$nitCliente','$telC')";
 
-$ejecutarConsulta = pg_query($conexion, $consulta);
-
-while ($row= pg_fetch_row($ejecutarConsulta)) {
-  $subarray=array();
-  $subarray[]=$row[0];
+  $ejecutarConsulta = pg_query($conexion, $consulta);
+  
+  while ($row= pg_fetch_row($ejecutarConsulta)) {
+    $subarray=array();
+    $subarray[]=$row[0];
+  }
+  echo json_encode($subarray);
 }
-echo json_encode($subarray);
+
 ?>

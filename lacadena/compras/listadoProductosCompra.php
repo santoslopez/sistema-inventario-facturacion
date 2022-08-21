@@ -175,7 +175,7 @@
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
                 <label for="Name" class="form-label">Cantidad</label>
-                <input type="number" id="inputCantidadCompra" class="form-control" name="inputCantidadCompra" required min="1" oninput="validity.valid||(value='');">
+                <input type="number" id="inputCantidadCompra" class="form-control soloNumeros" name="inputCantidadCompra" required min="1" oninput="validity.valid||(value='');">
             </div>
         </div>
 

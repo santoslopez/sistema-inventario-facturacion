@@ -13,14 +13,17 @@ $inputCodigoProducto=htmlspecialchars($_POST['inputCodigoProducto'],ENT_QUOTES,'
 
 $facturaCompra=htmlspecialchars($_POST['facturaCompra'],ENT_QUOTES,'UTF-8');
 
-$consulta = "SELECT PA_controlInventario('$inputCostoProducto','$inputCantidadCompra','$inputCodigoProducto','$facturaCompra')";
 
-$ejecutarConsulta = pg_query($conexion,$consulta);
+if(!(isset($_POST['inputCostoProducto'],$_POST['inputCantidadCompra'],$_POST['inputCodigoProducto'],$_POST['facturaCompra']) )) {
+  header('Location: ../index.php');
+}else{
+  $consulta = "SELECT PA_controlInventario('$inputCostoProducto','$inputCantidadCompra','$inputCodigoProducto','$facturaCompra')";
+  $ejecutarConsulta = pg_query($conexion,$consulta);
 
-while ($row= pg_fetch_row($ejecutarConsulta)) {
-  $subarray=array();
-  $subarray[]=$row[0];
+  while ($row= pg_fetch_row($ejecutarConsulta)) {
+    $subarray=array();
+    $subarray[]=$row[0];
+  }
+  echo json_encode($subarray);
 }
-echo json_encode($subarray);
-
 ?>

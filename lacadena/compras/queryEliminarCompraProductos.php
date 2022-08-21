@@ -12,14 +12,19 @@
     $namePrepareStatement="prepareStatementEliminarProductoCompra";
     $obtenerCodigoEvento = $_POST["id"];
 
-    pg_prepare($conexion,$namePrepareStatement,$consultaEliminarLenguas) or die("Cannot prepare statement.");
-    $res= pg_execute($conexion,$namePrepareStatement,array($obtenerCodigoEvento));
-    $data = array();
-    if ($res) {
-      $data['status'] = 'success';
-      echo json_encode($data);
+    if(!(isset($_POST["id"]))) {
+      header('Location: ../index.php');
     }else{
-      $data['status'] = 'failed';
-      echo json_encode($data);
+      pg_prepare($conexion,$namePrepareStatement,$consultaEliminarLenguas) or die("Cannot prepare statement.");
+      $res= pg_execute($conexion,$namePrepareStatement,array($obtenerCodigoEvento));
+      $data = array();
+      if ($res) {
+        $data['status'] = 'success';
+        echo json_encode($data);
+      }else{
+        $data['status'] = 'failed';
+        echo json_encode($data);
+      }
+      
     }
   ?>

@@ -8,16 +8,18 @@
 
     $documentoFacturaC=$_POST['documentoFacturaCompra'];
 
+    if(!(isset($_POST["documentoFacturaCompra"]) )) {
+        header('Location: ../index.php');
+    }else{
+        $consultaTotalFacturaCompra = "select sum(cantidadcomprado * preciocompra) as totalfacturacompra from detallefacturacompra WHERE documentoProveedor='$documentoFacturaC'";
+        $ejecutarConsultaObtenerInfo  = pg_query($conexion,$consultaTotalFacturaCompra);
 
-    $consultaTotalFacturaCompra = "select sum(cantidadcomprado * preciocompra) as totalfacturacompra from detallefacturacompra WHERE documentoProveedor='$documentoFacturaC'";
-    $ejecutarConsultaObtenerInfo  = pg_query($conexion,$consultaTotalFacturaCompra);
-
-    $data = array();
-    while ($row= pg_fetch_row($ejecutarConsultaObtenerInfo)) {
-        $subarray=array();
-        $subarray[]=$row[0];     
-        $data[]=$subarray;                       
-    }              
-    echo json_encode($data);       
-
+        $data = array();
+        while ($row= pg_fetch_row($ejecutarConsultaObtenerInfo)) {
+            $subarray=array();
+            $subarray[]=$row[0];     
+            $data[]=$subarray;                       
+        }              
+        echo json_encode($data);   
+    }    
 ?>

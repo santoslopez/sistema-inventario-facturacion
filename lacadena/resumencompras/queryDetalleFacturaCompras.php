@@ -4,9 +4,9 @@ require '../fpdf184/fpdf.php';
 require '../conexion.php'; //puede que no lo necesiten
 
 // recuperamos el valor del submodulo
-$obtenerNombreSubmodulo = $_GET["obtenerCodigoVentaComprobante"];
+$obtenerNombreSubmodulo = $_GET["obtenerCodigoDocumentoProveedor"];
 	//echo "hola $obtenerNombreSubmodulo";
-
+	
 class PDF extends FPDF {
 
 
@@ -15,7 +15,7 @@ class PDF extends FPDF {
 		$this->SetFont('Times', 'B', 14);
 		$this->Image('../assets/img/logov.png', 30, 10, 15); //imagen(archivo, png/jpg || x,y,tamaño)
 		$this->setXY(60, 15);
-		$this->Cell(70, 8,"Recibo de venta ".$_GET["obtenerCodigoVentaComprobante"], 0, 1, 'C', 0);
+		$this->Cell(70, 8,"Detalles de compra. Doc No:".$_GET["obtenerCodigoDocumentoProveedor"], 0, 1, 'C', 0);
 		$this->Image('../assets/img/user.png', 150, 10, 15); //imagen(archivo, png/jpg || x,y,tamaño)
 		// va ser la separacion entre la imagen y la pagina
 		$this->Ln(25);
@@ -37,7 +37,7 @@ class PDF extends FPDF {
 
 		$this->SetFont('Arial', 'B', 10);
 		// Número de página
-		$this->Cell(170, 10, 'Comprobante', 0, 0, 'C', 0);
+		$this->Cell(170, 10, 'Factura de compras con el proveedor', 0, 0, 'C', 0);
 		$this->Cell(25, 10, utf8_decode('Página ') . $this->PageNo() . '/{nb}', 0, 0, 'C');
 	}
 
@@ -169,9 +169,9 @@ class PDF extends FPDF {
 //------------------OBTENES LOS DATOS DE LA BASE DE DATOS-------------------------
 //$data = new Conexion();
 //$conexion = $data->conect();
-$filtrarPorCodigoSubmodulo = $_GET["obtenerCodigoVentaComprobante"];
+$filtrarPorCodigoSubmodulo = $_GET["obtenerCodigoDocumentoProveedor"];
 
-$strquery = "SELECT * FROM detallefacturaventa WHERE numerodocumentofacturaventa='$filtrarPorCodigoSubmodulo'";
+$strquery = "SELECT * FROM DetalleFacturaCompra WHERE documentoproveedor='$filtrarPorCodigoSubmodulo'";
 
 //$result = $conexion->prepare($strquery);
 //$result->execute();

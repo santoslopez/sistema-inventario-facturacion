@@ -22,7 +22,7 @@
    //$userName="santoslopez@google.com";
    
    
-      echo '<div class="container"><a href="../usuarios/frmRegistrarUsuarios" class="btn btn-success" role="button">Registrar usuarios</a>
+      echo '<div class="container"><a href="../usuarios/frmRegistrarUsuarios.php" class="btn btn-success" role="button">Registrar usuarios</a>
       <table class="table table-striped table-bordered nowrap" id="datatableUsuarios" name="datatableUsuarios" style="width:100%">
           <thead>
                   <th>Correo</th>

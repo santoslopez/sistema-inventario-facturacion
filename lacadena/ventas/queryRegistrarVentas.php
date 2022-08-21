@@ -11,16 +11,14 @@
   // obtenemos el total de la venta del t
   $total = $_POST['totalVentaEfectuado'];
   
+  if(!(isset($_POST['inputCodigoCliente'],$_POST['totalVentaEfectuado']))) {
+    header('Location: ../index.php');
+  }else{
+
   // se hace una consulta del numero actual de documentos de comprobantes
   $consultaValorMaximoFactura="SELECT max(numerodocumentofacturaventa) FROM FacturaVenta";
 
-
-  
-
   $documentoActual=pg_fetch_assoc($consultaValorMaximoFactura);
-
-
-  
 
   $consultaFactura =  "INSERT INTO FacturaVenta(codigoCliente,totalVenta) VALUES ('$codCliente',$total)";
 
@@ -54,4 +52,8 @@
     echo json_encode("ventanoregistrado");
   } 
   
+    
+
+  }
+
 ?>

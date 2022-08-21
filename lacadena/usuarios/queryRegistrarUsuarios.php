@@ -27,24 +27,15 @@
 	$correoU = pg_escape_string($correo);
 	$datosU = pg_escape_string($datos);
 	$passwordUsuario = pg_escape_string($passw);
-	//$telC = pg_escape_string($telefono);
 
-	/*if(!isset($correo,$datos,$passw)) {
+	if(!(isset($_POST['inputCorreo'],$_POST['inputDatos'],$_POST['inputPassword']))) {
 		header('Location: ../index.php');
-	}*/
+	}else{
 	
-
 	//Encriptamos la contraseña- NO IMPLEMENTADO EN POSTGRESQL
 	$passwordEncriptado = password_hash($passwordEncriptado,PASSWORD_BCRYPT);
 
-
-	/**
-	 * Verificamos que el correo a registrar no este en uso, si lo esta no se guardan los datos.
-	 */
-
-
 	$consulta = "SELECT PA_registrarUsuario('$correoU','$datosU','$passwordEncriptado')";
-
 
 	$ejecutarConsulta = pg_query($conexion, $consulta);
 	$data = array();
@@ -52,43 +43,8 @@
 	while ($row= pg_fetch_row($ejecutarConsulta)) {
 	  $subarray=array();
 	  $subarray[]=$row[0];
-	  echo json_encode($subarray);
 	}
+	echo json_encode($subarray);
+}
 
-
-	/*$verificarUsuario = "SELECT * FROM Usuarios WHERE correo=$1";
-	
-	pg_prepare($conexion,"prepareVerificarUsuario",$verificarUsuario) or die("Cannot prepare statement.");
-	
-	$ejecutarConsultaVerificarUsuario = pg_execute($conexion,"prepareVerificarUsuario",array($correo));
-
-	if (pg_num_rows($ejecutarConsultaVerificarUsuario)) {
-		echo $ejecutarConsultaVerificarUsuario;
-
-	}else{
-
-
-	$rolSeleccionado=$_POST["selectRol"];
-
-	$consulta  = sprintf("INSERT INTO Usuarios(correo,estado,fechaRegistro,nombreApellidos,contrasena,codRol) VALUES('%s','%s','%s','%s','%s','%s');",
-    pg_escape_string($correo),
-    pg_escape_string($estado),
-    pg_escape_string($fechaActual),
-    pg_escape_string($datos),
-    password_hash($passw, PASSWORD_DEFAULT,['cost'=>12]),$rolSeleccionado
-    );
-	$ejecutarConsulta = pg_query($conexion, $consulta);
-	if ($ejecutarConsulta) {
-		echo "<script>Swal.fire(
-			'Bienvenido',
-			'Bienvenido al sistema.',
-			'success'
-		)</script>";
-		header('Location: ../index.php');
-
-	}else{
-		echo 3;
-
-	}
-}*/
 ?>

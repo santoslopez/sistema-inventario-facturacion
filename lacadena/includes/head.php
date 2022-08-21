@@ -23,4 +23,6 @@
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.dataTables.js"></script>
 
 <script src="../assets/js/eventosAjax.js"></script>
-    
+<script src="../assets/js/validarDatos.js"></script>
+
+

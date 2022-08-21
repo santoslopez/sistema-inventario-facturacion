@@ -68,7 +68,7 @@
     </div>
   <div class="col-auto">
     <label for="inputCantidadVendido">Cantidad</label>
-    <input type="number" class="form-control" id="inputCantidadVendido" name="inputCantidadVendido" placeholder="Cantidad"  pattern="[1-9]+" required>
+    <input type="number" class="form-control soloNumeros" id="inputCantidadVendido" name="inputCantidadVendido" placeholder="Cantidad"  pattern="[1-9]+" required>
         
     <input type="number" class="form-control" id="inputUnidadesDisponibles" name="inputUnidadesDisponibles" placeholder="Cantidad"  pattern="[1-9]+" required readonly style="display:block111">
     <input type="number" class="form-control" id="inputCostoProductoActual" name="inputCostoProductoActual" placeholder="Cantidad"  required readonly style="display:none11">
@@ -358,12 +358,9 @@ $(document).ready(function () {
                 var  inputCodigoCliente = document.getElementById("inputCodigoCliente").value;
 
                 var totalVentaEfectuado = totalVentaComprobante;
-
-                alert("total venta comprobante: "+totalVentaEfectuado);
                         
                 //var inputNitCliente = document.getElementById("inputNitCliente").value;
 
-                Swal.fire('Venta registrado correctamente','', 'success')
                 // else if (result.isDenied) {
                     $.ajax({
                         url:"queryRegistrarVentas.php",
@@ -380,12 +377,27 @@ $(document).ready(function () {
                     type:'POST',
                     success:function(data1){
                         var json = JSON.parse(data1);
-                        //alert("hola: "+json);
+                        
                         if (json=="ventaregistrado") {
-                            Swal.fire(
+                            /*Swal.fire(
                             'Venta registrado correctamente',
                             'Los datos se guardadon correctamente',
-                            'success')
+                            'success')*/
+                            Swal.fire({
+                            title: 'Venta registrado correctamente',
+                            text: "Presiona el boton para recargargar la pagina",
+                            icon: 'success',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Ok'
+                            }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.reload();
+                            }else{
+                                window.location.reload();
+                            }
+                            })
                         }else if (json=="ventanoregistrado") {
                             Swal.fire(
                             'Venta no efectuado',
