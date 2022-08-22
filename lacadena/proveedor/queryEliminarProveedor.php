@@ -1,29 +1,23 @@
 <?php 
-    include "../sesion/sesion.php";
-    include '../conexion.php';
-    include '../datos/funcionesDatos.php';
+  include "../sesion/sesion.php";
+  include '../conexion.php';
+  include '../datos/funcionesDatos.php';
    
-    $queryEliminar = "DELETE FROM Proveedor WHERE nitProveedor=$1;";
-    $consultaEliminarLenguas = $queryEliminar;
-    $namePrepareStatement="prepareStatementEliminarCliente";
-    $obtenerCodigoEvento = $_POST["id"];
+  $obtenerNitProveedor= $_POST["id"];
 
-    if(!(isset($_POST["id"]))) {
-      header('Location: ../index.php');
-    }else{
-      //eliminarDatosFila("codigoClienteEliminar","DELETE FROM Clientes WHERE codigoCliente=$1;","prepareEliminarContenidoLeccion","El cliente se elimino.","../admin/index.php",$conexion);
-      pg_prepare($conexion,"prepareStatementEliminarCliente",$consultaEliminarLenguas) or die("Cannot prepare statement.");
-      $res= pg_execute($conexion,$namePrepareStatement,array($obtenerCodigoEvento));
+  if(!(isset($_POST["id"]))) {
+    header('Location: ../index.php');
+  }else{
+     
+    $consulta = "SELECT PA_eliminarProveedor('$obtenerNitProveedor')";
 
-      if ($res) {
-        $data = array();
-        $data['status'] = 'success';
-        echo json_encode($data);
-      }else{
-        $data = array();
-        $data['status'] = 'failed';
-        echo json_encode($data);
-      }
+    $ejecutarConsulta = pg_query($conexion,$consulta);
+	
+    while ($row= pg_fetch_row($ejecutarConsulta)) {
+      $subarray=array();
+      $subarray[]=$row[0];
+      
     }
-
-  ?>
+    echo json_encode($subarray);
+  }
+?>

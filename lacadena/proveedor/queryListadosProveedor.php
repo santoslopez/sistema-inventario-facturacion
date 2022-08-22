@@ -15,7 +15,6 @@
         
         <div class="alert alert-primary" role="alert" style="margin-top:20px">
             <h2>Proveedores</h2>
-            <!-- Button trigger modal -->
             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#formularioAgregarCliente">
                 Registrar proveedor
             </button>
@@ -37,33 +36,19 @@
     
     <script>
 
-        
-        /*** Nota importante: en data tienen que ir los valores en minuscula de la tabla que queremos mostrar sus datos
-         
-                echo "<td><a href=../proveedor/frmModificarProveedor?nitDatos=$row[0]&empresaDatos=".urlencode($row[1])."&direccion=".urlencode($row[3])."&telefono=".urlencode($row[4])."><img src='../assets/img/update.png' class='zoomImagen imagenTabla' alt='Actualizar contenido'></a></td>";       
-
-        echo "<td data-label='Eliminar'><a href=../proveedor/queryEliminarProveedor.php?nitEliminarProveedor=".urlencode($row[0])." class='opcionEliminarProveedor btn'><img src='../assets/img/delete.png' class='zoomImagen imagenTabla' alt='Eliminar contenido'></a></td>";
-     
-        */
             $(document).ready(function(){
+
                 $('#datatableUsuarios').DataTable({
                     "ajax":{
                         "url":"queryListadoP.php",
                         "dataSrc":""
                     },
                     "processing": true,
-                    //"serverSide": true,
-                    /*"columns":[
-                        {"data":"nombreapellidos"},
-                        {"data":"direccion"},
-                        {"data":"nitcliente"},
-                        {"data":"telefono"}
-                    ]*/
+                
                     "lengthMenu": [
-                        //[10,15, -1],
-                        //[10,20, 'All'],
-                        [10,15],
-                        [10,15],
+                        [10,15, -1],
+                        [10,20, 'All'],
+                    
                     ],
                     "language":{
                         "url":"https://cdn.datatables.net/plug-ins/1.12.1/i18n/es-ES.json"
@@ -107,11 +92,46 @@
                     });
                     });
 
-
+ 
+            $('#datatableUsuarios').on("click", ".activarEliminar", function(event) {
+                event.preventDefault();
+                var idEliminar = $(this).data('id');
+                $.ajax({
+                    url: "queryEliminarProveedor.php",
+                    data: {
+                        id: idEliminar
+                    },
+                    type: 'POST',
+                    success: function(data) {
+                        var json = JSON.parse(data);
+                       
+                        if(json=="proveedoreliminado"){
+                            $('#datatableUsuarios').DataTable().ajax.reload();
+                            alert("Proveedor eliminado");
+                        }else if(json=="proveedornoexiste"){
+                            alert("Proveedor no existe");
+                        }else if(json=="errorsucedido"){
+                            alert("Error controlado, no se elimino");
+                        }else{
+                            alert("Error al eliminar proveedor");
+                        }
+                    }
+                });
             });
-            eliminarDatos(".activarEliminar","#datatableUsuarios","queryEliminarProveedor.php",'Proveedor eliminado correctamente.',"El proveedor no se pudo eliminar se produjo un error","¿Confirmar eliminación de proveedor?","Sí, eliminar datos de proveedor");
+
+
+
+    });
+
+
+
+
+
+
 
 </script>
+
+
 
 
 <script>
@@ -139,7 +159,7 @@
                     success:function(data1){
                     
                         if(tipoFormulario=='#formularioModificarProveedor'){
-                            //alert("JSON: "+data1);
+      
                             var json = JSON.parse(data1);
                             var status = json.status;
                             if(status=='failedupdate'){ 

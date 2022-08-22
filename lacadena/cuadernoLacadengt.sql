@@ -78,8 +78,6 @@ CREATE TABLE DetalleFacturaCompra(
     CONSTRAINT PK_Producto_Detalle FOREIGN KEY (codigoProducto) REFERENCES Productos(codigoProducto)  
 );
 
-
-
 CREATE TABLE FacturaVenta(
     numeroDocumentoFacturaVenta SERIAL NOT NULL,
     codigoCliente int NOT NULL,
@@ -107,8 +105,6 @@ CREATE TABLE EnvioTransporte(
     telefono VARCHAR(15),
     PRIMARY KEY (codigoEmpresa)
 );
-
-
 
 CREATE TABLE Inventario(
     codInventario SERIAL NOT NULL,
@@ -193,6 +189,28 @@ $$
     WHEN OTHERS THEN
         return 'errorsucedido';
         ROLLBACK;
+    END;
+$$ LANGUAGE 'plpgsql';
+
+
+CREATE OR REPLACE FUNCTION PA_eliminarProveedor(buscarNitProveedor varchar(20)) RETURNS varchar AS
+
+$$
+    DECLARE
+
+    BEGIN
+        IF (SELECT count(*) from  Proveedor WHERE (nitproveedor=buscarNitProveedor)) > 0 THEN
+            DELETE FROM Proveedor WHERE nitProveedor=buscarNitProveedor;
+            return 'proveedoreliminado';
+            COMMIT;
+        ELSE
+            return 'proveedornoexiste';
+        END IF;
+    EXCEPTION
+    WHEN OTHERS THEN
+        return 'errorsucedido';
+        ROLLBACK;       
+       
     END;
 $$ LANGUAGE 'plpgsql';
 

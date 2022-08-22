@@ -24,7 +24,7 @@
             $subarray[]=$row[1];
             $subarray[]=$row[2];
             $subarray[]=$row[3];
-            $subarray[]="<a href=../usuarios/frmModificarUsuariosRegistrados?correo=".urlencode($row[0])."&estadoActual=".urlencode($row[1])."&fechaRegistro=".urlencode($row[2])."&datos=".urlencode($row[3])."><img src='../assets/img/update.png' class='zoomImagen imagenTabla' alt='Actualizar contenido'></a></td>";
+            $subarray[]="<a href=../usuarios/frmModificarUsuariosRegistrados.php?correo=".urlencode($row[0])."&estadoActual=".urlencode($row[1])."&fechaRegistro=".urlencode($row[2])."&datos=".urlencode($row[3])."><img src='../assets/img/update.png' class='zoomImagen imagenTabla' alt='Actualizar contenido'></a></td>";
             $subarray[]="<td data-label='Eliminar'><a href=../usuarios/queryEliminarUsuario.php?correoEliminar=".urlencode($row[0])." class='opcionEliminarUsuario btn'><img src='../assets/img/delete.png' class='zoomImagen imagenTabla' alt='Eliminar contenido'></a></td>";
             
             $data[]=$subarray;                                         
