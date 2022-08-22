@@ -214,27 +214,27 @@ $pdf->SetWidths(array(40, 70, 20, 45)); //???
 // esto no lo mencione en el video pero también pueden poner la alineación de cada COLUMNA!!!
 $pdf->SetAligns(array('C','C','C','L'));
 
-$numregs=pg_numrows($data);
+$numregs=pg_num_rows($data);
 
 
 $total = 0;
 // indicamos la posicion inicial de la imagen en la coordenada x
 // la indicamos la posicion inicial de la imagen en la coordenada y
 for ($i = 0; $i < $numregs; $i++) {
-	// 	$pdf->Row(array($i + 1, pg_result($data,$i,'frase'), ucwords(strtolower(utf8_decode(pg_result($data,$i,'traduccionfrase') ))), pg_result($data,$i,'imagen')), 15);
+	// 	$pdf->Row(array($i + 1, pg_fetch_result($data,$i,'frase'), ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'traduccionfrase') ))), pg_fetch_result($data,$i,'imagen')), 15);
 	//$posicionx=$posicionx+15;
-	$pdf->Row(array(ucwords(strtolower(utf8_decode(pg_result($data,$i,'codigoproducto')))), ucwords(strtolower(utf8_decode(pg_result($data,$i,'cantidadcomprado') ))),ucwords(strtolower(utf8_decode(pg_result($data,$i,'preciocompra')))),ucwords(strtolower(utf8_decode(pg_result($data,$i,'preciocompra') )))* ucwords(strtolower(utf8_decode(pg_result($data,$i,'cantidadcomprado') )))  ) , 15);
-    $total += ucwords(strtolower(utf8_decode(pg_result($data,$i,'preciocompra') )))* ucwords(strtolower(utf8_decode(pg_result($data,$i,'cantidadcomprado') )));
+	$pdf->Row(array(ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'codigoproducto')))), ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'cantidadcomprado') ))),ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'preciocompra')))),ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'preciocompra') )))* ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'cantidadcomprado') )))  ) , 15);
+    $total += ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'preciocompra') )))* ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'cantidadcomprado') )));
 }
 //Build table
 $fill=0;
 $i=0;
 /*while($i<$numregs)
 {
-    $siape=pg_result($data,$i,'frase');
-    $nome=pg_result($data,$i,'traduccionfrase');
-    $siape1=pg_result($data,$i,'imagen');
-    $nome2=pg_result($data,$i,'sonidopalabra');
+    $siape=pg_fetch_result($data,$i,'frase');
+    $nome=pg_fetch_result($data,$i,'traduccionfrase');
+    $siape1=pg_fetch_result($data,$i,'imagen');
+    $nome2=pg_fetch_result($data,$i,'sonidopalabra');
     $pdf->Cell(40,8,$siape,1,0,'C',$fill);
     $pdf->Cell(40,8,$nome,1,0,'C',$fill);
     $pdf->Cell(40,8,$siape1,1,0,'C',$fill);

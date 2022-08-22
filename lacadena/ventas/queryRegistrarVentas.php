@@ -3,7 +3,9 @@
   include '../conexion.php';
 
   $arraysTabla = json_decode(filter_input(INPUT_POST,'tableJSON'));
-  
+  //$arraysTabla = json_decode('tableJSON');
+
+
   // se obtiene el codigo del nit de cliente
   $codCliente = $_POST['inputCodigoCliente'];
 
@@ -18,15 +20,16 @@
   // se hace una consulta del numero actual de documentos de comprobantes
   $consultaValorMaximoFactura="SELECT max(numerodocumentofacturaventa) FROM FacturaVenta";
 
-  $documentoActual=pg_fetch_assoc($consultaValorMaximoFactura);
+  //$documentoActual=pg_fetch_assoc($consultaValorMaximoFactura);
 
   $consultaFactura =  "INSERT INTO FacturaVenta(codigoCliente,totalVenta) VALUES ('$codCliente',$total)";
 
   //se incrementa a uno el documento
-  $numeroDocumento=$documentoActual+1;
+  $numeroDocumento=1;
 
   $corcheteSimple="'";
 
+  $queryInsertMultipleConComa = "";
   foreach ($arraysTabla as $columna) {
     $resultado='('.$corcheteSimple.$columna[0].$corcheteSimple.','.$columna[2].','.$columna[3].','.$numeroDocumento.'),';
     $queryInsertMultipleConComa.=$resultado;

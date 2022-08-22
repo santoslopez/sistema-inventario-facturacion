@@ -14,10 +14,14 @@
 		El formulario corresponde al archivo registrarCuentas.html
 	*/
     $correo=htmlspecialchars($_POST['inputCorreo'],ENT_QUOTES,'UTF-8');
-  
-    $datos=htmlspecialchars($_POST['inputDatos'],ENT_QUOTES,'UTF-8');
+    //$correo=htmlspecialchars($_POST['inputCorreo'],ENT_QUOTES | ENT_SUBSTITUTE);
+	$datos=htmlspecialchars($_POST['inputDatos'],ENT_QUOTES | ENT_SUBSTITUTE);
 
-	$passw=htmlspecialchars($_POST['inputPassword'],ENT_QUOTES,'UTF-8');
+	$passw=htmlspecialchars($_POST['inputPassword'],ENT_QUOTES | ENT_SUBSTITUTE);
+
+    //$datos=htmlspecialchars($_POST['inputDatos'],ENT_QUOTES,'UTF-8');
+
+	//$passw=htmlspecialchars($_POST['inputPassword'],ENT_QUOTES,'UTF-8');
 
     //$estado = "A";
     //date_default_timezone_set('America/Guatemala');    
@@ -33,7 +37,9 @@
 	}else{
 	
 	//Encriptamos la contraseña- NO IMPLEMENTADO EN POSTGRESQL
-	$passwordEncriptado = password_hash($passwordEncriptado,PASSWORD_BCRYPT);
+	$passwordEncriptado = password_hash($passwordUsuario,PASSWORD_DEFAULT);
+	//$passwordEncriptado = password_hash($passwordEncriptado,PASSWORD_DEFAULT);
+
 
 	$consulta = "SELECT PA_registrarUsuario('$correoU','$datosU','$passwordEncriptado')";
 

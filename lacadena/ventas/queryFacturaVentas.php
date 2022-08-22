@@ -376,6 +376,7 @@ $(document).ready(function () {
                     ]*/
                     type:'POST',
                     success:function(data1){
+                        //alert("data 1>"+data1);
                         var json = JSON.parse(data1);
                         
                         if (json=="ventaregistrado") {

@@ -21,8 +21,13 @@
 
    //$userName="santoslopez@google.com";
    
-   
-      echo '<div class="container"><a href="../usuarios/frmRegistrarUsuarios.php" class="btn btn-success" role="button">Registrar usuarios</a>
+   //           <a class="btn btn-success" role="button" onclick="registrarUsuarios();">Registrar usuarios
+
+
+      echo '<div class="container">
+      <a href="../usuarios/frmRegistrarUsuarios.php" class="btn btn-success" role="button">Registrar usuarios
+
+      </a>
       <table class="table table-striped table-bordered nowrap" id="datatableUsuarios" name="datatableUsuarios" style="width:100%">
           <thead>
                   <th>Correo</th>
@@ -67,8 +72,38 @@
             },
             "responsive": true,
         });
+
+
+        
+
     });
     //eliminarDatos(".activarEliminar","#datatableUsuarios","queryEliminarClientes.php",'Cliente eliminado correctamente.',"El cliente no se pudo eliminar se produjo un error","¿Confirmar eliminación de cliente?","Sí, eliminar datos de cliente");
+</script>
+
+<script>
+function registrarUsuarios(){
+    /*$.ajax({
+                    url: "queryEliminarProveedor.php",
+                    data: {
+                        id: idEliminar
+                    },
+                    type: 'POST',
+                    success: function(data) {
+                        var json = JSON.parse(data);
+                       
+                        if(json=="proveedoreliminado"){
+                            $('#datatableUsuarios').DataTable().ajax.reload();
+                            alert("Proveedor eliminado");
+                        }else if(json=="proveedornoexiste"){
+                            alert("Proveedor no existe");
+                        }else if(json=="errorsucedido"){
+                            alert("Error controlado, no se elimino");
+                        }else{
+                            alert("Error al eliminar proveedor");
+                        }
+                    }
+                });*/
+}
 </script>
 
 
