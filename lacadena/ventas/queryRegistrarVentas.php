@@ -17,8 +17,20 @@
     header('Location: ../index.php');
   }else{
 
-  // se hace una consulta del numero actual de documentos de comprobantes
   $consultaValorMaximoFactura="SELECT max(numerodocumentofacturaventa) FROM FacturaVenta";
+
+
+  $ejecutarConsultaObtenerInfo = pg_query($conexion,$consultaValorMaximoFactura);
+    
+  // para recuperar un solo dato se utiliza esto
+  $numero1=pg_fetch_assoc($ejecutarConsultaObtenerInfo);
+  
+  // para recuperar todos los datos se utiliza esto porque estamos obtiendo el maximo de la consulta
+  // se incrementa en 1 el documento
+  $numeroDocumento = intval($numero1['max'])+1;
+  //echo json_encode($row);  
+
+  // se hace una consulta del numero actual de documentos de comprobantes
 
   //$documentoActual=pg_fetch_assoc($consultaValorMaximoFactura);
   $fechaRealizadoFactura = date('Y-m-d');
@@ -26,7 +38,7 @@
   $consultaFactura =  "INSERT INTO FacturaVenta(codigoCliente,totalVenta,fechaFacturaVenta) VALUES ('$codCliente',$total,'$fechaRealizadoFactura')";
 
   //se incrementa a uno el documento
-  $numeroDocumento=1;
+  //$numeroDocumento=1;
 
   $corcheteSimple="'";
 
@@ -48,7 +60,7 @@
   $ejecutarConsulta2 = pg_query($conexion,$consultaInsertDetalleFacturaVenta);
 
 
-  if ($ejecutarConsulta1 and $ejecutarConsulta2) {
+  if ($ejecutarConsulta1 and $ejecutarConsulta2 and $ejecutarConsultaObtenerInfo) {
     pg_query("COMMIT") or die("Transaction commit failed\n");
     echo json_encode("ventaregistrado");
   }else{
