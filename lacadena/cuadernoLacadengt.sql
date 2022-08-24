@@ -59,8 +59,8 @@ CREATE TABLE Clientes(
 CREATE TABLE FacturaCompra(
     numeroDocumento SERIAL NOT NULL,
     documentoProveedor VARCHAR(50) NOT NULL,
-    fechaRegistro timestamp NOT NULL,
-    fechaFacturaProveedor  timestamp NOT NULL,
+    fechaRegistro date NOT NULL,
+    fechaFacturaProveedor  date NOT NULL,
     nitProveedor varchar(20) NOT NULL,
     PRIMARY KEY (documentoProveedor),
     CONSTRAINT PK_FacturaCompra_NitProveedor FOREIGN KEY (nitProveedor) REFERENCES Proveedor(nitProveedor )  
@@ -82,6 +82,7 @@ CREATE TABLE FacturaVenta(
     numeroDocumentoFacturaVenta SERIAL NOT NULL,
     codigoCliente int NOT NULL,
     totalVenta float NOT NULL,
+    fechaFacturaVenta date NOT NULL,
     PRIMARY KEY (numeroDocumentoFacturaVenta),
     CONSTRAINT PK_FacturaVentaCliente FOREIGN KEY (codigoCliente) REFERENCES Clientes(codigoCliente)
 );
@@ -408,3 +409,9 @@ AS $$
        
     END;
 $$ LANGUAGE 'plpgsql';
+
+SELECT DISTINCT facturaventa.numerodocumentofacturaventa,facturaventa.totalventa,nitcliente AS nitcliente  FROM Clientes INNER JOIN FacturaVenta AS facturaventa
+ON Clientes.codigocliente=FacturaVenta.codigocliente INNER JOIN  detallefacturaventa
+ON FacturaVenta.numerodocumentofacturaventa=detallefacturaventa.numerodocumentofacturaventa
+
+WHERE facturaventa.numerodocumentofacturaventa=detallefacturaventa.numerodocumentofacturaventa;

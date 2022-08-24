@@ -21,8 +21,9 @@
   $consultaValorMaximoFactura="SELECT max(numerodocumentofacturaventa) FROM FacturaVenta";
 
   //$documentoActual=pg_fetch_assoc($consultaValorMaximoFactura);
+  $fechaRealizadoFactura = date('Y-m-d');
 
-  $consultaFactura =  "INSERT INTO FacturaVenta(codigoCliente,totalVenta) VALUES ('$codCliente',$total)";
+  $consultaFactura =  "INSERT INTO FacturaVenta(codigoCliente,totalVenta,fechaFacturaVenta) VALUES ('$codCliente',$total,'$fechaRealizadoFactura')";
 
   //se incrementa a uno el documento
   $numeroDocumento=1;

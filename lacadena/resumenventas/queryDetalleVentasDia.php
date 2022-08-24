@@ -5,6 +5,13 @@ require '../conexion.php'; //puede que no lo necesiten
 
 // recuperamos el valor del submodulo
 $obtenerNombreSubmodulo = $_GET["obtenerCodigoVentaComprobante"];
+
+if (!isset($obtenerNombreSubmodulo)) {
+	//$obtenerNombreSubmodulo = "0";
+	# code...
+	header("Location: ../index.php");
+}
+
 	//echo "hola $obtenerNombreSubmodulo";
 
 class PDF extends FPDF {
@@ -92,10 +99,11 @@ class PDF extends FPDF {
 
 			//volvemos a definir el  encabezado cuando se crea una nueva pagina
 			$this->SetFont('Helvetica', 'B', 10);
-			$this->Cell(40, 8, 'Codigo', 1, 0, 'C', 0);
-			$this->Cell(70, 8, 'Unidad', 1, 0, 'C', 0);
-			$this->Cell(20, 8, 'Precio', 1, 0, 'C', 0);
-			$this->Cell(45, 8, 'Subtotal:', 1, 1, 'C', 0);
+			$this->Cell(30, 8, 'Codigo', 1, 0, 'C', 0);
+			$this->Cell(70, 8, 'Descripcion', 1, 0, 'C', 0);
+			$this->Cell(20, 8, 'Unidad', 1, 0, 'C', 0);
+			$this->Cell(30, 8, 'Precio', 1, 0, 'C', 0);
+			$this->Cell(30, 8, 'Subtotal:', 1, 1, 'C', 0);
 			$this->SetFont('Arial', '', 10);
 
 		}
@@ -169,10 +177,18 @@ class PDF extends FPDF {
 //------------------OBTENES LOS DATOS DE LA BASE DE DATOS-------------------------
 //$data = new Conexion();
 //$conexion = $data->conect();
-$filtrarPorCodigoSubmodulo = $_GET["obtenerCodigoVentaComprobante"];
+$filtrarPorCodigoSubmodulo = intval($_GET["obtenerCodigoVentaComprobante"]);
 
-$strquery = "SELECT * FROM detallefacturaventa WHERE numerodocumentofacturaventa='$filtrarPorCodigoSubmodulo'";
+//$strquery = "SELECT * FROM detallefacturaventa WHERE numerodocumentofacturaventa='$filtrarPorCodigoSubmodulo'";
+$strquery = " SELECT prod.codigoproducto,prod.descripcion,DetalleFacturaVenta.cantidadcomprado,DetalleFacturaVenta.preciocompra FROM productos AS prod INNER JOIN Inventario AS inventario ON prod.codigoproducto=Inventario.codigoProducto
+    
+INNER JOIN DetalleFacturaVenta ON inventario.codigoProducto=DetalleFacturaVenta.codigoProducto
 
+INNER JOIN FacturaVenta ON DetalleFacturaVenta.numerodocumentofacturaventa=FacturaVenta.numerodocumentofacturaventa
+
+INNER JOIN Clientes ON FacturaVenta.codigocliente=Clientes.codigoCliente
+
+WHERE FacturaVenta.fechafacturaventa='2022-08-24' AND FacturaVenta.numerodocumentofacturaventa=$filtrarPorCodigoSubmodulo";
 //$result = $conexion->prepare($strquery);
 //$result->execute();
 //$data = $result->fetchall(PDO::FETCH_ASSOC);
@@ -196,10 +212,11 @@ $pdf->SetAutoPageBreak(true, 20); //salto de pagina automatico
 // -----------ENCABEZADO------------------
 $pdf->SetX(15);
 $pdf->SetFont('Helvetica', 'B', 10);
-$pdf->Cell(40, 8, 'Codigo', 1, 0, 'C', 0);
-$pdf->Cell(70, 8, 'Unidad', 1, 0, 'C', 0);
-$pdf->Cell(20, 8, 'Precio', 1, 0, 'C', 0);
-$pdf->Cell(45, 8, 'Subtotal:', 1, 1, 'C', 0);
+$pdf->Cell(30, 8, 'Codigo', 1, 0, 'C', 0);
+$pdf->Cell(70, 8, 'Descripcion', 1, 0, 'C', 0);
+$pdf->Cell(20, 8, 'Unidad', 1, 0, 'C', 0);
+$pdf->Cell(30, 8, 'Precio', 1, 0, 'C', 0);
+$pdf->Cell(30, 8, 'Subtotal:', 1, 1, 'C', 0);
 // -------TERMINA----ENCABEZADO------------------
 
 
@@ -210,7 +227,7 @@ $pdf->SetDrawColor(61, 61, 61); //color de linea  rgb
 $pdf->SetFont('Arial', '', 10);
 
 //El ancho de las celdas
-$pdf->SetWidths(array(40, 70, 20, 45)); //???
+$pdf->SetWidths(array(30,70,20, 30,30)); //???
 // esto no lo mencione en el video pero también pueden poner la alineación de cada COLUMNA!!!
 $pdf->SetAligns(array('C','C','C','L'));
 
@@ -223,7 +240,12 @@ $total = 0;
 for ($i = 0; $i < $numregs; $i++) {
 	// 	$pdf->Row(array($i + 1, pg_fetch_result($data,$i,'frase'), ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'traduccionfrase') ))), pg_fetch_result($data,$i,'imagen')), 15);
 	//$posicionx=$posicionx+15;
-	$pdf->Row(array(ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'codigoproducto')))), ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'cantidadcomprado') ))),ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'preciocompra')))),ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'preciocompra') )))* ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'cantidadcomprado') )))  ) , 15);
+	$pdf->Row(array(
+		ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'codigoproducto')))),
+		ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'descripcion')))),
+		ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'cantidadcomprado') ))),
+		ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'preciocompra')))),
+		ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'preciocompra'))))* ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'cantidadcomprado') )))  ) , 15);
     $total += ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'preciocompra') )))* ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'cantidadcomprado') )));
 }
 //Build table
@@ -245,7 +267,7 @@ $i=0;
     // Formato moneda
   
 
-$pdf->Cell(285,8, 'Total: Q.'.number_format($total,2,'.',''), 0, 0, 'C', 0);
+$pdf->Cell(320,8, 'Total: Q.'.number_format($total,2,'.',''), 0, 0, 'C', 0);
 
 //$pdf->Cell(45, 8, 'Subtotal:', 1, 1, 'C', 0);
 

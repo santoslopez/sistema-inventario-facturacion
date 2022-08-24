@@ -22,8 +22,15 @@
         </div>
         <?php
             include '../conexion.php';
+            date_default_timezone_set('America/Guatemala');   
+            $fechaHoy = date('Y-m-d');
+             $verificarSiHayVentasHoy = "SELECT DISTINCT facturaventa.numerodocumentofacturaventa,facturaventa.fechafacturaventa,facturaventa.totalventa,nitcliente AS nitcliente  FROM Clientes INNER JOIN FacturaVenta AS facturaventa
+             ON Clientes.codigocliente=FacturaVenta.codigocliente INNER JOIN  detallefacturaventa
+             ON FacturaVenta.numerodocumentofacturaventa=detallefacturaventa.numerodocumentofacturaventa
+             
+             WHERE facturaventa.numerodocumentofacturaventa=detallefacturaventa.numerodocumentofacturaventa
+             AND facturaventa.fechafacturaventa='$fechaHoy'";
 
-             $verificarSiHayVentasHoy = "SELECT * FROM FacturaVenta";
              $ejecutarConsultaProductos = pg_query($conexion,$verificarSiHayVentasHoy);
              
              if (pg_num_rows($ejecutarConsultaProductos)==0) {
@@ -38,9 +45,10 @@
 
                 echo '<table class="table table-striped table-bordered nowrap" id="datatableVentasHoy" name="datatableVentasHoy" style="width:100%">
                 <thead>
-                        <th>No. factura</th>
-                        <th>Codigo cliente</th>
+                        <th>No. comprobante</th>
+                        <th>Fecha comprobante</th>
                         <th>Total venta</th>
+                        <th>Nit cliente</th>
                         <th>Anular factura de venta</th>
                         <th>Detalles</th>
                 </thead>
