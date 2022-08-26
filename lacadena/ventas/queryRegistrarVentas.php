@@ -16,6 +16,15 @@
   
   pg_query("BEGIN") or die("Could not start transaction\n");
 
+  // se hace una consulta del numero actual de documentos de comprobantes
+  date_default_timezone_set('America/Guatemala');    
+  $fechaRealizadoFactura = date('Y-m-d');
+
+  $consultaFactura =  "INSERT INTO FacturaVenta(codigoCliente,totalVenta,fechaFacturaVenta) VALUES ('$codCliente',$total,'$fechaRealizadoFactura')";
+  $ejecutarConsulta1 = pg_query($conexion,$consultaFactura);
+
+
+
   $consultaValorMaximoFactura="SELECT max(numerodocumentofacturaventa) FROM FacturaVenta";
 
 
@@ -26,13 +35,7 @@
   
   // para recuperar todos los datos se utiliza esto porque estamos obtiendo el maximo de la consulta
   // se incrementa en 1 el documento
-  $numeroDocumento = intval($numero1['max'])+1;
-
-  // se hace una consulta del numero actual de documentos de comprobantes
-
-  $fechaRealizadoFactura = date('Y-m-d');
-
-  $consultaFactura =  "INSERT INTO FacturaVenta(codigoCliente,totalVenta,fechaFacturaVenta) VALUES ('$codCliente',$total,'$fechaRealizadoFactura')";
+  $numeroDocumento = intval($numero1['max']);
 
   $resultado="";
   foreach ($arraysTabla as $columna) {
@@ -40,16 +43,17 @@
 
   }  
 
-  $ejecutarConsulta1 = pg_query($conexion,$consultaFactura);
 
   $ejecutarConsulta2 = pg_query($conexion,$resultado);
 
 
   if ($ejecutarConsulta1 and $ejecutarConsulta2 and $ejecutarConsultaObtenerInfo) {
+  
     pg_query("COMMIT") or die("Transaction commit failed\n");
     echo json_encode("ventaregistrado");
   }else{
-    pg_query("ROLLBACK") or die("Transaction rollback failed\n");;
+   
+    pg_query("ROLLBACK") or die("Transaction rollback failed\n");
     echo json_encode("ventanoregistrado");
   } 
 

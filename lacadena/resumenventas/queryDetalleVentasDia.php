@@ -176,6 +176,9 @@ class PDF extends FPDF {
 
 //------------------OBTENES LOS DATOS DE LA BASE DE DATOS-------------------------
 //$data = new Conexion();
+date_default_timezone_set('America/Guatemala');    
+$fechaActual = date('Y-m-d');
+
 //$conexion = $data->conect();
 $filtrarPorCodigoSubmodulo = intval($_GET["obtenerCodigoVentaComprobante"]);
 
@@ -188,7 +191,7 @@ INNER JOIN FacturaVenta ON DetalleFacturaVenta.numerodocumentofacturaventa=Factu
 
 INNER JOIN Clientes ON FacturaVenta.codigocliente=Clientes.codigoCliente
 
-WHERE FacturaVenta.fechafacturaventa='2022-08-24' AND FacturaVenta.numerodocumentofacturaventa=$filtrarPorCodigoSubmodulo";
+WHERE FacturaVenta.fechafacturaventa='$fechaActual' AND FacturaVenta.numerodocumentofacturaventa=$filtrarPorCodigoSubmodulo";
 //$result = $conexion->prepare($strquery);
 //$result->execute();
 //$data = $result->fetchall(PDO::FETCH_ASSOC);

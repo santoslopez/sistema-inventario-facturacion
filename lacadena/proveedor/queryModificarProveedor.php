@@ -16,26 +16,15 @@
     header('Location: ../index.php');
   }else{
 
-    $consultaModificarModulos = "UPDATE Proveedor SET nombreEmpresa=$2,direccion=$3,telefono=$4 WHERE nitproveedor=$1";
+    $consulta = "SELECT PA_modificarProveedor('$nit','$empresa','$direccion','$telefono')";
 
-    $namePrepare = "prepareModificarProveedor";
-    
-    pg_prepare($conexion,$namePrepare,$consultaModificarModulos) or die("Cannot prepare statement.");
-  
-    $res = pg_execute($conexion,$namePrepare,array($nit,$empresa,$direccion,$telefono));
-    try {
-      if ($res) {
-            $data = array();
-            $data['status'] = 'success';
-            echo json_encode($data);
-
-      } else {
-        $data['status'] = 'failedupdate';
-        echo json_encode($data);
-      }
-    } catch (Exception $e) {
-      echo json_encode($e->getMessage());
+    $ejecutarConsulta = pg_query($conexion,$consulta);
+    //$data = array();
+    $subarray=array();
+    while ($row= pg_fetch_row($ejecutarConsulta)) {
+      $subarray[]=$row[0];
     }
+    echo json_encode($subarray);
 
   }
 

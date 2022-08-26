@@ -445,10 +445,10 @@
   echo '<div class="col-sm-6">
     <div class="card">
       <div class="card-body">
-        <h5 class="card-title">Mis compras</h5>
-        <p class="card-text">Compras con proveedores</p>
-        <a style="cursor: pointer;" class="btn btn-primary" href="../compras/queryFacturaCompras.php">
-        <img src="../assets/img/truck.webp" class="zoomImagen home">
+        <h5 class="card-title">Realizar compras</h5>
+        <p class="card-text">Generar factura de compras</p>
+        <a style="cursor: pointer;" class="btn btn-primary" href="../compras/listadoProductosCompra.php">
+        <img src="../assets/img/delivery-truck-2.png" class="zoomImagen home">
 
       </a>
 
@@ -456,19 +456,36 @@
     </div>
   </div>';
 }?>
-  
+<hr>
+<div class="col-sm-6" >
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Listado de compras</h5>
+        <p class="card-text">Factura de compras y reportes.</p>
+        <a style="cursor: pointer;" class="btn btn-primary" href="../compras/queryFacturaCompras.php">
+          <img src="../assets/img/health-check.png" class="zoomImagen home">                       
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+
+
   <div class="col-sm-6">
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">Proveedores</h5>
         <p class="card-text">Listado de proveedores.</p>
         <a style="cursor: pointer;" class="btn btn-primary" href="../proveedor/queryListadosProveedor.php">
-        <img src="../assets/img/shopping-mall.webp" class="zoomImagen home">                       
-
-      </a>
+          <img src="../assets/img/shopping-mall.webp" class="zoomImagen home">                       
+        </a>
       </div>
+
     </div>
   </div>
+
+
 </div>
           </div>
 <!--FIN DIV DE COMPRAS-->

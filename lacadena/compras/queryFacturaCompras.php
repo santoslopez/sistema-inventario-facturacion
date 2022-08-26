@@ -49,10 +49,6 @@
     <div class="alert" role="alert" style="margin-top:20px;background:#201E1D;color:white;">
     <h2>Listado de factura de compras</h2>
     
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#formularioAgregarFacturaCompras">
-        Registrar compras
-    </button>
     </div>
 
         <table class="table table-striped table-bordered nowrap" id="datatableUsuarios" name="datatableUsuarios" style="width:100%">

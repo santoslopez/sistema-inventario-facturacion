@@ -47,6 +47,26 @@ CREATE TABLE Proveedor(
     PRIMARY KEY (nitProveedor)
 );
 
+CREATE OR REPLACE FUNCTION PA_modificarProveedor(buscarNitProveedor varchar(20),datosEmpresa varchar(60),
+                                                datosDireccion varchar(100),datosTelefono varchar(15)) RETURNS varchar AS
+$$
+    DECLARE
+
+    BEGIN
+        IF (SELECT count(*) from  Proveedor WHERE (nitproveedor=buscarNitProveedor)) > 0 THEN
+            UPDATE Proveedor SET nombreEmpresa=datosEmpresa,direccion=datosDireccion,telefono=datosTelefono WHERE nitproveedor=buscarNitProveedor;
+            return 'proveedoractualizado';
+            COMMIT;
+        ELSE
+            return 'proveedornoexiste';
+        END IF;
+    EXCEPTION
+    WHEN OTHERS THEN
+        return 'errorsucedido';
+        ROLLBACK;       
+    END;
+$$ LANGUAGE 'plpgsql';
+
 CREATE TABLE Clientes(
     codigoCliente SERIAL NOT NULL,
     nombreApellidos varchar(100) NOT NULL,
@@ -280,7 +300,7 @@ $$
 $$ LANGUAGE 'plpgsql';
 
 /*lo anterior ya se verifico actualiza el stock correctamente al agregar compras,
-realiza promedio de costo de producto al comprar si hay productos existentes,
+realiza promedio  de costo de producto al comprar si hay productos existentes,
 al vender resta el stock.
 
 */
@@ -415,3 +435,32 @@ ON Clientes.codigocliente=FacturaVenta.codigocliente INNER JOIN  detallefacturav
 ON FacturaVenta.numerodocumentofacturaventa=detallefacturaventa.numerodocumentofacturaventa
 
 WHERE facturaventa.numerodocumentofacturaventa=detallefacturaventa.numerodocumentofacturaventa;
+
+
+CREATE OR REPLACE FUNCTION PA_registrarVentaFactura(codCliente int, totalVentaFactura float,codProducto varchar(50),unidadesCompradas int,precioVenta decimal(10,2)) RETURNS varchar AS
+$$
+    DECLARE
+    numeroFacturaGuardar INT;
+    fechaVenta date :=NOW()::date;
+    BEGIN
+        IF (SELECT count(*) from  Clientes WHERE (codigocliente=codCliente)) > 0 THEN
+
+            
+            INSERT INTO FacturaVenta(codigoCliente,totalVenta,fechaFacturaVenta) VALUES (codCliente,totalVentaFactura,fechaVenta);
+            
+            numeroFacturaGuardar=(SELECT max(numerodocumentofacturaventa) FROM FacturaVenta);
+
+            INSERT INTO DetalleFacturaVenta(codigoProducto,cantidadComprado,precioCompra,numeroDocumentoFacturaVenta) 
+            VALUES(codProducto,unidadesCompradas,precioVenta,numeroFacturaGuardar+1);
+
+            return 'ventaregistrado';
+            COMMIT;
+        ELSE
+            return 'ventanoregistrado';
+        END IF;
+    EXCEPTION
+    WHEN OTHERS THEN
+        return 'errorsucedido';
+        ROLLBACK;       
+    END;
+$$ LANGUAGE 'plpgsql';

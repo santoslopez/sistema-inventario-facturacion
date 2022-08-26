@@ -161,20 +161,27 @@
                         if(tipoFormulario=='#formularioModificarProveedor'){
       
                             var json = JSON.parse(data1);
-                            var status = json.status;
-                            if(status=='failedupdate'){ 
+                            //var status = json.status;
+                            if(json=='proveedornoexiste'){ 
                                 Swal.fire(
-                                'Proveedor no actualizado',
+                                'Proveedor no encontrado',
                                 'Los datos no se modificaron.',
                                 'error'
                                 )
-                            }else if(status=='success'){
+                            }else if(json=='proveedoractualizado'){
                                 Swal.fire(
                                 'Proveedor actualizado',
                                 'Los datos se actualizaron correctamente.',
                                 'success')
                                 var table = $('#datatableUsuarios').DataTable();
                                 table.ajax.reload();
+                            }else if(json=='errorsucedido'){
+                                
+                                Swal.fire(
+                                'Error controlado',
+                                'Se produjo el siguiente error: '+json,
+                                'error'
+                                )
                             }else{
                                 Swal.fire(
                                 'Error',
