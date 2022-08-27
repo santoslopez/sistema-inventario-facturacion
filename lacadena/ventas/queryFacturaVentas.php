@@ -60,7 +60,7 @@
   <form class="row g-3">
   <div class="col-auto">
     <label for="inputCodigoProducto">Buscar producto</label>
-    <input type="text" class="form-control" id="inputCodigoProducto" name="inputCodigoProducto" placeholder="Codigo producto" onblur="buscarProducto();">
+    <input type="text" class="form-control" id="inputCodigoProducto" name="inputCodigoProducto" placeholder="Codigo producto" onblur="buscarProducto();"  onkeyup="buscarProducto();"> 
   </div>
   <div class="col-auto">
   <label for="inputNombreProducto">Descripcion</label>
@@ -150,11 +150,11 @@ Guardar venta
             success:function(data){
                 var json = JSON.parse(data);
                 if (json==false) {
-                    Swal.fire(
+                    /*Swal.fire(
                         'Producto no encontrado',
                         'Es posible que el codigo sea incorrecto',
                         'error'
-                        )
+                        )*/
                         estadoCodigoProducto="noaceptado";
                 }else{
                     estadoCodigoProducto="aceptado";
@@ -162,7 +162,7 @@ Guardar venta
                     $("#inputNombreProducto").val(json.descripcion);
                     
                     $("#inputUnidadesDisponibles").val(json.cantidadcomprado);
-                    $("#inputCostoProductoActual").val(json.costoactual);
+                    $("#inputCostoProductoActual").val(json.precioCompra);
                    
 
 

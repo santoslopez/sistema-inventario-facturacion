@@ -210,7 +210,7 @@ while($i<$numregs)
 {
     $siape=pg_result($data,$i,'codigoProducto');
     $nome=pg_result($data,$i,'cantidadcomprado');
-    $siape1=pg_result($data,$i,'costoactual');
+    $siape1=pg_result($data,$i,'precioCompra');
     $nome2=pg_result($data,$i,'cantidadcomprado');
     $pdf->Cell(45,8,$siape,1,0,'C',$fill);
     $pdf->Cell(35,8,$nome,1,0,'C',$fill);

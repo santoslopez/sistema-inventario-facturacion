@@ -16,6 +16,7 @@
   
   pg_query("BEGIN") or die("Could not start transaction\n");
 
+  
   // se hace una consulta del numero actual de documentos de comprobantes
   date_default_timezone_set('America/Guatemala');    
   $fechaRealizadoFactura = date('Y-m-d');
@@ -24,10 +25,18 @@
 
   $consultaFactura  = "INSERT INTO FacturaCompra(documentoProveedor,fechaRegistro,fechaFacturaProveedor,nitProveedor) VALUES('$inputDocumentoProveedor','$fechaRealizadoFactura','$fechaRealizadoFactura','$codCliente');";
 
+
   $resultado="";
   foreach ($arraysTabla as $columna) {
-    $resultado.="INSERT INTO DetalleFacturaCompra(precioCompra,cantidadComprado,codigoProducto,documentoProveedor) VALUES($columna[2],$columna[1],'$columna[0]','$inputDocumentoProveedor');";
-  }  
+   
+    $codigop=$columna[0];
+    $cantidadC=$columna[1];
+    $precio=$columna[2];
+
+    $resultado.="INSERT INTO DetalleFacturaCompra(precioCompra,cantidadComprado,codigoProducto,documentoProveedor) 
+    VALUES($precio,$cantidadC,$codigop,'$inputDocumentoProveedor');";
+  
+}  
 
   $ejecutarConsulta1 = pg_query($conexion,$consultaFactura);
 

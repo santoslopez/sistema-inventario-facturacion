@@ -11,7 +11,7 @@
     if(!(isset($_POST['inputCodigoProducto']))) {
       header('Location: ../index.php');
     }else{
-      $obtenerNombreProducto = "SELECT Inventario.codigoProducto AS codigo,descripcion AS descripcion,Inventario.cantidadComprado AS cantidadcomprado,Inventario.costoActual AS costoactual FROM Productos INNER JOIN Inventario ON Productos.codigoProducto = Inventario.codigoProducto WHERE Inventario.codigoProducto='$inputCodigoProducto'";
+      $obtenerNombreProducto = "SELECT Inventario.codigoProducto AS codigo,descripcion AS descripcion,Inventario.cantidadComprado AS cantidadcomprado,Inventario.precioCompra AS precioCompra FROM Productos INNER JOIN Inventario ON Productos.codigoProducto = Inventario.codigoProducto WHERE Inventario.codigoProducto='$inputCodigoProducto'";
     
       $ejecutarConsultaObtenerInfo = pg_query($conexion,$obtenerNombreProducto);
       

@@ -1,4 +1,6 @@
 
+
+
 CREATE TABLE Rol(
     codRol serial NOT NULL,
     nombreRol varchar(20) NOT NULL,
@@ -131,27 +133,13 @@ CREATE TABLE Inventario(
     codInventario SERIAL NOT NULL,
     codigoProducto varchar(50) NOT NULL,
     cantidadComprado int NOT NULL CHECK(cantidadComprado >= 0),
-    costoActual decimal(10,2) NOT NULL CHECK(costoActual >= 0),
+    precioCompra decimal(10,2) NOT NULL CHECK(precioCompra >= 0),
     PRIMARY KEY (codInventario),
     CONSTRAINT PK_DetalleProductoCompra FOREIGN KEY (codigoProducto) 
     REFERENCES Productos(codigoProducto)  
 );
 
 
-CREATE OR REPLACE FUNCTION TG_ActualizarStockVender() RETURNS TRIGGER AS 
-$$
-DECLARE 
-
-BEGIN
-    UPDATE Inventario SET cantidadComprado = cantidadComprado - NEW.cantidadComprado
-    WHERE codigoProducto=NEW.codigoProducto;
-    return NEW;
-END;
-$$ LANGUAGE 'plpgsql';
-
-CREATE TRIGGER TG_ActualizarStockVender
-AFTER INSERT ON DetalleFacturaVenta
-FOR EACH ROW EXECUTE PROCEDURE TG_ActualizarStockVender();
 
 
 
@@ -256,48 +244,21 @@ $$
     END;
 $$ LANGUAGE 'plpgsql';
 
-CREATE OR REPLACE FUNCTION PA_controlInventario(precioCompraD decimal(10,2),cantidadComp int,productoCod  varchar(50), docPro VARCHAR(50)) RETURNS varchar AS 
-$$
+CREATE OR REPLACE FUNCTION PA_buscarRegistroProducto(buscarCodigoProducto varchar(30)) RETURNS varchar 
+AS $$
+    
     DECLARE
-    
-    
     BEGIN
-
-        IF (SELECT count(*) from Productos WHERE codigoProducto=productoCod) > 0 THEN
-
-            IF (SELECT count(*) from Inventario WHERE codigoProducto=productoCod) > 0 THEN
-    
-                INSERT INTO DetalleFacturaCompra(precioCompra,cantidadComprado,codigoProducto,documentoProveedor)
-                VALUES (precioCompraD,cantidadComp,productoCod,docPro);
-                
-                UPDATE Inventario SET cantidadComprado = cantidadComp + cantidadComprado,
-                costoactual = ((costoactual*cantidadComprado) + (precioCompraD*cantidadComp))/(cantidadComp + cantidadComprado)
-                WHERE codigoProducto=productoCod;
-            
-                return 'actualizadoStock'; 
-                COMMIT;
-                
-            ELSE
-                INSERT INTO DetalleFacturaCompra(precioCompra,cantidadComprado,codigoProducto,documentoProveedor)
-                VALUES (precioCompraD,cantidadComp,productoCod,docPro);
-                
-                INSERT INTO Inventario(codigoProducto,cantidadComprado,costoActual) VALUES
-                (productoCod,cantidadComp,precioCompraD);
-                
-                return 'agregadoStock';
-                COMMIT;
-                
-            END IF;
-        ELSE
-            return 'productonoexiste';
-         END IF;
-
-    EXCEPTION
-    WHEN OTHERS THEN
-        return 'errorsucedido';
-        ROLLBACK;
+    IF (SELECT count(*) from productos WHERE (codigoproducto=buscarCodigoProducto)) > 0 THEN
+       return   'productoencontrado';  
+    ELSE
+       return 'productonoencontrado';
+    END IF;     
+          
     END;
 $$ LANGUAGE 'plpgsql';
+
+
 
 /*lo anterior ya se verifico actualiza el stock correctamente al agregar compras,
 realiza promedio  de costo de producto al comprar si hay productos existentes,
@@ -306,161 +267,76 @@ al vender resta el stock.
 */
 
 
-
-
-
-CREATE OR REPLACE FUNCTION TR_eliminarDetalleComprobanteVenta() RETURNS TRIGGER AS
-
-$$
-DECLARE
-BEGIN
- UPDATE Inventario SET cantidadComprado = cantidadComprado + OLD.cantidadComprado
-              
-                WHERE codigoProducto=OLD.codigoProducto;
- 
- RETURN OLD;
-
-END;
-$$ LANGUAGE 'plpgsql';
-
-
-CREATE TRIGGER TR_eliminarDetalleComprobanteVenta
-AFTER DELETE ON DetalleFacturaVenta
-FOR EACH ROW EXECUTE PROCEDURE TR_eliminarDetalleComprobanteVenta();
-/*pendiente anterior
-*/
-
-
-
-
-
-SELECT I.codigoProducto AS COD,descripcion AS Producto,I.cantidadComprado AS UnidadesDisponibles,I.costoActual
-FROM Inventario AS I
-     INNER JOIN DetalleFacturaCompra
-ON I.codigoProducto = DetalleFacturaCompra.codigoProducto
-     INNER JOIN Productos
-ON DetalleFacturaCompra.codigoProducto = Productos.codigoProducto;
-
-
-CREATE TRIGGER TR_ActualizarInventarioInsertar
-AFTER INSERT ON DetalleFacturaCompra
-
-FOR EACH ROW EXECUTE PROCEDURE TR_ActualizarInventarioInsertar();
-
-
-CREATE OR REPLACE FUNCTION TR_ActualizarInventarioInsertar1() RETURNS TRIGGER AS 
-$$
-DECLARE 
-
-BEGIN;
-
-IF NEW.cantidadComprado > OLD.cantidadComprado THEN 
-
-    UPDATE Inventario SET cantidadComprado = cantidadComprado - (NEW.cantidadComprado - OLD.cantidadComprado)
-        WHERE codigoProducto=NEW.codigoProducto;
-        COMMIT;
-        return NEW;
-        
-
-ELSE
-    UPDATE Inventario SET cantidadComprado = cantidadComprado + (OLD.cantidadComprado - NEW.cantidadComprado)
-        WHERE codigoProducto=NEW.codigoProducto;
-        COMMIT;
-        return NEW;
-        
-END IF;
-
-END;
-$$ LANGUAGE 'plpgsql';
-
-
-CREATE TRIGGER TR_ActualizarInventarioInsertar1
-AFTER UPDATE ON DetalleFacturaCompra
-
-FOR EACH ROW EXECUTE PROCEDURE TR_ActualizarInventarioInsertar1();
-
-
-
-
-DROP TRIGGER TR_ActualizarInventarioAdd on DetalleFacturaCompra;
-DROP TRIGGER TR_ActualizarInventarioInsertar on DetalleFacturaCompra;
-
-DROP FUNCTION PA_insertarCliente;
-
-CREATE OR REPLACE FUNCTION PA_consultarInventario(buscarProducto varchar(30)) RETURNS 
-
-AS 
+CREATE OR REPLACE FUNCTION PA_aumentarInventario() RETURNS TRIGGER AS 
 $$
     DECLARE
-    stockActual int := 0;
+    
     BEGIN
-        IF (SELECT count(*) from  Inventario WHERE (codigoProducto=buscarProducto) ) > 0 THEN
-            
-            return query select I.codigoproducto,descripcion,I.cantidadComprado,I.costoActual from productos
-            INNER JOIN Inventario AS I ON I.codigoProducto=Productos.codigoProducto AND Productos.codigoProducto=buscarProducto;
-            
-            
-        END IF;
-       
-    END;
-$$ LANGUAGE 'plpgsql';
+            IF (SELECT count(*) from Inventario WHERE codigoProducto=NEW.codigoProducto) > 0 THEN             
+               
+                UPDATE Inventario SET cantidadComprado = cantidadComprado+NEW.cantidadComprado
+                WHERE codigoProducto=NEW.codigoProducto;
+                return NEW;                
+                COMMIT;                
+            ELSE
+      
+                INSERT INTO Inventario(codigoProducto,cantidadComprado,precioCompra)
+                VALUES(NEW.codigoProducto,NEW.cantidadComprado,422.30);
+                
+                return new;
+                COMMIT;
+                
+            END IF;
 
-SELECT * FROM INVENTARIO;
-select I.codigoproducto,descripcion,I.cantidadComprado,I.costoActual from productos
-            INNER JOIN Inventario AS I ON I.codigoProducto=Productos.codigoProducto AND Productos.codigoProducto='19000';
-            
-       
-       
-       CREATE OR REPLACE FUNCTION PA_consultarInventario(buscarProducto varchar(30)) RETURNS integer
-AS $$
-    DECLARE
-     stockActual integer;
-    BEGIN
-            stockActual = (SELECT cantidadcomprado from  Inventario WHERE (codigoProducto=buscarProducto));
-        IF ( stockActual) > 0 THEN
-            
-        
-            RETURN stockActual;
-        
-        ELSE
-            RETURN -1;
-        
-        END IF;
-       
-    END;
-$$ LANGUAGE 'plpgsql';
-
-SELECT DISTINCT facturaventa.numerodocumentofacturaventa,facturaventa.totalventa,nitcliente AS nitcliente  FROM Clientes INNER JOIN FacturaVenta AS facturaventa
-ON Clientes.codigocliente=FacturaVenta.codigocliente INNER JOIN  detallefacturaventa
-ON FacturaVenta.numerodocumentofacturaventa=detallefacturaventa.numerodocumentofacturaventa
-
-WHERE facturaventa.numerodocumentofacturaventa=detallefacturaventa.numerodocumentofacturaventa;
-
-
-CREATE OR REPLACE FUNCTION PA_registrarVentaFactura(codCliente int, totalVentaFactura float,codProducto varchar(50),unidadesCompradas int,precioVenta decimal(10,2)) RETURNS varchar AS
-$$
-    DECLARE
-    numeroFacturaGuardar INT;
-    fechaVenta date :=NOW()::date;
-    BEGIN
-        IF (SELECT count(*) from  Clientes WHERE (codigocliente=codCliente)) > 0 THEN
-
-            
-            INSERT INTO FacturaVenta(codigoCliente,totalVenta,fechaFacturaVenta) VALUES (codCliente,totalVentaFactura,fechaVenta);
-            
-            numeroFacturaGuardar=(SELECT max(numerodocumentofacturaventa) FROM FacturaVenta);
-
-            INSERT INTO DetalleFacturaVenta(codigoProducto,cantidadComprado,precioCompra,numeroDocumentoFacturaVenta) 
-            VALUES(codProducto,unidadesCompradas,precioVenta,numeroFacturaGuardar+1);
-
-            return 'ventaregistrado';
-            COMMIT;
-        ELSE
-            return 'ventanoregistrado';
-        END IF;
     EXCEPTION
     WHEN OTHERS THEN
-        return 'errorsucedido';
-        ROLLBACK;       
+        
+        ROLLBACK;
     END;
 $$ LANGUAGE 'plpgsql';
+
+
+CREATE TRIGGER TR_actStock AFTER INSERT ON detallefacturacompra
+FOR EACH ROW
+EXECUTE PROCEDURE PA_aumentarInventario()
+
+
+DROP TRIGGER TR_disminuirStock on DetalleFacturavENTA;
+
+DROP FUNCTION PA_disminuirInventario;
+
+CREATE OR REPLACE FUNCTION PA_disminuirInventario() RETURNS TRIGGER AS 
+$$
+    DECLARE
+    
+    BEGIN
+            IF (SELECT count(*) from Inventario WHERE codigoProducto=NEW.codigoProducto AND cantidadComprado>0) > 0 THEN             
+               
+                UPDATE Inventario SET cantidadComprado = cantidadComprado-NEW.cantidadComprado
+                WHERE codigoProducto=NEW.codigoProducto;
+                return NEW;                
+                COMMIT;     
+            ELSE
+                RAISE 'Sin stock disponible';
+                
+            END IF;
+
+    EXCEPTION
+    WHEN OTHERS THEN
+        
+        ROLLBACK;
+    END;
+$$ LANGUAGE 'plpgsql';
+
+
+CREATE TRIGGER TR_disminuirStock AFTER INSERT ON detallefacturaventa
+FOR EACH ROW
+EXECUTE PROCEDURE PA_disminuirInventario()
+
+
+
+
+
+  UPDATE Inventario SET cantidadComprado = cantidadComp + cantidadComprado,
+                precioCompra = ((precioCompra*cantidadComprado) + (precioCompraD*cantidadComp))/(cantidadComp + cantidadComprado)
+                WHERE codigoProducto=productoCod;

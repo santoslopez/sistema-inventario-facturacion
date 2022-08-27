@@ -6,7 +6,7 @@
 <?php 
     include '../conexion.php';
 
-    $listadoInventado = "SELECT Inventario.codigoProducto,descripcion,Inventario.cantidadComprado,Inventario.costoActual  FROM Productos INNER JOIN Inventario ON Productos.codigoProducto = Inventario.codigoProducto";
+    $listadoInventado = "SELECT Inventario.codigoProducto,descripcion,Inventario.cantidadComprado,Inventario.precioCompra  FROM Productos INNER JOIN Inventario ON Productos.codigoProducto = Inventario.codigoProducto";
     $ejecutarConsultaObtenerInfo = pg_query($conexion,$listadoInventado);
     
     /*if (!($ejecutarConsultaObtenerInfo)) {

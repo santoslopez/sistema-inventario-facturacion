@@ -2,7 +2,10 @@
   //session_start();
   include "../sesion/sesion.php";
   include "../config/config.php";
+ 
 ?>
+
+
 <html lang="en">
 <head>
     <?php
@@ -19,8 +22,9 @@
 </div>
 
 <nav class="navbar navbar-light bg-light">
-    <div class="container-fluid">
-
+    
+<div class="container-fluid">
+    
     <form id="guardarDatosFormulario" name="guardarDatosFormulario" class="row g-3 needs-validation" novalidate>
      
         <!-- inicio formulario-->
@@ -28,6 +32,7 @@
             <div class="col">
                 <label for="Name" class="form-label">Documento proveedor</label>
                 <input type="text" name="inputDocumentoProveedor" class="form-control" id="inputDocumentoProveedor" placeholder="No factura" required>
+                
             </div>
 
         </div>
@@ -45,7 +50,8 @@
             <div class="col">
                 <label for="exampleFormControlInput1" class="form-label">Proveedor</label>
                 <?php
-                         include '../conexion.php';
+                include '../conexion.php';
+                         
                          include "../datos/funcionesDatos.php";
                          datosCombobox("inputNitProveedor",$conexion,"SELECT nitProveedor,nombreEmpresa FROM Proveedor");
                          ?>
@@ -59,14 +65,24 @@
       </form>
 
 </nav>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
 
-<nav class="navbar" style="background:#F8FCFF">
   <div class="container-fluid">
   <form class="row g-3">
+    <div class="col-auto">
+            <div class="col-sm-10">
+                <label for="Name" class="form-label">Buscar producto: </label>
+            
+                <a onclick="buscarProducto();" class="btn btn-oustline-success"><img src="../assets/img/search-2.png" alt="MDN" style="width:40%" class="zoomImagen"></a>
+                <input type="text" id="inputCodigoProducto" class="col-sm-10" name="inputCodigoProducto" required onblur="buscarProducto();" onkeyup="buscarProducto();">        
+
+            </div>
+        </div> 
+
         <div class="col-auto">
             <div class="col-sm-10">
                 <label for="Name" class="form-label">Costo producto</label>
-                <input type="number" name="inputCostoProducto" class="form-control" id="inputCostoProducto" placeholder="Costo de producto" required>
+                <input type="number" name="inputCostoProducto" class="form-control" id="inputCostoProducto" placeholder="Costo de producto" required readonly min="0">
             </div>
 
         </div>
@@ -74,16 +90,9 @@
         <div class="col-auto">
             <div class="col-sm-10">
                 <label for="Name" class="form-label">Cantidad</label>
-                <input type="number" id="inputCantidadCompra" class="form-control soloNumeros" name="inputCantidadCompra" required min="1">
+                <input type="number" id="inputCantidadCompra" class="form-control soloNumeros" name="inputCantidadCompra" required min="1" readonly pattern="[1-9]+">
             </div>
         </div>
-
-        <div class="col-auto">
-            <div class="col-sm-10">
-                <label for="Name" class="form-label">Buscar producto: </label>
-                <input type="text" id="inputCodigoProducto" class="form-control" name="inputCodigoProducto" required >
-            </div>
-        </div> 
 
 
 </form>
@@ -112,10 +121,24 @@
 </table>
 
 <div class="d-grid gap-2 col-6 mx-auto">
-<button onclick="guardarFacturaCompra();" class="btn btn-success" type="button" id="botonFinalizarCompra" name="botonFinalizarCompra">
-    Finalizar factura de compra
-<img src="../assets/img/shopping-cart-5.png" style="width: 64px;heigth: 64px;" class="zoomImagen">
-</button>
+
+<?php
+                
+                $consultaProductos="SELECT * FROM Productos";
+                
+                $ejecutarConsultaProductos = pg_query($conexion,$consultaProductos);
+                if (!(pg_num_rows($ejecutarConsultaProductos))) {
+                    echo '<div class="alert alert-danger" role="alert">
+                    Sin productos registrados. Boton de guardar factura bloqueado.
+                  </div>';
+                }else{
+                    echo '<button onclick="guardarFacturaCompra();" class="btn btn-success" type="button" id="botonFinalizarCompra" name="botonFinalizarCompra">
+                    Finalizar factura de compra
+                <img src="../assets/img/shopping-cart-5.png" style="width: 64px;heigth: 64px;" class="zoomImagen">
+                </button>';
+                }
+            ?>
+
 <a class="btn btn-primary" href="../index.php" role="button">Menu principal</a></div>
 </div>
 
@@ -123,6 +146,9 @@
 
 
 <script>
+    // necesario para que se habilite el boton de agregar producto
+    var estadoCodigoProducto;
+
      var table;
 
 var totalVentaComprobante;
@@ -147,15 +173,51 @@ $(document).ready(function () {
 
       
     $('#addRow').on('click', function () {
-        alert("aqui");
+        //alert("aqui");
         var inputCodigoProducto =  document.getElementById("inputCodigoProducto").value;
         let inputCantidadCompra =  document.getElementById("inputCantidadCompra").value;
 
         let inputCostoProducto =  document.getElementById("inputCostoProducto").value;
         
+       
         if((inputCodigoProducto !='') && (inputCantidadCompra!='') && (inputCostoProducto!='')){
 
-            table.row.add([inputCodigoProducto,inputCantidadCompra,inputCostoProducto,parseInt(inputCantidadCompra) * parseInt(inputCostoProducto)]).draw(false);
+            if(estadoCodigoProducto=="aceptado"){
+                
+                if ((parseInt(inputCantidadCompra)>=1))   {
+                    document.getElementById("inputCostoProducto").value = "";
+                    document.getElementById("inputCantidadCompra").value = "";
+                    document.getElementById("inputCodigoProducto").value = "";
+
+                    document.getElementById("inputCostoProducto").readOnly = true;
+                    document.getElementById("inputCantidadCompra").readOnly = true;
+
+                        
+                    table.row.add([inputCodigoProducto,
+                    inputCantidadCompra,
+                    parseFloat(inputCostoProducto),
+                    parseInt(inputCantidadCompra) * parseFloat(inputCostoProducto)]).draw(false);
+                
+                
+                }else{
+                    // sweet alert success
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Unidades de compra no validas',
+                        text: 'El numero de unidades de compra no puede ser mayor a 1',
+                        footer: '<a href>Cantidad de compra invalida.</a>'
+                    })
+                }
+
+
+            }else if(estadoCodigoProducto=="noaceptado"){
+                Swal.fire('Codigo producto erroneo','El codigo del producto es incorrecto','warning')
+                document.getElementById("inputCostoProducto").value = "";
+                document.getElementById("inputCantidadCompra").value = "";
+                //document.getElementById("inputCodigoProducto").value = "";
+
+            }
+
 
 
         }else{
@@ -196,6 +258,9 @@ $(document).ready(function () {
 
 <script>
 function guardarFacturaCompra(){
+
+
+    
      // se verifica que existan filas en la tabla
      var cantidadFilas = table.rows().count();
      
@@ -238,13 +303,17 @@ function guardarFacturaCompra(){
                         url:"queryRegistrarFacturaCompras.php",
                         //data:{tableJSON:JSON.stringify(tableJSON)}, //SI FUNCIONA DOBLE CORCH
                         data: {
-                            tableJSON:valorDatatable,inputNitProveedor:inputNitProveedor,totalVentaEfectuado:totalVentaEfectuado,inputDocumentoProveedor:inputDocumentoProveedor, inputFechaFacturaProveedor:inputFechaFacturaProveedor
+                            tableJSON:valorDatatable,
+                            inputNitProveedor:inputNitProveedor,
+                            totalVentaEfectuado:totalVentaEfectuado,
+                            inputDocumentoProveedor:inputDocumentoProveedor,
+                            inputFechaFacturaProveedor:inputFechaFacturaProveedor
                         },
 
                     type:'POST',
                     success:function(data1){
-                        alert("compras "+data1);
-                        //alert("data 1>"+data1);
+                       
+                        alert("data 1:"+data1);
                         var json = JSON.parse(data1);
                         
                         if (json=="compraregistrado") {
@@ -269,13 +338,15 @@ function guardarFacturaCompra(){
                             'Compra no realizado',
                             'No se guardo la compra. Se produjo el siguiente error'+data1,
                             'info')
+
                         }else{
                             Swal.fire(
-                            'Error controlado',
+                            'Error controlado: '+data1,
                             'No se guardo la venta',
                             'info')
                         }
-                    }
+                    },
+                    
                 }); 
             }
         })
@@ -287,6 +358,72 @@ function guardarFacturaCompra(){
         // fin 
     }
 }
+</script>
+
+<script>
+
+    function  buscarProducto(){
+       
+        var inputCodigoProducto = $("#inputCodigoProducto").val();
+        
+        $.ajax({
+            url:'queryBuscarProductoRegistrado.php',
+            data:{inputCodigoProducto:inputCodigoProducto},
+            type:'POST',
+            /*beforeSend:function(){
+                alert("123 buscando datos");
+            },
+            error:function(){
+                alert("Error");
+            },
+            complete:function(){
+                alert("listo");
+            },*/
+            success:function(data){
+               
+                var json = JSON.parse(data);
+                if (json=="productoencontrado") {
+                    /*Swal.fire(
+                        'Producto encontrado',
+                        'El producto se encuentra registrado',
+                        'info'
+                        )*/
+                        estadoCodigoProducto="aceptado";
+                        document.getElementById("inputCostoProducto").readOnly = false;
+                        document.getElementById("inputCantidadCompra").readOnly = false;
+
+                     
+
+                }else  if (json=="productonoencontrado") {
+                    /*Swal.fire(
+                        'Producto no encontrado',
+                        'Es posible que el codigo sea incorrecto o el producto no este registrado',
+                        'error'
+                        )*/
+                    estadoCodigoProducto="noaceptado";
+                    document.getElementById("inputCantidadCompra").value = "";
+                    document.getElementById("inputCostoProducto").value = "";
+
+
+
+                    document.getElementById("inputCostoProducto").readOnly = true;
+                        document.getElementById("inputCantidadCompra").readOnly = true;
+                   
+                   
+                }else{
+                    Swal.fire(
+                        'Producto no encontrado xxxxx',
+                        'Es posible que el codigo sea incorrecto o el producto no este registrado',
+                        'error'
+                        )
+                }
+
+
+            }
+        })
+
+
+    }
 </script>
 <!--script src="../assets/js/validation.js"></script-->
 

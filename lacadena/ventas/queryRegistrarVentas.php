@@ -23,8 +23,6 @@
   $consultaFactura =  "INSERT INTO FacturaVenta(codigoCliente,totalVenta,fechaFacturaVenta) VALUES ('$codCliente',$total,'$fechaRealizadoFactura')";
   $ejecutarConsulta1 = pg_query($conexion,$consultaFactura);
 
-
-
   $consultaValorMaximoFactura="SELECT max(numerodocumentofacturaventa) FROM FacturaVenta";
 
 
