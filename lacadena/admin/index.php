@@ -293,21 +293,23 @@
             </a>
           </li-->
 
-          <!--li class="nav__item">
+          <li class="nav__item">
             <a
               href="#"
               class="nav__link focus--box-shadow"
               role="menuitem"
               aria-label="Analytics"
 
-              id="contenidosAprobados-tab" data-bs-toggle="tab" 
-              data-bs-target="#contenidosAprobados" 
+              id="perfil-tab" data-bs-toggle="tab" 
+              data-bs-target="#perfil" 
                
               role="tab" 
               aria-controls="profile" 
               aria-selected="false"
             >
-              <svg
+            <img src="../assets/img/settings.png" alt="Perfil" class="zoomImagen">
+
+              <!--svg
                 class="nav__icon"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -316,9 +318,9 @@
                 <path
                   d="M6,13H2a1,1,0,0,0-1,1v8a1,1,0,0,0,1,1H6a1,1,0,0,0,1-1V14A1,1,0,0,0,6,13ZM5,21H3V15H5ZM22,9H18a1,1,0,0,0-1,1V22a1,1,0,0,0,1,1h4a1,1,0,0,0,1-1V10A1,1,0,0,0,22,9ZM21,21H19V11h2ZM14,1H10A1,1,0,0,0,9,2V22a1,1,0,0,0,1,1h4a1,1,0,0,0,1-1V2A1,1,0,0,0,14,1ZM13,21H11V3h2Z"
                 />
-              </svg>
+              </svg-->
             </a>
-          </li-->
+          </li>
 
         </ul>
       </nav>
@@ -594,14 +596,16 @@
             ddf
           </div-->
 
-          <!--div class="tab-pane fade" id="juego" role="tabpanel" aria-labelledby="juego-tab">
+          <div class="tab-pane fade" id="perfil" role="tabpanel" aria-labelledby="perfil-tab">
             
             <div class="alert alert-primary" role="alert">
-              <h2>Listado de juego</h2>
+              <h2>Perfil</h2>
             </div>
-           
-            Listado contenido juego 
-          </div-->
+            No disponible 
+            <!--?php
+              require_once("../admin/frmModificarPerfil.php");
+            ?-->
+          </div>
 
           <div class="tab-pane fade" id="contenidosAprobados" role="tabpanel" aria-labelledby="contenidosAprobados-tab">
             

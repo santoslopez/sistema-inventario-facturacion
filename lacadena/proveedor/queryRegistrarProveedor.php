@@ -5,6 +5,11 @@ include "../sesion/sesion.php";
 
 include '../conexion.php';
 
+
+if(!(isset($_POST['nombreApellidos'],$_POST['nitCliente'],$_POST['direccion'],$_POST['telefono']) )) {
+  header('Location: ../index.php');
+}else{
+  
 // LOS VALORES QUE SE COLOCAN EN EL POST CORRESPONDE A LO QUE SE ESTA ENVIANDO EN  data:{nombreApellidos:nombreApellidos,direccion:direccion,nitCliente:nitCliente,telefono:telefono}
 
 $nombreEmpresa=htmlspecialchars($_POST['nombreApellidos'],ENT_QUOTES,'UTF-8');
@@ -14,10 +19,6 @@ $nit=htmlspecialchars($_POST['nitCliente'],ENT_QUOTES,'UTF-8');
 $direccion=htmlspecialchars($_POST['direccion'],ENT_QUOTES,'UTF-8');
 $telefono=htmlspecialchars($_POST['telefono'],ENT_QUOTES,'UTF-8');
 
-
-if(!(isset($_POST['nombreApellidos'],$_POST['nitCliente'],$_POST['direccion'],$_POST['telefono']) )) {
-  header('Location: ../index.php');
-}else{
 
 
   $nitEmpresa = pg_escape_string($nit);

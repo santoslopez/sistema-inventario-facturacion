@@ -6,15 +6,17 @@
     
     include '../conexion.php';
     include '../datos/funcionesDatos.php';
-   
-    $queryEliminar = "DELETE FROM DetalleFacturaCompra WHERE idDetalle=$1";
-    $consultaEliminarLenguas = $queryEliminar;
-    $namePrepareStatement="prepareStatementEliminarProductoCompra";
-    $obtenerCodigoEvento = $_POST["id"];
+
 
     if(!(isset($_POST["id"]))) {
       header('Location: ../index.php');
     }else{
+   
+      $queryEliminar = "DELETE FROM DetalleFacturaCompra WHERE idDetalle=$1";
+      $consultaEliminarLenguas = $queryEliminar;
+      $namePrepareStatement="prepareStatementEliminarProductoCompra";
+      $obtenerCodigoEvento = $_POST["id"];
+
       pg_prepare($conexion,$namePrepareStatement,$consultaEliminarLenguas) or die("Cannot prepare statement.");
       $res= pg_execute($conexion,$namePrepareStatement,array($obtenerCodigoEvento));
       $data = array();

@@ -24,7 +24,7 @@
 
 
 	<!-- Por medio de este archivo mostramos un mensaje de confirmacion para eliminar, actualizar datos.-->
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="../assets/js/jquery-3.6.1.min.js"></script>
 
 	<!-- Por medio de este archivo mostramos un mensaje de confirmacion para eliminar, actualizar datos.-->
 	<script src="../js/mensajesPersonalizados.js" type="text/javascript"></script>
@@ -38,6 +38,13 @@
    */
   include '../conexion.php';
 
+
+
+  if(!isset($_POST['inputCodigoProducto'],$_POST['inputDescripcionProducto'])) {
+    header('Location: ../admin/index.php');
+    //exit('Por favor ingresa el nombre de usuario y password.');
+  }else {
+
   /**
    * txtCorreoSession, txtNuevoTipoEvento, txtCorreoIdTipo: estos nombres son los que posse la propiedad
    * NAME del formulario en el archivo formularioModificarTiposEventos.php
@@ -45,13 +52,7 @@
 
   $codigoProducto= $_POST['inputCodigoProducto'];
   $descripcionProducto = $_POST['inputDescripcionProducto'];
-  //$estado= $_POST['inputEstado'];
 
-
-  if(!isset($codigoProducto,$descripcionProducto)) {
-    header('Location: ../admin/index.php');
-    //exit('Por favor ingresa el nombre de usuario y password.');
-  }else {
 
 
     $consultaModificarProductos = "UPDATE Productos SET descripcion=$1 WHERE codigoProducto=$2";

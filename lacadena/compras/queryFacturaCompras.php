@@ -12,6 +12,7 @@
         //session_start();
         include "../includes/head.php";
     ?>
+    <title>Facturas de compras</title>
 
     <style>
         label {

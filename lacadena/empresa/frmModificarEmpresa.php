@@ -2,7 +2,13 @@
   
   //session_start();
   include "../sesion/sesion.php";
+
+  if(!(isset($_GET['inputNitEmpresa'],$_GET['inputNombreEmpresa'],$_GET['inputDireccion']))) {
+	header('Location: ../index.php');
+  }
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">

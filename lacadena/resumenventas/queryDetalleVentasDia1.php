@@ -6,12 +6,24 @@
 <?php 
     include '../conexion.php';
     
+    if (!isset($_GET['obtenerCodigoVentaComprobante'])) {
+        //$obtenerNombreSubmodulo = "0";
+        # code...
+        header("Location: ../index.php");
+    }else{
+
+
     $obtenerCodigoVentaComprobante=$_GET['obtenerCodigoVentaComprobante'];
     
 
-    $listadoTiposEventoUsuario = "SELECT * FROM detallefacturaventa WHERE numerodocumentofacturaventa=$obtenerCodigoVentaComprobante";
-    $ejecutarConsultaObtenerInfo = pg_query($conexion,$listadoTiposEventoUsuario);
+    $listadoTiposEventoUsuario = "SELECT * FROM detallefacturaventa WHERE numerodocumentofacturaventa=$1";
     
+    //$ejecutarConsultaObtenerInfo = pg_query($conexion,$listadoTiposEventoUsuario);
+    pg_prepare($conexion,"queryDetalleFactura",$listadoTiposEventoUsuario) or die ("No se pudo preparar la consulta obtenerCodigoVentaComprobante");
+
+    $ejecutarConsultaObtenerInfo = pg_execute($conexion,"queryDetalleFactura",array($obtenerCodigoVentaComprobante));
+    
+
     if ($ejecutarConsultaObtenerInfo) {
         $data = array();
         while ($row= pg_fetch_row($ejecutarConsultaObtenerInfo)) {
@@ -28,6 +40,6 @@
         echo json_encode("sindatos");   
     }
 
-    
+}
    
 ?>

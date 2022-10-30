@@ -24,7 +24,7 @@
 
 
 	<!-- Por medio de este archivo mostramos un mensaje de confirmacion para eliminar, actualizar datos.-->
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="../assets/js/jquery-3.6.1.min.js"></script>
 
 	<!-- Por medio de este archivo mostramos un mensaje de confirmacion para eliminar, actualizar datos.-->
 	<script src="../js/mensajesPersonalizados.js" type="text/javascript"></script>

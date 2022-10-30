@@ -5,18 +5,16 @@
 
 <?php
   
-  include '../conexion.php';
-  
-  $cliente= $_POST['nitDatos'];
-  $direccion= $_POST['direccion'];
-  $telefono= $_POST['telefono'];
-  $nit = $_POST['empresaDatos'];
+  include "../conexion.php";
 
-  // se valida que no se acceda en la url sin pasar por el formulario
-  /*if(!(isset($_POST['inputCliente'],$_POST['inputDireccionCliente'],$_POST['inputTelefonoCliente'],$_POST['inputNitCliente']))) {
-    header('Location: ../index.php');
-  }else{   }*/
-    
+  if(!isset($_POST["nitDatos"],$_POST["direccion"],$_POST["telefono"],$_POST["empresaDatos"])) {
+    header("Location: ../index.php");
+  }else{
+    $cliente= $_POST["nitDatos"];
+    $direccion= $_POST["direccion"];
+    $telefono= $_POST["telefono"];
+    $nit = $_POST["empresaDatos"];
+
   $consulta = "SELECT PA_actualizarCliente('$nit','$cliente','$direccion','$telefono')";
 
   $ejecutarConsulta = pg_query($conexion,$consulta);
@@ -26,5 +24,6 @@
     $subarray[]=$row[0];
   }
   echo json_encode($subarray);
+}
 
 ?>

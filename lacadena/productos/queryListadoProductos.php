@@ -31,10 +31,15 @@
 
     $empieza = ($pagina-1) * $porpagina;
    
-   $queryListadoProductos = "SELECT * FROM Productos LIMIT $porpagina OFFSET $empieza";
+   $queryListadoProductos = "SELECT * FROM Productos LIMIT $1 OFFSET $2";
 
-    $ejecutarConsulta = pg_query($conexion,$queryListadoProductos);
+    //$ejecutarConsulta = pg_query($conexion,$queryListadoProductos);
     
+    pg_prepare($conexion, "queryListadoProductos",$queryListadoProductos) or die ("No se pudo preparar la consulta queryListadoProductos");
+
+    $ejecutarConsulta = pg_execute($conexion,"queryListadoProductos",array($porpagina,$empieza));
+    
+
     // verificamos que existen registros, sino no dibujamos la tabla
     if (!(pg_num_rows($ejecutarConsulta))) {
         echo "<div class='alert alert-danger' role='alert' style='margin-left:5%;margin-right:5%;margin-top:5%'>

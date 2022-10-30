@@ -9,11 +9,15 @@
     $fechaHoy = date('Y-m-d');
     $listadoTiposEventoUsuario = "SELECT DISTINCT facturaventa.numerodocumentofacturaventa,facturaventa.fechafacturaventa,facturaventa.totalventa,nitcliente AS nitcliente  FROM Clientes INNER JOIN FacturaVenta AS facturaventa
     ON Clientes.codigocliente=FacturaVenta.codigocliente INNER JOIN  detallefacturaventa
-    ON FacturaVenta.numerodocumentofacturaventa=detallefacturaventa.numerodocumentofacturaventa
-    
+    ON FacturaVenta.numerodocumentofacturaventa=detallefacturaventa.numerodocumentofacturaventa    
     WHERE facturaventa.numerodocumentofacturaventa=detallefacturaventa.numerodocumentofacturaventa
-    AND facturaventa.fechafacturaventa='$fechaHoy'";
-    $ejecutarConsultaObtenerInfo = pg_query($conexion,$listadoTiposEventoUsuario);
+    AND facturaventa.fechafacturaventa=$1";
+    
+    pg_prepare($conexion,"queryResumenVentasHoy",$listadoTiposEventoUsuario) or die ("No se pudo preparar la consulta queryResumenVentasHoy");
+
+    $ejecutarConsultaObtenerInfo = pg_execute($conexion,"queryResumenVentasHoy",array($fechaHoy));
+    
+    //$ejecutarConsultaObtenerInfo = pg_query($conexion,$listadoTiposEventoUsuario);
     
     $data = array();
     while ($row= pg_fetch_row($ejecutarConsultaObtenerInfo)) {

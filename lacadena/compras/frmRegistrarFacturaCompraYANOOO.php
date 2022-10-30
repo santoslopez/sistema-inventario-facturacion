@@ -16,7 +16,7 @@
 
 	<!-- Custom CSS Link -->
 	<link rel="stylesheet" href="../assets/css/login.css">
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="../assets/js/jquery-3.6.1.min.js"></script>
 
     <style>
         label {

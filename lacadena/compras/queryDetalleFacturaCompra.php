@@ -6,12 +6,21 @@
 <?php 
     include '../conexion.php';
 
+    if(!(isset($_GET['documentoFacturaCompra']))) {
+        header('Location: ../index.php');
+    }else {
+    
     $documentoFacturaC=$_GET['documentoFacturaCompra'];
     
-    $listadoTiposEventoUsuario = "SELECT * FROM DetalleFacturaCompra WHERE documentoProveedor='$documentoFacturaC';";
+    $listadoTiposEventoUsuario = "SELECT * FROM DetalleFacturaCompra WHERE documentoProveedor=$1";
     //$listadoTiposEventoUsuario = "SELECT * FROM DetalleFacturaCompra";
 
-    $ejecutarConsultaObtenerInfo = pg_query($conexion,$listadoTiposEventoUsuario);
+    //$ejecutarConsultaObtenerInfo = pg_query($conexion,$listadoTiposEventoUsuario);
+ 
+    $variableNombre = "queryMostrarListadoTiposEventoUsuario";
+    pg_prepare($conexion,$variableNombre,$listadoTiposEventoUsuario) or die ("No se pudo preparar la consulta queryMostrarListadoTiposEventoUsuario");
+
+    $ejecutarConsultaObtenerInfo = pg_execute($conexion,$variableNombre,array($documentoFacturaC));
     
     if (!($ejecutarConsultaObtenerInfo)) {
         $data = "No hay productos en esta factura de compra.";
@@ -33,4 +42,5 @@
         }              
         echo json_encode($data);       
     }
+}
 ?>

@@ -2,7 +2,13 @@
     include "../sesion/sesion.php";
     include '../conexion.php';
     include '../datos/funcionesDatos.php';
-   
+
+    if (!isset($_POST["id"])) {
+      //$obtenerNombreSubmodulo = "0";
+      # code...
+      header("Location: ../index.php");
+    }else{
+
     $queryEliminar = "DELETE FROM DetalleFacturaVenta WHERE numerodocumentofacturaventa=$1";
     $consultaEliminarLenguas = $queryEliminar;
     $namePrepareStatement="prepareStatementEliminarFacturaVenta";
@@ -21,4 +27,6 @@
       $data['status'] = 'failed';
       echo json_encode($data);
     }
+
+  }
   ?>

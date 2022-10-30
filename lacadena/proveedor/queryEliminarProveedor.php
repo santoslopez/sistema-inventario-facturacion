@@ -3,12 +3,12 @@
   include '../conexion.php';
   include '../datos/funcionesDatos.php';
    
-  $obtenerNitProveedor= $_POST["id"];
+  
 
   if(!(isset($_POST["id"]))) {
     header('Location: ../index.php');
   }else{
-     
+    $obtenerNitProveedor= $_POST["id"];
     $consulta = "SELECT PA_eliminarProveedor('$obtenerNitProveedor')";
 
     $ejecutarConsulta = pg_query($conexion,$consulta);

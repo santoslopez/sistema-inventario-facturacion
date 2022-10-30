@@ -2,18 +2,19 @@
 
   include '../conexion.php';
 
-  $arraysTabla = json_decode(filter_input(INPUT_POST,'tableJSON'));
-
-  // se obtiene el codigo del nit de cliente
-  $codCliente = $_POST['inputNitProveedor'];
-
-  // obtenemos el total de la venta del t
-  $total = $_POST['totalVentaEfectuado'];
-  
   if(!(isset($_POST['totalVentaEfectuado']))) {
     header('Location: ../index.php');
   }else{
   
+    $arraysTabla = json_decode(filter_input(INPUT_POST,'tableJSON'));
+
+    // se obtiene el codigo del nit de cliente
+    $codCliente = $_POST['inputNitProveedor'];
+  
+    // obtenemos el total de la venta del t
+    $total = $_POST['totalVentaEfectuado'];
+    
+
   pg_query("BEGIN") or die("Could not start transaction\n");
 
   

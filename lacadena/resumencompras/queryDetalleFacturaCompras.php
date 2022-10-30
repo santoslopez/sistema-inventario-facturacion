@@ -3,6 +3,12 @@
 require '../fpdf184/fpdf.php';
 require '../conexion.php'; //puede que no lo necesiten
 
+
+if(!(isset($_GET["obtenerCodigoDocumentoProveedor"]))) {
+	header('Location: ../index.php');
+}else {
+
+
 // recuperamos el valor del submodulo
 $obtenerNombreSubmodulo = $_GET["obtenerCodigoDocumentoProveedor"];
 	//echo "hola $obtenerNombreSubmodulo";
@@ -253,4 +259,6 @@ $pdf->Cell(285,8, 'Total: Q.'.number_format($total,2,'.',''), 0, 0, 'C', 0);
 // cell(ancho, largo, contenido,borde?, salto de linea?)
 
 $pdf->Output();
+
+}
 ?>

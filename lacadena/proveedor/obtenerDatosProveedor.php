@@ -7,14 +7,20 @@
     include '../conexion.php';
 
     
-    $id = $_POST['id'];
+
 
     if(!(isset($_POST['id']))) {
         header('Location: ../index.php');
     }else{
-        $listadoTiposEventoUsuario = "SELECT * FROM Proveedor WHERE  nitProveedor='$id'";
+        $id = $_POST['id'];
+        $listadoProveedor = "SELECT * FROM Proveedor WHERE  nitProveedor=$1";
+        
+        pg_prepare($conexion,"queryListadoProveedor",$listadoProveedor) or die ("No se pudo preparar la consulta queryListadoProveedor");
+
+        $ejecutarConsultaObtenerInfo = pg_execute($conexion,"queryListadoProveedor",array($id));
+        
             
-        $ejecutarConsultaObtenerInfo = pg_query($conexion,$listadoTiposEventoUsuario);
+        //$ejecutarConsultaObtenerInfo = pg_query($conexion,$listadoTiposEventoUsuario);
         
         if (!($ejecutarConsultaObtenerInfo)) {
             $data['status'] = 'sindatos';

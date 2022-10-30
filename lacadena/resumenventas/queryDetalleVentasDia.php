@@ -3,14 +3,15 @@
 require '../fpdf184/fpdf.php';
 require '../conexion.php'; //puede que no lo necesiten
 
-// recuperamos el valor del submodulo
-$obtenerNombreSubmodulo = $_GET["obtenerCodigoVentaComprobante"];
 
-if (!isset($obtenerNombreSubmodulo)) {
+if (!isset($_GET["obtenerCodigoVentaComprobante"])) {
 	//$obtenerNombreSubmodulo = "0";
 	# code...
 	header("Location: ../index.php");
 }
+
+// recuperamos el valor del submodulo
+$obtenerNombreSubmodulo = $_GET["obtenerCodigoVentaComprobante"];
 
 	//echo "hola $obtenerNombreSubmodulo";
 
@@ -191,11 +192,18 @@ INNER JOIN FacturaVenta ON DetalleFacturaVenta.numerodocumentofacturaventa=Factu
 
 INNER JOIN Clientes ON FacturaVenta.codigocliente=Clientes.codigoCliente
 
-WHERE FacturaVenta.fechafacturaventa='$fechaActual' AND FacturaVenta.numerodocumentofacturaventa=$filtrarPorCodigoSubmodulo";
+WHERE FacturaVenta.fechafacturaventa=$1 AND FacturaVenta.numerodocumentofacturaventa=$2";
 //$result = $conexion->prepare($strquery);
 //$result->execute();
 //$data = $result->fetchall(PDO::FETCH_ASSOC);
-$data = pg_query($conexion,$strquery);
+
+pg_prepare($conexion,"queryDetalleVentasDia",$strquery) or die ("No se pudo preparar la consulta queryDetalleVentasDia");
+
+$data = pg_execute($conexion,"queryDetalleVentasDia",array($fechaActual,$filtrarPorCodigoSubmodulo));
+
+
+
+//$data = pg_query($conexion,$strquery);
 
 
 /* IMPORTANTE: si estan usando MVC o algún CORE de php les recomiendo hacer uso del metodo

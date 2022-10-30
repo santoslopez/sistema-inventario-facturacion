@@ -2,6 +2,10 @@
   
   //session_start();
   include "../sesion/sesion.php";
+
+  if(!(isset($_GET['datosCliente'],$_GET['direccionCliente'],$_GET['direccionCliente'],$_GET['nitCliente']) )) {
+	header('Location: ../index.php');
+  }
 ?>
 
 <!DOCTYPE html>

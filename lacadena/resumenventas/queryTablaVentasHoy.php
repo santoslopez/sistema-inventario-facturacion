@@ -12,6 +12,7 @@
         //session_start();
         include "../includes/head.php";
     ?>
+    <title>Resumen de ventas de hoy</title>
 
 </head>
 <body>
@@ -29,10 +30,15 @@
              ON FacturaVenta.numerodocumentofacturaventa=detallefacturaventa.numerodocumentofacturaventa
              
              WHERE facturaventa.numerodocumentofacturaventa=detallefacturaventa.numerodocumentofacturaventa
-             AND facturaventa.fechafacturaventa='$fechaHoy'";
+             AND facturaventa.fechafacturaventa=$1";
 
-             $ejecutarConsultaProductos = pg_query($conexion,$verificarSiHayVentasHoy);
-             
+             //$ejecutarConsultaProductos = pg_query($conexion,$verificarSiHayVentasHoy);
+             pg_prepare($conexion,"queryTablaVentasHoy",$verificarSiHayVentasHoy) or die ("No se pudo preparar la consulta queryTablaVentasHoy");
+
+             $ejecutarConsultaProductos = pg_execute($conexion,"queryTablaVentasHoy",array($fechaHoy));
+     
+
+
              if (pg_num_rows($ejecutarConsultaProductos)==0) {
                  echo '<div class="alert alert-danger" role="alert" style="margin-left:10%;margin-right:10%;margin-top:10%">
                     No hay ventas registrados hoy.

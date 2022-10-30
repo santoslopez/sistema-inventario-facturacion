@@ -7,14 +7,15 @@
     include '../conexion.php';
     include '../datos/funcionesDatos.php';
    
-    $queryEliminar = "DELETE FROM Clientes WHERE  codigoCliente=$1";
-    $consultaEliminarLenguas = $queryEliminar;
-    $namePrepareStatement="prepareStatementEliminarCliente";
-    $obtenerCodigoEvento = $_POST["id"];
-
     if(!(isset($_POST["id"]) )) {
       header('Location: ../index.php');
     }else{
+
+      $queryEliminar = "DELETE FROM Clientes WHERE  codigoCliente=$1";
+      $consultaEliminarLenguas = $queryEliminar;
+      $namePrepareStatement="prepareStatementEliminarCliente";
+      $obtenerCodigoEvento = $_POST["id"];
+  
 
       //eliminarDatosFila("codigoClienteEliminar","DELETE FROM Clientes WHERE codigoCliente=$1;","prepareEliminarContenidoLeccion","El cliente se elimino.","../admin/index.php",$conexion);
       pg_prepare($conexion,"prepareStatementEliminarCliente",$consultaEliminarLenguas) or die("Cannot prepare statement.");

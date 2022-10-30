@@ -6,12 +6,11 @@
 <?php 
     include '../conexion.php';
 
-    $documentoFacturaC=$_POST['buscarCodigoProducto'];
-
 
     if(!(isset($_POST['buscarCodigoProducto']))) {
       header('Location: ../index.php');
     }else{
+      $documentoFacturaC=$_POST['buscarCodigoProducto'];
 
       $consulta = "SELECT * FROM PA_consultarInventario('$documentoFacturaC')";
 

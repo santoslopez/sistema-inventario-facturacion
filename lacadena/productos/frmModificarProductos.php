@@ -2,6 +2,11 @@
   
   //session_start();
   //include "../sesion/sesion.php";
+ 
+  if(!(isset($_GET['codigoProducto'],$_GET['descripcionProducto']))) {
+	header('Location: ../index.php');
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -43,7 +48,7 @@
 						<a href="#" class="text-primary fw-bold text-decoration-none">Crear cuenta</a>
 					</div-->
 					<div class="form-floating mb-3">
-						<input type="text" class="form-control" id="inputCodigoProducto" name="inputCodigoProducto" placeholder="Codigo de producto" required value="<?=$_GET['codigoProducto']?>" readonly>
+						<input type="text" class="form-control" id="inputCodigoProducto" name="inputCodigoProducto" placeholder="Codigo de producto" required value="<?php echo $_GET['codigoProducto']?>" readonly>
 						<label for="floatingInput">Codigo</label>
                         <div class="invalid-feedback">
                             Ingresa un codigo de producto.
@@ -51,14 +56,14 @@
 					</div>
 
 					<div class="form-floating mb-3">
-						<input type="text" class="form-control"  name="inputDescripcionProducto" placeholder="Nombre de producto" required value="<?=$_GET['descripcionProducto']?>">
+						<input type="text" class="form-control"  name="inputDescripcionProducto" placeholder="Nombre de producto" required value="<?php echo $_GET['descripcionProducto']?>">
                         <label for="floatingInput">Descripcion</label>
                         <div class="invalid-feedback">
                             Ingresa el nombre del producto
                         </div>
 					</div>                    
 
-					<button type="submit" class="btn btn-primary submit_btn w-100 my-4">Registrar producto</button>
+					<button type="submit" class="btn btn-primary submit_btn w-100 my-4">Modificar producto</button>
 					<div class="mt-2 text-end">
 						<a href="queryListadoProductos.php" class="btn btn-success fw-bold text-decoration-none">Menu principal</a>
 					</div>

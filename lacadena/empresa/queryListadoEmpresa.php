@@ -13,13 +13,14 @@
     <script src="../assets/js/sweetalert2-10.js"></script>
 
     <!-- Por medio de este archivo mostramos un mensaje de confirmacion para eliminar, actualizar datos.-->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../assets/js/jquery-3.6.1.min.js"></script>
     <!-- Por medio de este archivo mostramos un mensaje de confirmacion para eliminar, actualizar datos.-->
     <script src="../assets/js/mensajesPersonalizados.js" type="text/javascript"></script>
     <link rel="stylesheet" href="../assets/css/bootstrap5-0-2.min.css">
 
 
     <link rel="stylesheet" href="../assets/css/zoomImagen.css"/>
+    <title>Perfil de empresa</title>
 
 
 </head>
@@ -35,10 +36,15 @@
 
     //$listadoTiposEventoUsuario = "SELECT * FROM Empresas WHERE correo='$getUser';";
 
-    $listadoTiposEventoUsuario = "SELECT * FROM Empresas WHERE correo='$getUser';";
+    $listadoTiposEventoUsuario = "SELECT * FROM Empresas WHERE correo=$1";
 
-    $ejecutarConsultaObtenerInfo = pg_query($conexion,$listadoTiposEventoUsuario);
-    
+    //$ejecutarConsultaObtenerInfo = pg_query($conexion,$listadoTiposEventoUsuario);
+    pg_prepare($conexion,"queryEmpresa",$listadoTiposEventoUsuario) or die ("No se pudo preparar la consulta queryEmpresa");
+
+    $ejecutarConsultaObtenerInfo = pg_execute($conexion,"queryEmpresa",array($getUser));
+
+
+
     // verificamos que existen registros, sino no dibujamos la tabla
     if (!(pg_num_rows($ejecutarConsultaObtenerInfo))) {
         echo "<div class='alert alert-danger' role='alert'>

@@ -12,8 +12,14 @@
     if(!(isset($_POST['id'],$_POST['codigoDetalle']))) {
         header('Location: ../index.php');
     }else{
-        $listadoTiposEventoUsuario = "SELECT * FROM DetalleFacturaCompra WHERE documentoProveedor='$id' AND idDetalle='$codigoDetalle'";        
-        $ejecutarConsultaObtenerInfo = pg_query($conexion,$listadoTiposEventoUsuario);        
+        $listadoTiposEventoUsuario = "SELECT * FROM DetalleFacturaCompra WHERE documentoProveedor=$1 AND idDetalle=$2";        
+        
+        pg_prepare($conexion,"queryDetalleFacturaCompra",$listadoTiposEventoUsuario) or die ("No se pudo preparar la consulta queryDetalleFacturaCompra");
+
+        $ejecutarConsultaObtenerInfo = pg_execute($conexion,"queryDetalleFacturaCompra",array($id,$codigoDetalle));
+    
+        //$ejecutarConsultaObtenerInfo = pg_query($conexion,$listadoTiposEventoUsuario);        
+        
         if (!($ejecutarConsultaObtenerInfo)) {
             $data['status'] = 'sindatos';
             echo json_encode($data);    

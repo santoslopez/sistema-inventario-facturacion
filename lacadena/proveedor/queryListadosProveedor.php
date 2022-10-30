@@ -8,6 +8,7 @@
         <?php
             include "../includes/head.php";
         ?>
+        <title>Listado de proveedor</title>
 
     </head>
 <body>

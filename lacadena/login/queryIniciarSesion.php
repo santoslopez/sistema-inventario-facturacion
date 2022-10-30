@@ -12,15 +12,15 @@
         $fila = pg_fetch_assoc(pg_query($conexion,$queryLogin));
 
         if (($fila) && password_verify($pass,$fila["contrasena"])){
-            $passwordUsuario = $_POST['direccion'];
+            $passwordUsuario = $_POST["direccion"];
 
             // regenerar el id de sesion
             session_regenerate_id();
             // sesion para mostrar si esta activo o no el usuario
-            $_SESSION['loggedin'] = TRUE;
-            $_SESSION['nombreUsuario'] = $nombreUsuario;	
-            $_SESSION['contrasena'] = $pass;	
-            $_SESSION["rolUsuario"]= '1'; 
+            $_SESSION["loggedin"] = TRUE;
+            $_SESSION["nombreUsuario"] = $nombreUsuario;	
+            $_SESSION["contrasena"] = $pass;	
+            $_SESSION["rolUsuario"]= "1"; 
             $_SESSION["tipoUsuario"]= TRUE; 
             $data['status'] = 'success';
             echo json_encode($data);

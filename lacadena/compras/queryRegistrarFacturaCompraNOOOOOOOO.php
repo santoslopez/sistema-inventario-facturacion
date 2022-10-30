@@ -5,15 +5,17 @@ include "../sesion/sesion.php";
 
 include '../conexion.php';
 
+
+if(!(isset($_POST['inputDocumentoProveedor'],$_POST['inputFechaFacturaProveedor'],$_POST['inputNitProveedor']) )) {
+  header('Location: ../index.php');
+}else{
+
 // LOS VALORES QUE SE COLOCAN EN EL POST CORRESPONDE A LO QUE SE ESTA ENVIANDO EN  data:{nombreApellidos:nombreApellidos,direccion:direccion,nitCliente:nitCliente,telefono:telefono}
 
 $inputNumeroFacturaProveedor=htmlspecialchars($_POST['inputDocumentoProveedor'],ENT_QUOTES,'UTF-8');
 $inputFechaFacturaProveedor=htmlspecialchars($_POST['inputFechaFacturaProveedor'],ENT_QUOTES,'UTF-8');
 $selectNitProveedor=htmlspecialchars($_POST['inputNitProveedor'],ENT_QUOTES,'UTF-8');
 
-if(!(isset($_POST['inputDocumentoProveedor'],$_POST['inputFechaFacturaProveedor'],$_POST['inputNitProveedor']) )) {
-  header('Location: ../index.php');
-}else{
 
   $consultaVerificarExistenciaProducto = "SELECT * FROM FacturaCompra where documentoProveedor=$1";
 

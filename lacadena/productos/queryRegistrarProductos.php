@@ -5,15 +5,16 @@ include "../sesion/sesion.php";
 
 include '../conexion.php';
 
+
+if(!(isset($_POST['inputCodigoProducto'],$_POST['inputNombreProducto']))) {
+  header('Location: ../index.php');
+}else{
 // LOS VALORES QUE SE COLOCAN EN EL POST CORRESPONDE A LO QUE SE ESTA ENVIANDO EN  data:{nombreApellidos:nombreApellidos,direccion:direccion,nitCliente:nitCliente,telefono:telefono}
 
 $codigoProducto=htmlspecialchars($_POST['inputCodigoProducto'],ENT_QUOTES,'UTF-8');
 $descripcionProducto=htmlspecialchars($_POST['inputNombreProducto'],ENT_QUOTES,'UTF-8');
 
 
-if(!(isset($_POST['inputCodigoProducto'],$_POST['inputNombreProducto']))) {
-  header('Location: ../index.php');
-}else{
   $cod = pg_escape_string($codigoProducto);
   $des = pg_escape_string($descripcionProducto);
   $imagen = "default.png";

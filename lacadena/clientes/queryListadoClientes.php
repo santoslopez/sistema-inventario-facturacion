@@ -12,6 +12,7 @@
         //session_start();
         include "../includes/head.php";
     ?>
+    <title>Listado de clientes</title>
 
 </head>
 <body>
