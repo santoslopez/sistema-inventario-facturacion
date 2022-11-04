@@ -1,0 +1,7 @@
+Options -Indexes
+RewriteEngine On
+ErrorDocument 400 /proyecto/400.php
+ErrorDocument 401 /proyecto/401.php
+ErrorDocument 403 /proyecto/403.php
+ErrorDocument 404 /proyecto/404.php
+ErrorDocument 500 /proyecto/500.php
