@@ -20,7 +20,9 @@
   date_default_timezone_set('America/Guatemala');    
   $fechaRealizadoFactura = date('Y-m-d');
 
-  $consultaFactura =  "INSERT INTO FacturaVenta(codigoCliente,totalVenta,fechaFacturaVenta) VALUES ('$codCliente',$total,'$fechaRealizadoFactura')";
+  $horaVenta = date('h:i:s A');
+
+  $consultaFactura =  "INSERT INTO FacturaVenta(codigoCliente,totalVenta,fechaFacturaVenta,horaVenta,estado) VALUES ('$codCliente',$total,'$fechaRealizadoFactura','$horaVenta','P')";
   $ejecutarConsulta1 = pg_query($conexion,$consultaFactura);
 
   $consultaValorMaximoFactura="SELECT max(numerodocumentofacturaventa) FROM FacturaVenta";

@@ -24,7 +24,7 @@
 
   $inputDocumentoProveedor = $_POST['inputDocumentoProveedor'];
 
-  $consultaFactura  = "INSERT INTO FacturaCompra(documentoProveedor,fechaRegistro,fechaFacturaProveedor,nitProveedor) VALUES('$inputDocumentoProveedor','$fechaRealizadoFactura','$fechaRealizadoFactura','$codCliente');";
+  $consultaFactura  = "INSERT INTO FacturaCompra(documentoProveedor,fechaRegistro,fechaFacturaProveedor,nitProveedor,estado) VALUES('$inputDocumentoProveedor','$fechaRealizadoFactura','$fechaRealizadoFactura','$codCliente','P');";
 
 
   $resultado="";

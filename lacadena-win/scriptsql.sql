@@ -122,6 +122,7 @@ CREATE TABLE FacturaCompra(
     fechaRegistro date NOT NULL,
     fechaFacturaProveedor  date NOT NULL,
     nitProveedor varchar(20) NOT NULL,
+    estado CHAR(1) CHECK(estado='P' OR estado='A') NOT NULL,
     PRIMARY KEY (documentoProveedor),
     CONSTRAINT PK_FacturaCompra_NitProveedor FOREIGN KEY (nitProveedor) REFERENCES Proveedor(nitProveedor )  
 );
@@ -143,6 +144,8 @@ CREATE TABLE FacturaVenta(
     codigoCliente int NOT NULL,
     totalVenta float NOT NULL,
     fechaFacturaVenta date NOT NULL,
+    horaVenta time NOT NULL,
+    estado CHAR(1) CHECK(estado='P' OR estado='A') NOT NULL,
     PRIMARY KEY (numeroDocumentoFacturaVenta),
     CONSTRAINT PK_FacturaVentaCliente FOREIGN KEY (codigoCliente) REFERENCES Clientes(codigoCliente)
 );

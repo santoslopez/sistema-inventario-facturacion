@@ -9,7 +9,7 @@
 <html lang="en">
 <head>
     <?php
-        //session_start();
+        //representa el queryTableVentasHoy
         include "../includes/head.php";
     ?>
     <title>Resumen de ventas de hoy</title>
@@ -21,16 +21,41 @@
             <h2>Resumen ventas de hoy</h2>
             <!-- Button trigger modal -->
         </div>
+
+<div class="mb-3 row">
+    <label for="staticEmail" class="col-sm-2 col-form-label"><strong>Fecha inicio</strong></label>
+    <div class="col-sm-10">
+       
+          <input type="date" id="inputFechaInicio" class="form-control" name="inputFechaInicio" required value="<?php echo date("Y-m-d"); ?>">
+    </div>
+  </div>
+
+  <div class="mb-3 row">
+    <label for="staticEmail" class="col-sm-2 col-form-label"><strong>Fecha fin</strong></label>
+    <div class="col-sm-10">
+       
+          <input type="date" id="inputFechaFin" class="form-control" name="inputFechaFin" required value="<?php echo date("Y-m-d"); ?>">
+    </div>
+  </div>
+
+ <div class="mb-3 row">
+    <label for="staticEmail" class="col-sm-2 col-form-label"><strong>Aplicar cambios</strong></label>
+    <div class="col-sm-10">
+       
+          <img src="../assets/img/search-2.png" style="width:32px;height:32px" class="zoomImagen" onclick=" cargarDatosVentas();">
+    </div>
+  </div>
+
         <?php
             include '../conexion.php';
             date_default_timezone_set('America/Guatemala');   
             $fechaHoy = date('Y-m-d');
-             $verificarSiHayVentasHoy = "SELECT DISTINCT facturaventa.numerodocumentofacturaventa,facturaventa.fechafacturaventa,facturaventa.totalventa,nitcliente AS nitcliente  FROM Clientes INNER JOIN FacturaVenta AS facturaventa
+             $verificarSiHayVentasHoy = "SELECT DISTINCT facturaventa.numerodocumentofacturaventa,facturaventa.fechafacturaventa,facturaventa.totalventa,nitcliente,horaVenta  FROM Clientes INNER JOIN FacturaVenta AS facturaventa
              ON Clientes.codigocliente=FacturaVenta.codigocliente INNER JOIN  detallefacturaventa
              ON FacturaVenta.numerodocumentofacturaventa=detallefacturaventa.numerodocumentofacturaventa
              
              WHERE facturaventa.numerodocumentofacturaventa=detallefacturaventa.numerodocumentofacturaventa
-             AND facturaventa.fechafacturaventa=$1";
+             AND facturaventa.fechafacturaventa=$1 ORDER BY horaventa DESC";
 
              //$ejecutarConsultaProductos = pg_query($conexion,$verificarSiHayVentasHoy);
              pg_prepare($conexion,"queryTablaVentasHoy",$verificarSiHayVentasHoy) or die ("No se pudo preparar la consulta queryTablaVentasHoy");
@@ -55,6 +80,7 @@
                         <th>Fecha comprobante</th>
                         <th>Total venta</th>
                         <th>Nit cliente</th>
+                        <th>Hora venta</th>
                         <th>Anular factura de venta</th>
                         <th>Detalles</th>
                 </thead>
@@ -68,13 +94,22 @@
 
     </div> 
     <script>
+        cargarDatosVentas();
+        function cargarDatosVentas(){
+
+            var fechaInicio = document.getElementById("inputFechaInicio").value;
+            var fechaFin = document.getElementById("inputFechaFin").value;
+       
             $(document).ready(function(){
                 $('#datatableVentasHoy').DataTable({
+                    "destroy":true,
                     "ajax":{
                         "url":"queryResumenVentasHoy.php",
+                        "data":{fechaInicio:fechaInicio,fechaFin:fechaFin},
                         "dataSrc":""
                     },
                     "processing": true,
+                    "order":[[0,"desc"]],
                     //"serverSide": true,
                     /*"columns":[
                         {"data":"nombreapellidos"},
@@ -89,7 +124,7 @@
                         [10,15],
                     ],
                     "language":{
-                        "url":"https://cdn.datatables.net/plug-ins/1.12.1/i18n/es-ES.json"
+                        "url":"../assets/json/idiomaDataTable.json"
                     },
                     "responsive": true,
                 });
@@ -98,6 +133,8 @@
 
 
             });
+
+    }
 
 </script>
 

@@ -61,7 +61,7 @@
                         [10,15],
                     ],
                     "language":{
-                        "url":"https://cdn.datatables.net/plug-ins/1.12.1/i18n/es-ES.json"
+                        "url":"../assets/json/idiomaDataTable.json"
                     },
                     "responsive": true,
                 });

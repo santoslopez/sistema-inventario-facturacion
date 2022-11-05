@@ -46,9 +46,9 @@
 
 
 
-<script src="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.12.1/r-2.3.0/datatables.min.js"></script>
+<script src="../assets/js/datatables.min.js"></script>
 
-<script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.dataTables.js"></script>
+<script src="../assets/js/buttons.dataTables.js"></script>
 
 <script src="../assets/js/eventosAjax.js"></script>
 
@@ -175,7 +175,7 @@
           </li>
 
 
-          <li class="nav__item">
+          <!--li class="nav__item">
             <a
               href="#"
               class="nav__link focus--box-shadow"
@@ -194,7 +194,7 @@
 
  
             </a>
-          </li>
+          </li-->
 
         </ul>
       </nav>
@@ -236,7 +236,7 @@
 
           <div class="tab-pane fade show active" id="acerca" role="tabpanel" aria-labelledby="acerca-tab">
             
-            <div class="alert alert-primary" role="alert">
+            <div class="alert alert-success" role="alert">
               <h3>Crear venta de hoy</h3>
             </div>
             <?php
@@ -318,7 +318,7 @@
                       ?>
                     </h5>
                     <p class="card-text">Resumen de hoy</p>
-                    <a style="cursor: pointer;" class="btn btn-primary" href="../resumenventas/queryTablaVentasHoy.php">
+                    <a style="cursor: pointer;" class="btn btn-primary" href="../resumenventas/index.php">
                       <img src="../assets/img/bar-graph.png" class="zoomImagen home"  alt="Mis ventas de hoy" title="Mis ventas de hoy">
                     </a>
                   </div>
@@ -330,7 +330,7 @@
                   <div class="card-body">
                     <h5 class="card-title">Clientes</h5>
                     <p class="card-text">Listado de clientes.</p>
-                    <a style="cursor: pointer;" class="btn btn-primary" href="../clientes/queryListadoClientes.php">
+                    <a style="cursor: pointer;" class="btn btn-primary" href="../clientes/index.php">
                       <img src="../assets/img/clientes.webp" class="zoomImagen home"  alt="Mis clientes" title="Mis clientes">                       
                     </a>
                   </div>
@@ -342,7 +342,7 @@
 
           <div class="tab-pane fade " id="home" role="tabpanel" aria-labelledby="home-tab">
           
-            <div class="alert alert-primary" role="alert">
+            <div class="alert alert-success" role="alert">
               <h3>Mis compras</h3>
             </div>
             <!-- INICIO DIV DE COMPRAS-->
@@ -394,7 +394,7 @@
       <div class="card-body">
         <h5 class="card-title">Proveedores</h5>
         <p class="card-text">Listado de proveedores.</p>
-        <a style="cursor: pointer;" class="btn btn-primary" href="../proveedor/queryListadosProveedor.php">
+        <a style="cursor: pointer;" class="btn btn-primary" href="../proveedor/index.php">
           <img src="../assets/img/shopping-mall.webp" class="zoomImagen home" alt="Mis proveedores" title="Mis proveedores">                       
         </a>
       </div>
@@ -453,7 +453,7 @@
           
           <div class="tab-pane fade" id="modulos" role="tabpanel" aria-labelledby="modulos-tab">
             
-            <div class="alert alert-primary" role="alert">
+            <div class="alert alert-success" role="alert">
               <h3>Productos</h3>
             </div>
 
@@ -464,7 +464,7 @@
       <div class="card-body">
         <h5 class="card-title">Mis productos</h5>
         <p class="card-text">Registrar productos</p>
-        <a style="cursor: pointer;" class="btn btn-primary" href="../productos/queryListadoProductos.php">
+        <a style="cursor: pointer;" class="btn btn-primary" href="../productos/index.php">
         <img src="../assets/img/index/air-compressor.png" class="zoomImagen home" alt="Mis productos" title="Mis productos">
 
       </a>
@@ -491,7 +491,7 @@
           </div>
           <!--div class="tab-pane fade" id="submodulos" role="tabpanel" aria-labelledby="submodulos-tab">
             
-            <div class="alert alert-primary" role="alert">
+            <div class="alert alert-success" role="alert">
               <h2>Envios por transporte</h2>
             </div>
             No disponible.
@@ -503,7 +503,7 @@
 
           <!--div class="tab-pane fade" id="lecciones" role="tabpanel" aria-labelledby="lecciones-tab">
             
-            <div class="alert alert-primary" role="alert">
+            <div class="alert alert-success" role="alert">
               <h2>Pendiente opcion</h2>
             </div>
             
@@ -511,22 +511,20 @@
             ddf
           </div-->
 
-          <div class="tab-pane fade" id="perfil" role="tabpanel" aria-labelledby="perfil-tab">
+          <!--div class="tab-pane fade" id="perfil" role="tabpanel" aria-labelledby="perfil-tab">
             
-            <div class="alert alert-primary" role="alert">
+            <div class="alert alert-success" role="alert">
               <h2>Perfil</h2>
             </div>
             <div class="alert alert-danger" role="alert">
               Actualmente no disponible. En construcción
             </div>
-            <!--?php
-              require_once("../admin/frmModificarPerfil.php");
-            ?-->
-          </div>
+           
+          </div-->
 
           <div class="tab-pane fade" id="contenidosAprobados" role="tabpanel" aria-labelledby="contenidosAprobados-tab">
             
-            <div class="alert alert-primary" role="alert">
+            <div class="alert alert-success" role="alert">
               <h2>Mi empresa</h2>
             </div>
 
@@ -550,7 +548,7 @@
       <div class="card-body">
         <h5 class="card-title">Empleados</h5>
         <p class="card-text">Listado de empleados.</p>
-        <a style="cursor: pointer;" class="btn btn-primary" href="../usuarios/queryUsuariosRegistrados.php">
+        <a style="cursor: pointer;" class="btn btn-primary" href="../usuarios/index.php">
         <img src="../assets/img/index/add-user.png" class="zoomImagen home" alt="Empleados" title="Empleados">                       
 
       </a>
@@ -569,7 +567,7 @@
 
           <!--div class="tab-pane fade" id="usuariosRegistrados" role="tabpanel" aria-labelledby="usuariosRegistrados-tab">
             
-            <div class="alert alert-primary" role="alert">
+            <div class="alert alert-success" role="alert">
               <h2>Usuarios registrados</h2>
             </div>
           

@@ -1,3 +1,5 @@
+
+
 <?php
 
 require '../fpdf184/fpdf.php';
@@ -21,12 +23,82 @@ class PDF extends FPDF {
 // Cabecera de página
 	function Header() {
 		$this->SetFont('Times', 'B', 14);
-		$this->Image('../assets/img/logov.png', 30, 10, 15); //imagen(archivo, png/jpg || x,y,tamaño)
+		$this->Image('../assets/img/logo.jpeg',175,9, 30); //imagen(archivo, png/jpg || x,y,tamaño)
 		$this->setXY(60, 15);
-		$this->Cell(70, 8,"Recibo de venta ".$_GET["obtenerCodigoVentaComprobante"], 0, 1, 'C', 0);
-		$this->Image('../assets/img/user.png', 150, 10, 15); //imagen(archivo, png/jpg || x,y,tamaño)
+		
+		
+		//$this->Cell(6,10,utf8_decode("Recibo de compra No: ".$_GET["obtenerCodigoVentaComprobante"]), 0, 1, 'L', 0);
+		$this->Cell(6,10,utf8_decode("FERROINDUSTRIAS LOPEZ"), 0, 1, 'L', 0);
+
+		//$pdf = new PDF(); //hacemos una instancia de la clase
+
+$textypos=5;
+$this->SetFont('Times', 'B', 10);
+//$this->Cell(1,1,utf8_decode("En FerroIndustrias López podrás encontrar todos los artículos que necesitas para que tu proyecto sea todo un éxito, contamos con las mejores marcas a nivel internacional para todo tipo de presupuesto."));
+//$this->Cell(170, 2, utf8_decode(""), 0, 0, 'C', 0);
+//$this->Cell(170,15, utf8_decode("Ventas de productos de ferretería y mejores marcas internacionales. Encuentranos en Interior Mercado el Guarda Zona 11."), 0, 0, 'C', 0);
+
+
+
+
+//$this->SetFont('Arial','',10);    
+//$this->setY(35);
+//$this->setX(10);
+
+// Agregamos los datos de la empresa
+$this->Cell(5,$textypos,"Interior mercado el Guarda zona 11");
+$this->SetFont('Arial','B',10);    
+$this->setY(30);$this->setX(10);
+$this->Cell(5,$textypos,"Redes sociales:");
+$this->SetFont('Arial','',10);    
+$this->setY(35);$this->setX(10);
+$this->Cell(5,$textypos,"facebook: FerroIndustrias Lopez");
+$this->setY(40);$this->setX(10);
+$this->Cell(5,$textypos,"WhatsApp: 4059-6836 y 4799-4812");
+$this->setY(45);$this->setX(10);
+//$this->Cell(5,$textypos,"Telefono de la empresa");
+//$this->setY(50);$this->setX(10);
+//$this->Cell(5,$textypos,"Email de la empresa");
+
+
+// Agregamos los datos del cliente
+$this->SetFont('Arial','B',10);    
+$this->setY(30);$this->setX(75);
+$this->Cell(5,$textypos,"Datos del cliente:");
+$this->SetFont('Arial','',10);    
+$this->setY(35);$this->setX(75);
+$this->Cell(5,$textypos,"Cliente: ");
+$this->setY(40);$this->setX(75);
+$this->Cell(5,$textypos,"Direccion: ");
+$this->setY(45);$this->setX(75);
+//$this->Cell(5,$textypos,"Telefono del cliente");
+//$this->setY(50);$this->setX(75);
+//$this->Cell(5,$textypos,"Email del cliente");
+
+
+
+// Agregamos los datos del cliente
+$this->SetFont('Arial','B',10);    
+$this->setY(30);$this->setX(135);
+$this->Cell(5,$textypos,"RECIBO NO: ".$_GET["obtenerCodigoVentaComprobante"]);
+$this->SetFont('Arial','',10);    
+$this->setY(35);$this->setX(135);
+$this->Cell(5,$textypos,"FECHA: ".$_GET["fechaVentaComprobante"]);
+$this->setY(40);$this->setX(135);
+//$this->Cell(5,$textypos,"Vencimiento: 11/ENE/2020");
+//$this->setY(45);$this->setX(135);
+//$this->Cell(5,$textypos,"");
+$this->setY(50);$this->setX(135);
+//$this->Cell(5,$textypos,"");
+
+
+
+		//$this->Cell(80, 8,"Ventas de herramientas el guarda", 0, 1, 'C', 0);
+
+		//$this->Cell(70, 8,"Recibo de venta ".$_GET["obtenerCodigoVentaComprobante"], 0, 1, 'C', 0);
+		//$this->Image('../assets/img/user.png', 150, 10, 15); //imagen(archivo, png/jpg || x,y,tamaño)
 		// va ser la separacion entre la imagen y la pagina
-		$this->Ln(25);
+		$this->Ln(15);
 	}
 
     // Formato moneda
@@ -45,7 +117,7 @@ class PDF extends FPDF {
 
 		$this->SetFont('Arial', 'B', 10);
 		// Número de página
-		$this->Cell(170, 10, 'Comprobante', 0, 0, 'C', 0);
+		$this->Cell(170, 10, 'Las mejores marcas: Toolcraft, Pretul, INGCO, Truper, BBT, Gladiator, Leo, Makita, etc.', 0, 0, 'C', 0);
 		$this->Cell(25, 10, utf8_decode('Página ') . $this->PageNo() . '/{nb}', 0, 0, 'C');
 	}
 
@@ -100,11 +172,11 @@ class PDF extends FPDF {
 
 			//volvemos a definir el  encabezado cuando se crea una nueva pagina
 			$this->SetFont('Helvetica', 'B', 10);
-			$this->Cell(30, 8, 'Codigo', 1, 0, 'C', 0);
-			$this->Cell(70, 8, 'Descripcion', 1, 0, 'C', 0);
-			$this->Cell(20, 8, 'Unidad', 1, 0, 'C', 0);
-			$this->Cell(30, 8, 'Precio', 1, 0, 'C', 0);
-			$this->Cell(30, 8, 'Subtotal:', 1, 1, 'C', 0);
+			$this->Cell(30, 8, 'CODIGO', 1, 0, 'C', 0);
+			$this->Cell(70, 8, 'DESCRIPCION', 1, 0, 'C', 0);
+			$this->Cell(20, 8, 'UNIDAD', 1, 0, 'C', 0);
+			$this->Cell(30, 8, 'PRECIO', 1, 0, 'C', 0);
+			$this->Cell(30, 8, 'SUBTOTAL', 1, 1, 'C', 0);
 			$this->SetFont('Arial', '', 10);
 
 		}
@@ -184,7 +256,7 @@ $fechaActual = date('Y-m-d');
 $filtrarPorCodigoSubmodulo = intval($_GET["obtenerCodigoVentaComprobante"]);
 
 //$strquery = "SELECT * FROM detallefacturaventa WHERE numerodocumentofacturaventa='$filtrarPorCodigoSubmodulo'";
-$strquery = " SELECT prod.codigoproducto,prod.descripcion,DetalleFacturaVenta.cantidadcomprado,DetalleFacturaVenta.preciocompra FROM productos AS prod INNER JOIN Inventario AS inventario ON prod.codigoproducto=Inventario.codigoProducto
+$strquery = " SELECT prod.codigoproducto,prod.descripcion,DetalleFacturaVenta.cantidadcomprado,DetalleFacturaVenta.preciocompra,(DetalleFacturaVenta.cantidadcomprado*DetalleFacturaVenta.preciocompra) AS subtotal FROM productos AS prod INNER JOIN Inventario AS inventario ON prod.codigoproducto=Inventario.codigoProducto
     
 INNER JOIN DetalleFacturaVenta ON inventario.codigoProducto=DetalleFacturaVenta.codigoProducto
 
@@ -223,16 +295,18 @@ $pdf->SetAutoPageBreak(true, 20); //salto de pagina automatico
 // -----------ENCABEZADO------------------
 $pdf->SetX(15);
 $pdf->SetFont('Helvetica', 'B', 10);
-$pdf->Cell(30, 8, 'Codigo', 1, 0, 'C', 0);
-$pdf->Cell(70, 8, 'Descripcion', 1, 0, 'C', 0);
-$pdf->Cell(20, 8, 'Unidad', 1, 0, 'C', 0);
-$pdf->Cell(30, 8, 'Precio', 1, 0, 'C', 0);
-$pdf->Cell(30, 8, 'Subtotal:', 1, 1, 'C', 0);
+$pdf->Cell(30, 8, 'CODIGO', 1, 0, 'C', 0);
+$pdf->Cell(70, 8, 'DESCRIPCION', 1, 0, 'C', 0);
+$pdf->Cell(20, 8, 'UNIDAD', 1, 0, 'C', 0);
+$pdf->Cell(30, 8, 'PRECIO', 1, 0, 'C', 0);
+$pdf->Cell(30, 8, 'SUBTOTAL', 1, 1, 'C', 0);
 // -------TERMINA----ENCABEZADO------------------
 
 
 
-$pdf->SetFillColor(248, 252, 255); //color de fondo rgb
+//$pdf->SetFillColor(248, 252, 255); //color de fondo rgb
+$pdf->SetFillColor(255,255, 255); //color de fondo rgb
+
 $pdf->SetDrawColor(61, 61, 61); //color de linea  rgb
 
 $pdf->SetFont('Arial', '', 10);
@@ -256,7 +330,10 @@ for ($i = 0; $i < $numregs; $i++) {
 		ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'descripcion')))),
 		ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'cantidadcomprado') ))),
 		ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'preciocompra')))),
-		ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'preciocompra'))))* ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'cantidadcomprado') )))  ) , 15);
+		//ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'preciocompra')))) * ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'cantidadcomprado') ) ))  
+		ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'subtotal')))),
+
+	) , 15);
     $total += ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'preciocompra') )))* ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'cantidadcomprado') )));
 }
 //Build table

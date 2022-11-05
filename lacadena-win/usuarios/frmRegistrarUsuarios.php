@@ -43,7 +43,7 @@
 						<a href="#" class="text-primary fw-bold text-decoration-none">Crear cuenta</a>
 					</div-->
 					<div class="form-floating mb-3">
-						<input type="email" class="form-control" id="inputCorreo" name="inputCorreo" placeholder="name@example.com" required>
+						<input type="email" class="form-control" id="inputCorreo" name="inputCorreo" placeholder="name@example.com" required maxlength="50">
 						<label for="floatingInput">Correo electronico</label>
                         <div class="invalid-feedback">
                             Ingresa un correo valido.
@@ -51,7 +51,7 @@
 					</div>
 
 					<div class="form-floating mb-3">
-						<input type="text" class="form-control" name="inputDatos" name="inputDatos" placeholder="Nombre y apellidos" required>
+						<input type="text" class="form-control" name="inputDatos" name="inputDatos" placeholder="Nombre y apellidos" required maxlength="100">
 						<label for="floatingInput">Nombre y apellidos</label>
                         <div class="invalid-feedback">
                             Ingresa tu nombre y apellidos
@@ -59,7 +59,7 @@
 					</div>                    
 
 					<div class="form-floating">
-						<input type="password" class="form-control" pattern="[A-Za-z0-9.]+" id="inputPassword" name="inputPassword" placeholder="Password" required>
+						<input type="password" class="form-control" pattern="[A-Za-z0-9.]+" id="inputPassword" name="inputPassword" placeholder="Password" required maxlength="255">
 						<label for="floatingPassword">Password</label>
                         <div class="invalid-feedback">
                             El password puede tener letras, numeros y el signo punto.
@@ -96,7 +96,7 @@
 		</div>
 	</section>
   
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="../assets/js/bootstrap5-0-2.bundle.min.js"></script>
 
 <script src="../assets/js/validation.js"></script>
 

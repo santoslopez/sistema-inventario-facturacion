@@ -108,11 +108,15 @@
     </tr>
 </tfoot>
 </table>
-<div class="d-grid gap-2 col-6 mx-auto">
+<div class="d-grid gap-2 col-6 mx-auto" style="margin-bottom:3%">
 <button onclick="guardarVenta()" class="btn btn-success" type="button" id="botonGuardarVenta" name="botonGuardarVenta">
 Guardar venta
-<img src="../assets/img/disk.png" style="width: 64px;heigth: 64px;" class="zoomImagen">
+<img src="../assets/img/disk.png" style="width: 40px;heigth:40px;" class="zoomImagen">
 </button>
+<a href="../resumenventas/index.php" class="btn btn-info" type="button" target="_blank">
+Resumen ventas hoy
+<img src="../assets/img/statistics.png" style="width: 40px;heigth:40px;" class="zoomImagen">
+</a>
 <a class="btn btn-primary" href="../index.php" role="button">Menu principal</a></div>
 </div>';
 
@@ -129,7 +133,7 @@ Guardar venta
         
         var inputCodigoProducto = $("#inputCodigoProducto").val();
 
-
+        //alert("aqui" +inputCodigoProducto);
 
 
         $.ajax({
@@ -137,8 +141,9 @@ Guardar venta
             data:{inputCodigoProducto:inputCodigoProducto},
             type:'POST',
             success:function(data){
+               // alert("estoy aqui: "+data);
                 var json = JSON.parse(data);
-               // alert("estoy aqui: "+json);
+                
                 if (json==false) {
                     /*Swal.fire(
                         'Producto no encontrado',
@@ -146,6 +151,7 @@ Guardar venta
                         'error'
                         )*/
                         estadoCodigoProducto="noaceptado";
+                       // alert("aqui" +json);
                 }else{
                     estadoCodigoProducto="aceptado";
 
@@ -194,10 +200,13 @@ Guardar venta
                         'Es posible que el nit no es el correcto o no este registrado',
                         'error'
                         )
+                        document.getElementById("inputCodigoProducto").disabled=true;
+
                 }else{
                     $("#inputNombreCliente").val(json.nombreapellidos);
                     $("#inputCodigoCliente").val(json.codigocliente);
 
+                    document.getElementById("inputCodigoProducto").disabled=false;
                 }
 
 
@@ -215,6 +224,9 @@ Guardar venta
      var totalVentaComprobante;
 $(document).ready(function () {
     
+
+    document.getElementById("inputCodigoProducto").disabled=true;
+
     table = $('#example').DataTable( {
         dom: 'Bfrtip',
     drawCallback: function () {

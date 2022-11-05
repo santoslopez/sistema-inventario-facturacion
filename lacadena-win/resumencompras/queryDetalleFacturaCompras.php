@@ -268,9 +268,9 @@ $i=0;
 $totalCompra = number_format($total,2,'.','');
 
 //$formatoTotal = money_format('%i', $totalCompra) . "\n";
-$valor=NumberFormatter::create( 'es_US', NumberFormatter::DECIMAL )->format($totalCompra);
+//$valor=NumberFormatter::create( 'es_US', NumberFormatter::DECIMAL )->format($totalCompra);
 
-$pdf->Cell(340,8, 'Total: Q.'.$valor, 0, 0, 'C', 0);
+$pdf->Cell(340,8, 'Total: Q.'.$totalCompra, 0, 0, 'C', 0);
 
 //money_format('%i', $number)
 //$pdf->Cell(45, 8, 'Subtotal:', 1, 1, 'C', 0);

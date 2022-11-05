@@ -18,7 +18,7 @@
 <body>
     <div class="container">
         
-        <div class="alert" role="alert" style="margin-top:20px;background:#201E1D;color:white;">
+        <div class="alert alert-primary" role="alert" style="margin-top:20px;">
             <h2>Listado de clientes</h2>
             
             <!-- Button trigger modal -->
@@ -197,7 +197,7 @@
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
                 <label for="Name" class="form-label">Nombre y apellidos</label>
-                <input type="text" name="inputDatos" class="form-control" id="inputDatos" placeholder="Nombre y apellidos" required autocomplete="off">
+                <input type="text" name="inputDatos" class="form-control" id="inputDatos" placeholder="Nombre y apellidos" required autocomplete="off" maxlength="100">
             </div>
             <!--div class="invalid-feedback">
                 Looks good!
@@ -207,7 +207,7 @@
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
                 <label for="Name" class="form-label">Direccion</label>
-                <input type="text" name="inputDireccion" class="form-control" id="inputDireccion" placeholder="Direccion" require value="Ciudad" autocomplete="off">
+                <input type="text" name="inputDireccion" class="form-control" id="inputDireccion" placeholder="Direccion" require value="Ciudad" autocomplete="off" maxlength="50">
             </div>
         </div>
 
@@ -215,14 +215,14 @@
             <div class="col-sm-10">
                 <label for="exampleFormControlInput1" class="form-label">Nit cliente</label>
                 <input type="checkbox" id="cboxSinNit" value="c.f"> <label for="cbox2">No tiene nit</label>
-                <input type="text" name="inputNit" class="form-control" id="inputNit" placeholder="Nit" required>
+                <input type="text" name="inputNit" class="form-control" id="inputNit" placeholder="Nit" required maxlength="20">
             </div>
         </div>
 
-        <div class="mb-3">
+        <div class="mb-3 has-validation">
             <div class="col-sm-10">
                 <label for="exampleFormControlInput1" class="form-label">Telefono</label>
-                <input type="number" name="inputTelefono" class="form-control" id="inputTelefono" placeholder="Telefono" autocomplete="off">
+                <input type="number" name="inputTelefono" class="form-control" id="inputTelefono" placeholder="Telefono" autocomplete="off" maxlength="15">
             </div>
             <!--div class="invalid-feedback">
                 Ingresa un numero de telefono valido.
@@ -258,19 +258,19 @@
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
                 <label for="exampleFormControlInput1" class="form-label">Nombre y apellidos</label>
-                <input type="text" name="inputDatosUpdate" class="form-control" id="inputDatosUpdate" placeholder="Nombre y apellidos" required autocomplete="off">
+                <input type="text" name="inputDatosUpdate" class="form-control" id="inputDatosUpdate" placeholder="Nombre y apellidos" required autocomplete="off" maxlength="100">
             </div>
         </div>
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
                 <label for="Name" class="form-label">Direccion</label>
-                <input type="text" name="inputDireccionModificar" class="form-control" placeholder="Direccion" id="inputDireccionModificar" required autocomplete="off">
+                <input type="text" name="inputDireccionModificar" class="form-control" placeholder="Direccion" id="inputDireccionModificar" required autocomplete="off" maxlength="50">
             </div>
         </div>
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
                 <label for="exampleFormControlInput1" class="form-label">Telefono</label>
-                <input type="number" name="inputTelefonoModificar" class="form-control" id="inputTelefonoModificar" placeholder="Telefono" required autocomplete="off">
+                <input type="number" name="inputTelefonoModificar" class="form-control" id="inputTelefonoModificar" placeholder="Telefono" required autocomplete="off" maxlength="15">
             </div>
             <div class="invalid-feedback">
                 Ingresa un numero de telefono valido.

@@ -79,7 +79,7 @@
                             en json se llama como nombreempresa
                             */
 
-                            if(json.status=="sindatos"){
+                            if(json=="sindatos"){
                                 
                             }else {
                                 $("#inputNitUpdate").val(json.codigoproducto);
@@ -110,19 +110,19 @@
                             $('#datatableProductos').DataTable().ajax.reload();
                             
                               Swal.fire(
-                                'Proveedor eliminado.',
+                                'Productos eliminado.',
                                 'El proveedor se elimino correctamente.',
                                 'success'
                             )
                         }else if(json=="productonoexiste"){
                               Swal.fire(
-                                'Proveedor no encontrado.',
-                                'El proveedor no existe.',
+                                'Producto no encontrado.',
+                                'El producto no existe.',
                                 'info'
                             )
                         }else if(json=="errorsucedido"){
                               Swal.fire(
-                                'Proveedor no eliminado.',
+                                'Producto no eliminado.',
                                 'Es posible que los datos esten siendo usados con otra información.',
                                 'error'
                             )
@@ -273,13 +273,13 @@
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
                 <label for="exampleFormControlInput1" class="form-label">Codigo</label>
-                <input type="text" name="inputNit" class="form-control" id="inputNit" placeholder="Codigo del producto" required>
+                <input type="text" name="inputNit" class="form-control" id="inputNit" placeholder="Codigo del producto" required maxlength="30">
             </div>
         </div>
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
                 <label for="Name" class="form-label">Descripcion</label>
-                <input type="text" name="inputDatos" class="form-control" placeholder="Nombre del producto" id="inputDatos" required>
+                <input type="text" name="inputDatos" class="form-control" placeholder="Nombre del producto" id="inputDatos" required maxlength="150">
             </div>
             <!--div class="invalid-feedback">
                 Looks good!
@@ -314,13 +314,13 @@
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
                 <label for="exampleFormControlInput1" class="form-label">Codigo del producto</label>
-                <input type="text" name="inputNitUpdate" class="form-control" id="inputNitUpdate" placeholder="Nit" required readonly>
+                <input type="text" name="inputNitUpdate" class="form-control" id="inputNitUpdate" placeholder="Nit" required readonly maxlength="30">
             </div>
         </div>
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
                 <label for="Name" class="form-label">Nombre del producto</label>
-                <input type="text" name="inputDatosModificar" class="form-control" placeholder="Nombre del producto" id="inputDatosModificar" required>
+                <input type="text" name="inputDatosModificar" class="form-control" placeholder="Nombre del producto" id="inputDatosModificar" required maxlength="150">
             </div>
         </div>
        

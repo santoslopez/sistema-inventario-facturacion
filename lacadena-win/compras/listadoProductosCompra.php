@@ -16,6 +16,32 @@
 </head>
 <body>
 <div class="container">
+
+
+<?php
+                require "../conexion.php";
+                $consultaProductos="SELECT * FROM Productos";
+                
+                $ejecutarConsultaProductos = pg_query($conexion,$consultaProductos);
+                if (!(pg_num_rows($ejecutarConsultaProductos))) {
+                    echo '<div class="d-grid gap-2 col-6 mx-auto" style="margin-bottom:3%">
+<div class="alert alert-danger" role="alert" style="margin-top:5%">
+                    Sin productos registrados. Boton de guardar factura bloqueado.
+                  </div>
+                  <a href="../index.php" class="btn btn-primary">Menu principal</a>
+                  </div>';
+               
+            ?>
+
+<?php
+ }else{
+
+
+?>
+
+
+
+
 <div class="alert alert-success" role="alert" style="margin-left:5%;margin-right:5%;margin-top:20px;">
     <h2>Crear factura de compras</h2>
         
@@ -31,7 +57,7 @@
         <div class="col-auto">
             <div class="col">
                 <label for="Name" class="form-label">Documento proveedor</label>
-                <input type="text" name="inputDocumentoProveedor" class="form-control" id="inputDocumentoProveedor" placeholder="No factura" required autocomplete="off">
+                <input type="text" name="inputDocumentoProveedor" class="form-control" id="inputDocumentoProveedor" placeholder="No factura" required autocomplete="off" onkeyup="habilitarCajaProducto();">
                 
             </div>
 
@@ -41,7 +67,7 @@
             <div class="col">
                 <label for="Name" class="form-label">Fecha factura proveedor</label>
                 <!--input type="date" name="inputFechaFacturaProveedor" class="form-control" id="inputFechaFacturaProveedor" placeholder="Fecha facturado por proveedor" required-->
-                <input type="date" id="inputFechaFacturaProveedor" class="form-control" name="inputFechaFacturaProveedor" required>
+                <input type="date" id="inputFechaFacturaProveedor" class="form-control" name="inputFechaFacturaProveedor" required value="<?php echo date("Y-m-d"); ?>">
       
             </div>
         </div>
@@ -74,7 +100,7 @@
                 <label for="Name" class="form-label">Buscar producto: </label>
             
                 <a onclick="buscarProducto();" class="btn btn-oustline-success"><img src="../assets/img/search-2.png" alt="MDN" style="width:40%" class="zoomImagen"></a>
-                <input type="text" id="inputCodigoProducto" class="col-sm-10" name="inputCodigoProducto" required onblur="buscarProducto();" onkeyup="buscarProducto();" autocomplete="off">        
+                <input type="text" id="inputCodigoProducto" class="col-sm-10" name="inputCodigoProducto" required onblur="buscarProducto();" onkeyup="buscarProducto();" autocomplete="off" placeholder="Ingrese codigo del producto">        
 
             </div>
         </div> 
@@ -90,7 +116,7 @@
         <div class="col-auto">
             <div class="col-sm-10">
                 <label for="Name" class="form-label">Cantidad</label>
-                <input type="number" id="inputCantidadCompra" class="form-control soloNumeros" name="inputCantidadCompra" required min="1" readonly pattern="[1-9]+">
+                <input type="number" id="inputCantidadCompra" class="form-control soloNumeros" name="inputCantidadCompra" required min="1" readonly pattern="[1-9]+" placeholder="Cantidad">
             </div>
         </div>
 
@@ -120,30 +146,46 @@
 </tfoot>
 </table>
 
-<div class="d-grid gap-2 col-6 mx-auto">
+<div class="d-grid gap-2 col-6 mx-auto" style="margin-bottom:3%">
 
-<?php
+
                 
-                $consultaProductos="SELECT * FROM Productos";
                 
-                $ejecutarConsultaProductos = pg_query($conexion,$consultaProductos);
-                if (!(pg_num_rows($ejecutarConsultaProductos))) {
-                    echo '<div class="alert alert-danger" role="alert">
-                    Sin productos registrados. Boton de guardar factura bloqueado.
-                  </div>';
-                }else{
-                    echo '<button onclick="guardarFacturaCompra();" class="btn btn-success" type="button" id="botonFinalizarCompra" name="botonFinalizarCompra">
+       <button onclick="guardarFacturaCompra();" class="btn btn-success" type="button" id="botonFinalizarCompra" name="botonFinalizarCompra" >
                     Finalizar factura de compra
                 <img src="../assets/img/shopping-cart-5.png" style="width: 64px;heigth: 64px;" class="zoomImagen">
-                </button>';
-                }
-            ?>
+                </button>
+              
+            
 
 <a class="btn btn-primary" href="../index.php" role="button">Menu principal</a></div>
-</div>
 
 </div>
 
+
+<?php
+ }
+?>
+</div>
+
+
+<script>
+    function habilitarCajaProducto(){
+    
+     var inputDocPro= $("#inputDocumentoProveedor").val();
+
+    if(inputDocPro!=''){ 
+        document.getElementById("inputCodigoProducto").disabled=false;
+        //document.getElementById("botonFinalizarCompra").disabled=false;
+
+
+    }else{
+        document.getElementById("inputCodigoProducto").disabled=true;
+        //document.getElementById("botonFinalizarCompra").disabled=true;
+
+    }
+ }
+</script>
 
 <script>
     // necesario para que se habilite el boton de agregar producto
@@ -154,7 +196,11 @@
 var totalVentaComprobante;
 
 $(document).ready(function () {
-       
+     
+    // deshabilitamos la caja para buscar productos
+    document.getElementById("inputCodigoProducto").disabled=true;
+   
+
     table = $('#example').DataTable( {
         dom: 'Bfrtip',
     drawCallback: function () {
@@ -261,7 +307,14 @@ $(document).ready(function () {
 function guardarFacturaCompra(){
 
 
-    
+    var inputDocPro= $("#inputDocumentoProveedor").val();
+
+    if(inputDocPro!=''){ 
+        //document.getElementById("inputCodigoProducto").disabled=false;
+        //document.getElementById("botonFinalizarCompra").disabled=false;
+
+
+
      // se verifica que existan filas en la tabla
      var cantidadFilas = table.rows().count();
      
@@ -358,6 +411,23 @@ function guardarFacturaCompra(){
 
         // fin 
     }
+
+
+
+
+
+
+    }else{
+        //document.getElementById("inputCodigoProducto").disabled=true;
+        //document.getElementById("botonFinalizarCompra").disabled=true;
+         Swal.fire(
+                            'Necesitas ingresar el codigo de la factura',
+                            'Campos obligatorios',
+                            'error')
+    }
+
+    
+
 }
 </script>
 

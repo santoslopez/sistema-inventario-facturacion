@@ -47,7 +47,7 @@
 
     //include '../conexion.php';
     echo '
-    <div class="alert" role="alert" style="margin-top:20px;background:#201E1D;color:white;">
+    <div class="alert alert-primary" role="alert" style="margin-top:20px;">
     <h2>Listado de factura de compras</h2>
     
     </div>
@@ -97,7 +97,7 @@
                         [10,15],
                     ],
                     "language":{
-                        "url":"https://cdn.datatables.net/plug-ins/1.12.1/i18n/es-ES.json"
+                        "url":"../assets/json/idiomaDataTable.json"
                     },
                     "responsive": true,
                 });

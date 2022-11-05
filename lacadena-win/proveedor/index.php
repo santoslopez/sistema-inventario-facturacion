@@ -262,13 +262,13 @@
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
                 <label for="exampleFormControlInput1" class="form-label">Nit</label>
-                <input type="text" name="inputNit" class="form-control" id="inputNit" placeholder="Nit" required>
+                <input type="text" name="inputNit" class="form-control" id="inputNit" placeholder="Nit" required maxlength="20">
             </div>
         </div>
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
                 <label for="Name" class="form-label">Nombre proveedor</label>
-                <input type="text" name="inputDatos" class="form-control" placeholder="Nombre proveedor" id="inputDatos" required>
+                <input type="text" name="inputDatos" class="form-control" placeholder="Nombre proveedor" id="inputDatos" required  maxlength="60">
             </div>
             <!--div class="invalid-feedback">
                 Looks good!
@@ -277,13 +277,13 @@
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
                 <label for="Name" class="form-label">Direccion</label>
-                <input type="text" name="inputDireccion" class="form-control" id="inputDireccion" placeholder="Direccion" required value="Ciudad">
+                <input type="text" name="inputDireccion" class="form-control" id="inputDireccion" placeholder="Direccion" required value="Ciudad"  maxlength="100">
             </div>
         </div>
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
                 <label for="exampleFormControlInput1" class="form-label">Telefono</label>
-                <input type="number" name="inputTelefono" class="form-control" id="inputTelefono" placeholder="Telefono" required>
+                <input type="number" name="inputTelefono" class="form-control" id="inputTelefono" placeholder="Telefono" required  maxlength="15">
             </div>
             <!--div class="invalid-feedback">
                 Ingresa un numero de telefono valido.
@@ -317,25 +317,25 @@
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
                 <label for="exampleFormControlInput1" class="form-label">Nit</label>
-                <input type="text" name="inputNitUpdate" class="form-control" id="inputNitUpdate" placeholder="Nit" required readonly>
+                <input type="text" name="inputNitUpdate" class="form-control" id="inputNitUpdate" placeholder="Nit" required readonly  maxlength="20">
             </div>
         </div>
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
                 <label for="Name" class="form-label">Nombre proveedor</label>
-                <input type="text" name="inputDatosModificar" class="form-control" placeholder="Nombre proveedor" id="inputDatosModificar" required>
+                <input type="text" name="inputDatosModificar" class="form-control" placeholder="Nombre proveedor" id="inputDatosModificar" required  maxlength="60">
             </div>
         </div>
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
                 <label for="Name" class="form-label">Direccion</label>
-                <input type="text" name="inputDireccionModificar" class="form-control" id="inputDireccionModificar" placeholder="Direccion" required>
+                <input type="text" name="inputDireccionModificar" class="form-control" id="inputDireccionModificar" placeholder="Direccion" required  maxlength="100">
             </div>
         </div>
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
                 <label for="exampleFormControlInput1" class="form-label">Telefono</label>
-                <input type="number" name="inputTelefonoModificar" class="form-control" id="inputTelefonoModificar" placeholder="Telefono" required>
+                <input type="number" name="inputTelefonoModificar" class="form-control" id="inputTelefonoModificar" placeholder="Telefono" required  maxlength="15">
             </div>
             <div class="invalid-feedback">
                 Ingresa un numero de telefono valido.
