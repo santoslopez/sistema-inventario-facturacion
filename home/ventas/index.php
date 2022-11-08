@@ -55,7 +55,7 @@
    </div>
 
     <div class="col-auto">
-        <a class="alert alert-primary" href="../clientes/queryListadoClientes.php" role="button" target="_blank">
+        <a class="alert alert-primary" href="../clientes/index.php" role="button" target="_blank">
         Registrar cliente nuevo
         <img src="../assets/img/menu/add-contact.png" style="width: 32px;heigth: 32px;" class="zoomImagen">
         </a>
@@ -265,21 +265,44 @@ $(document).ready(function () {
      
     
     $('#addRow').on('click', function () {
+
+
         let codigoProducto =  document.getElementById("inputCodigoProducto").value;
         let nombreProducto =  document.getElementById("inputNombreProducto").value;
         var cantidadVendido =  document.getElementById("inputCantidadVendido").value;
         var precioVendido =  document.getElementById("inputPrecioVendido").value;
         let cantidadEnBodega = document.getElementById("inputUnidadesDisponibles").value;
 
-
-
-
+        var productoIngresadoTable=true;
         // verifica que campos no esten vacios y sirve para hacer la verificacion que sea el campo correo, por ejemplo que sea entero,etc.
         if((codigoProducto !='') && (nombreProducto!='') && (cantidadVendido!='') && (precioVendido!='')){
+
+            table.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
+                var data = this.data();
+                var valorCodigo = data[0];
+                if (valorCodigo==codigoProducto) {
+                    Swal.fire(
+                        'Producto ya agregado',
+                        'El producto ya se encuentra en la lista',
+                        'error'
+                        )
+                                //return false;  
+                                productoIngresadoTable=false;                         
+                        
+                    
+                    }
+
+                    } );
+
+ 
+
 
             if(estadoCodigoProducto=="noaceptado"){
                 Swal.fire('Codigo producto erroneo','El codigo del producto es incorrecto','warning')
             }else{
+
+      
+
                 if(parseInt(cantidadEnBodega)==0){
                     Swal.fire(                  
                     'Productos sin unidades disponibles',
@@ -288,10 +311,16 @@ $(document).ready(function () {
                     )
 
                 }else{
+
                     // se hace la conversion de texto a numero
                     if ((parseInt(cantidadVendido)<=parseInt(cantidadEnBodega)) && (parseInt(cantidadVendido)>0))  {
                         
-                        table.row.add([codigoProducto,nombreProducto,cantidadVendido,precioVendido,cantidadVendido*precioVendido]).draw(false);
+                        if(productoIngresadoTable==true){
+                            table.row.add([codigoProducto,nombreProducto,cantidadVendido,precioVendido,cantidadVendido*precioVendido]).draw(false);
+
+                        }
+                                          
+                        
                         document.getElementById("inputCodigoProducto").value = "";
                         document.getElementById("inputNombreProducto").value = "";
                         document.getElementById("inputCantidadVendido").value = "";
@@ -396,14 +425,12 @@ $(document).ready(function () {
                     type:'POST',
                     success:function(data1){
                        
-                        //alert("data 1>"+data1);
+                        alert("ERROR: "+data1);
+
                         var json = JSON.parse(data1);
                         
                         if (json=="ventaregistrado") {
-                            /*Swal.fire(
-                            'Venta registrado correctamente',
-                            'Los datos se guardadon correctamente',
-                            'success')*/
+                          
                             Swal.fire({
                             title: 'Venta registrado correctamente',
                             text: "Presiona el boton para recargargar la pagina",
@@ -419,16 +446,19 @@ $(document).ready(function () {
                                 window.location.reload();
                             }
                             })
+
+                            
                         }else if (json=="ventanoregistrado") {
                             Swal.fire(
                             'Venta no efectuado',
                             'No se guardo la venta',
                             'info')
+                        
                         }else{
                             Swal.fire(
                             'Error controlado',
                             'No se guardo la venta',
-                            'info')
+                            'info'+data1)
                         }
                     }
                 }); 

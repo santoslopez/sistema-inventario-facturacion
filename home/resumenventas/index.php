@@ -46,35 +46,8 @@
     </div>
   </div>
 
-        <?php
-            include '../conexion.php';
-            date_default_timezone_set('America/Guatemala');   
-            $fechaHoy = date('Y-m-d');
-             $verificarSiHayVentasHoy = "SELECT DISTINCT facturaventa.numerodocumentofacturaventa,facturaventa.fechafacturaventa,facturaventa.totalventa,nitcliente,horaVenta,facturaventa.codigousuario  FROM Clientes INNER JOIN FacturaVenta AS facturaventa
-             ON Clientes.codigocliente=FacturaVenta.codigocliente INNER JOIN  detallefacturaventa
-             ON FacturaVenta.numerodocumentofacturaventa=detallefacturaventa.numerodocumentofacturaventa
-             
-             WHERE facturaventa.numerodocumentofacturaventa=detallefacturaventa.numerodocumentofacturaventa
-             AND facturaventa.fechafacturaventa=$1 ORDER BY horaventa DESC";
 
-             //$ejecutarConsultaProductos = pg_query($conexion,$verificarSiHayVentasHoy);
-             pg_prepare($conexion,"queryTablaVentasHoy",$verificarSiHayVentasHoy) or die ("No se pudo preparar la consulta queryTablaVentasHoy");
-
-             $ejecutarConsultaProductos = pg_execute($conexion,"queryTablaVentasHoy",array($fechaHoy));
-     
-
-
-             if (pg_num_rows($ejecutarConsultaProductos)==0) {
-                 echo '<div class="alert alert-danger" role="alert" style="margin-left:10%;margin-right:10%;margin-top:10%">
-                    No hay ventas registrados hoy.
-                 </div>
-                 <div class="d-grid gap-2 col-6 mx-auto">
-                     <a class="btn btn-primary" href="../index.php">Menu principal</a>
-                 </div>
-                 ';   
-             }else{
-
-                echo '<table class="table table-striped table-bordered nowrap" id="datatableVentasHoy" name="datatableVentasHoy" style="width:100%">
+  <table class="table table-striped table-bordered nowrap" id="datatableVentasHoy" name="datatableVentasHoy" style="width:100%">
                 <thead>
                         <th>No. comprobante</th>
                         <th>Fecha venta</th>
@@ -98,11 +71,12 @@
                 </tr>
             </tfoot>
         </table>
-        <a class="btn btn-primary" href="../index.php" role="button">Menu principal</a>';
+        <a class="btn btn-primary" href="../index.php" role="button">Menu principal</a>
+    <!-- 
 
-             }
-        ?>
-
+    date_default_timezone_set('America/Guatemala');   
+    -->
+       
     </div> 
     <script>
         cargarDatosVentas();
