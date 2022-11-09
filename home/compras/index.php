@@ -203,6 +203,9 @@ $(document).ready(function () {
 
     table = $('#example').DataTable( {
         dom: 'Bfrtip',
+        "language":{
+            "url":"../assets/json/idiomaDataTable.json"
+        },
     drawCallback: function () {
       var api = this.api();
      
@@ -211,10 +214,10 @@ $(document).ready(function () {
       );
       
       totalVentaComprobante=api.column(3, {page:'current'} ).data().sum();
-    },
+    }/*,
     buttons: [
             'copy', 'csv', 'excel', 'pdf', 'print'
-        ],
+        ],*/
   } );
 
       

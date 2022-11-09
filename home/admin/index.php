@@ -305,7 +305,7 @@
       <div class="card-body">
         <h5 class="card-title">Realizar compras</h5>
         <p class="card-text">Generar factura de compras</p>
-        <a style="cursor: pointer;" class="btn btn-primary" href="../compras/listadoProductosCompra.php">
+        <a style="cursor: pointer;" class="btn btn-primary" href="../compras/index.php">
         <img src="../assets/img/delivery-truck.png" class="zoomImagen home"  alt="Realizar compras a proveedor" title="Realizar compras a proveedor">
 
       </a>

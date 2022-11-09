@@ -9,7 +9,7 @@
     
     $listadoTiposEventoUsuario = "SELECT * FROM FacturaCompra";
     $ejecutarConsultaObtenerInfo = pg_query($conexion,$listadoTiposEventoUsuario);
-    //        <!a href=../compras/listadoProductosCompra.php?documentoFacturaCompra=".urlencode($row[1])." class='opcionEliminarProveedor btn'><img src='../assets/img/add.png' class='zoomImagen' style='width:20px;heigth:20px;' alt='Agregar prododucto'></a>
+    //        <!a href=../compras/index.php?documentoFacturaCompra=".urlencode($row[1])." class='opcionEliminarProveedor btn'><img src='../assets/img/add.png' class='zoomImagen' style='width:20px;heigth:20px;' alt='Agregar prododucto'></a>
 
     $data = array();
     while ($row= pg_fetch_row($ejecutarConsultaObtenerInfo)) {

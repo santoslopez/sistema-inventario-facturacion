@@ -250,7 +250,7 @@ $fechaActual = date('Y-m-d');
 //$filtrarPorCodigoSubmodulo = intval($_GET["obtenerCodigoVentaComprobante"]);
 
 //$strquery = "SELECT * FROM detallefacturaventa WHERE numerodocumentofacturaventa='$filtrarPorCodigoSubmodulo'";
-$strquery = "SELECT Inventario.codigoProducto,descripcion,Inventario.cantidadComprado,Inventario.precioCompra  FROM Productos INNER JOIN Inventario ON Productos.codigoProducto = Inventario.codigoProducto";
+$strquery = "SELECT Inventario.codigoProducto,descripcion,Inventario.cantidadComprado,Inventario.precioCompra  FROM Productos INNER JOIN Inventario ON Productos.codigoProducto = Inventario.codigoProducto ORDER BY descripcion ASC;";
 
 pg_prepare($conexion,"queryDetalleVentasDia",$strquery) or die ("No se pudo preparar la consulta queryDetalleVentasDia");
 
