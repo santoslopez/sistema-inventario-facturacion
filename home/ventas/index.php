@@ -46,12 +46,12 @@
       <input type="text" class="form-control" id="inputNombreCliente" name="inputNombreCliente" placeholder="Nombre de cliente" readonly autocomplete="off">
     </div>
     <div class="col-auto">
-        <label for="inputDatosCliente">Nombre cliente</label>
-        <input type="text" class="form-control" id="inputDatosCliente" name="inputDatosCliente" placeholder="Nombre de cliente" autocomplete="off">
+        <label for="inputDetalle1">Nombre cliente</label>
+        <input type="text" class="form-control" id="inputDetalle1" name="inputDetalle1" placeholder="Nombre de cliente" autocomplete="off" maxlength="100">
    </div>
    <div class="col-auto">
-        <label for="inputDireccionCliente">Direccion</label>
-        <input type="text" class="form-control" id="inputDireccionCliente" name="inputDireccionCliente" placeholder="Direccion" autocomplete="off">
+        <label for="inputDetalle2">Direccion</label>
+        <input type="text" class="form-control" id="inputDetalle2" name="inputDetalle2" placeholder="Direccion" autocomplete="off" maxlength="100">
    </div>
 
     <div class="col-auto">
@@ -171,8 +171,6 @@ Resumen ventas hoy
                     $("#inputCostoProductoActual").val(json.precioCompra);
                    
 
-
-
                 }
 
 
@@ -188,6 +186,8 @@ Resumen ventas hoy
     function buscarCliente(){
         
         var inputNitCliente = $("#inputNitCliente").val();
+       
+
 
         $.ajax({
             url:"queryBuscarCliente.php",
@@ -211,14 +211,19 @@ Resumen ventas hoy
                         'error'
                         )
                         document.getElementById("inputCodigoProducto").disabled=true;
-                        document.getElementById("inputDatosCliente").disabled=true;
+                        //document.getElementById("inputDatosCliente").disabled=true;
+                        //document.getElementById("inputDetalle1").disabled=true;
+                        //document.getElementById("inputDetalle2").disabled=true;
+
 
                 }else{
                     $("#inputNombreCliente").val(json.nombreapellidos);
                     $("#inputCodigoCliente").val(json.codigocliente);
 
                     document.getElementById("inputCodigoProducto").disabled=false;
-                    document.getElementById("inputDatosCliente").disabled=false;
+                    
+                    //$("#inputNombreCliente").val(json.nombreapellidos);
+                   
 
                     
                 }
@@ -241,11 +246,14 @@ $(document).ready(function () {
 
     document.getElementById("inputCodigoProducto").disabled=true;
 
-    document.getElementById("inputDatosCliente").disabled=true;
+   // document.getElementById("inputDatosCliente").disabled=true;
 
+   // document.getElementById("inputDetalle1").disabled=true;
+   // document.getElementById("inputDetalle2").disabled=true;
 
     table = $('#example').DataTable( {
         dom: 'Bfrtip',
+        stateSave: true,
 
         //languague:español,
         "language":{
@@ -381,7 +389,9 @@ $(document).ready(function () {
 <script>
     function guardarVenta(){
 
-       
+        var inputDetalle1 = $("#inputDetalle1").val();
+        var inputDetalle2 = $("#inputDetalle2").val();
+        
         // se verifica que existan filas en la tabla
         var cantidadFilas = table.rows().count();
        
@@ -421,7 +431,7 @@ $(document).ready(function () {
                         url:"queryRegistrarVentas.php",
                         //data:{tableJSON:JSON.stringify(tableJSON)}, //SI FUNCIONA DOBLE CORCH
                         data: {
-                            tableJSON:table123,inputCodigoCliente:inputCodigoCliente,totalVentaEfectuado:totalVentaEfectuado
+                            tableJSON:table123,inputCodigoCliente:inputCodigoCliente,totalVentaEfectuado:totalVentaEfectuado,inputDetalle1:inputDetalle1,inputDetalle2:inputDetalle2
                         },
                     /*"columns":[
                         {"data":"col1"},
@@ -432,7 +442,7 @@ $(document).ready(function () {
                     type:'POST',
                     success:function(data1){
                        
-                        alert("ERROR: "+data1);
+                       
 
                         var json = JSON.parse(data1);
                         

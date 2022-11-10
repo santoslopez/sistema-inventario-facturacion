@@ -55,11 +55,13 @@
                         <th>Nit cliente</th>
                         <th>Hora venta</th>
                         <th>Codigo vendedor</th>
+                        <th>Estado</th>
                         <th>Anular factura de venta</th>
                         <th>Detalles</th>
                 </thead>
                 <tfoot>
                 <tr>
+                    <th></th>
                     <th></th>
                     <th></th>
                     <th></th>
@@ -110,7 +112,7 @@
                             
                         );*/
   // Total over all pages
-total = api
+                total = api
                 .column(2)
                 .data()
                 .reduce(function (a, b) {

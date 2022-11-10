@@ -15,6 +15,8 @@ if (!isset($_GET["obtenerCodigoVentaComprobante"])) {
 // recuperamos el valor del submodulo
 $obtenerNombreSubmodulo = $_GET["obtenerCodigoVentaComprobante"];
 
+
+$obtenerFechaVentaComprobanteColumna=$_GET["fechaVentaComprobante"];
 	//echo "hola $obtenerNombreSubmodulo";
 
 class PDF extends FPDF {
@@ -64,12 +66,14 @@ $this->setY(45);$this->setX(10);
 // Agregamos los datos del cliente
 $this->SetFont('Arial','B',10);    
 $this->setY(30);$this->setX(75);
-$this->Cell(5,$textypos,"Datos del cliente:");
+$this->Cell(5,$textypos,"DATOS DEL CLIENTE:");
 $this->SetFont('Arial','',10);    
 $this->setY(35);$this->setX(75);
-$this->Cell(5,$textypos,"Cliente: ");
+//$this->Cell(5,$textypos,"Cliente: ".$_GET["detalle1"]);
 $this->setY(40);$this->setX(75);
-$this->Cell(5,$textypos,"Direccion: ");
+$this->Cell(5,$textypos,"Nombre: ".$_GET["detalle1"]);
+$this->setY(45);$this->setX(75);
+$this->Cell(5,$textypos,"Direccion: ".$_GET["detalle2"]);
 $this->setY(45);$this->setX(75);
 //$this->Cell(5,$textypos,"Telefono del cliente");
 //$this->setY(50);$this->setX(75);
@@ -250,7 +254,7 @@ $this->setY(50);$this->setX(135);
 //------------------OBTENES LOS DATOS DE LA BASE DE DATOS-------------------------
 //$data = new Conexion();
 date_default_timezone_set('America/Guatemala');    
-$fechaActual = date('Y-m-d');
+//$fechaActual = date('Y-m-d');
 
 //$conexion = $data->conect();
 $filtrarPorCodigoSubmodulo = intval($_GET["obtenerCodigoVentaComprobante"]);
@@ -271,7 +275,7 @@ WHERE FacturaVenta.fechafacturaventa=$1 AND FacturaVenta.numerodocumentofacturav
 
 pg_prepare($conexion,"queryDetalleVentasDia",$strquery) or die ("No se pudo preparar la consulta queryDetalleVentasDia");
 
-$data = pg_execute($conexion,"queryDetalleVentasDia",array($fechaActual,$filtrarPorCodigoSubmodulo));
+$data = pg_execute($conexion,"queryDetalleVentasDia",array($obtenerFechaVentaComprobanteColumna,$filtrarPorCodigoSubmodulo));
 
 
 

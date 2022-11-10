@@ -59,6 +59,7 @@
                     <th>Fecha registro</th>
                     <th>Fecha factura proveedor</th>
                     <th>Nit proveedor</th>
+                    <th>Estado</th>
                     <th></th>
             </thead>
             <tbody>
@@ -102,7 +103,49 @@
                     "responsive": true,
                 });
             });
-            eliminarDatos(".activarEliminar","#datatableUsuarios","queryEliminarFacturaCompra.php",'Factura de compra se ha eliminado correctamente.',"La factura no se pudo eliminar se produjo un error","¿Confirmar eliminación de factura de compra?","Sí, eliminar factura de compra");
+            //eliminarDatos(".activarEliminar","#datatableUsuarios","queryEliminarFacturaCompra.php",'Factura de compra se ha eliminado correctamente.',"La factura no se pudo eliminar se produjo un error","¿Confirmar anulación de factura de compra?","Sí, anular la factura de compra");
+ 
+            $('#datatableUsuarios').on("click", ".activarEliminar", function(event) {
+                event.preventDefault();
+                var idEliminar = $(this).data('id');
+                $.ajax({
+                    url: "queryAnularCompra.php",
+                    data: {
+                        id: idEliminar
+                    },
+                    type: 'POST',
+                    success: function(data) {
+                        alert("json: "+data);
+                        var json = JSON.parse(data);
+                        alert("json: "+json);
+                        if(json=="facturacompraanulado"){
+                            $('#datatableUsuarios').DataTable().ajax.reload();
+                            
+                              Swal.fire(
+                                'Factura de compra anulado.',
+                                'La factura de compra ha sido anulado.',
+                                'success'
+                            )
+                        }else if(json=="errorproducido"){
+                            $('#datatableUsuarios').DataTable().ajax.reload();
+                            
+                              Swal.fire(
+                                'Error producido',
+                                'La factura de compra ha sido anulado.',
+                                'error'
+                            )
+                            
+                        }else {
+                            Swal.fire(
+                                'Factura de compra no anulado',
+                                'Se produjo algun error al querer actualizar el estado de la factura.',
+                                'error'
+                            )
+                        }
+                    }
+                });
+            });
+
 </script>
 
 

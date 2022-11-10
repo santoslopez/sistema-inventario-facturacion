@@ -24,6 +24,16 @@
 
   $inputDocumentoProveedor = $_POST['inputDocumentoProveedor'];
 
+  $listadoVerificarDocumento= "SELECT * FROM FacturaCompra WHERE documentoProveedor=$1";
+        
+  pg_prepare($conexion,"queryVerificarDocumentoProveedor",$listadoVerificarDocumento) or die ("No se pudo preparar la consulta queryVerificarDocumentoProveedor");
+
+  $ejecutarConsultaVerificarFactura = pg_execute($conexion,"queryVerificarDocumentoProveedor",array($inputDocumentoProveedor));
+  $row=pg_fetch_assoc($ejecutarConsultaVerificarFactura);
+  if ($row) {
+    echo json_encode("yaexiste");
+  }else{
+  
   $consultaFactura  = "INSERT INTO FacturaCompra(documentoProveedor,fechaRegistro,fechaFacturaProveedor,nitProveedor,estado) VALUES('$inputDocumentoProveedor','$fechaRealizadoFactura','$fechaRealizadoFactura','$codCliente','P');";
 
 
@@ -35,7 +45,7 @@
     $precio=$columna[2];
 
     $resultado.="INSERT INTO DetalleFacturaCompra(precioCompra,cantidadComprado,codigoProducto,documentoProveedor) 
-    VALUES($precio,$cantidadC,$codigop,'$inputDocumentoProveedor');";
+    VALUES($precio,$cantidadC,'$codigop','$inputDocumentoProveedor');";
   
 }  
 
@@ -46,12 +56,16 @@
   if ($ejecutarConsulta1 and $ejecutarConsulta2) {
   
     pg_query("COMMIT") or die("Transaction commit failed\n");
+    pg_query("END") or die("Transaction END failed\n");
     echo json_encode("compraregistrado");
   }else{
    
     pg_query("ROLLBACK") or die("Transaction rollback failed\n");
+    pg_query("END") or die("Transaction END failed\n");
+
     echo json_encode("compranoregistrado");
   } 
+} 
 
   }
 

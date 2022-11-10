@@ -132,7 +132,7 @@
           </li>
 
 
-          <li class="nav__item">
+          <!--li class="nav__item">
             <a
               href="#"
               class="nav__link focus--box-shadow"
@@ -151,7 +151,7 @@
 
             
             </a>
-          </li>
+          </li-->
 
 
           <li class="nav__item">
@@ -476,13 +476,12 @@
            
           </div>
 
-          <div class="tab-pane fade" id="contenidosAprobados" role="tabpanel" aria-labelledby="contenidosAprobados-tab">
+          <!--div class="tab-pane fade" id="contenidosAprobados" role="tabpanel" aria-labelledby="contenidosAprobados-tab">
             
             <div class="alert alert-success" role="alert">
               <h2>Mi empresa</h2>
             </div>
 
-            <!-- INICIO DIV DE COMPRAS-->
             <div class="row">
   <div class="col-sm-6">
     <div class="card">
@@ -490,30 +489,29 @@
         <h5 class="card-title">Mis empresa</h5>
         <p class="card-text">Mi empresa</p>
         <a style="cursor: pointer;" class="btn btn-primary" href="../empresa/queryListadoEmpresa.php">
-        <img src="../assets/img/shopping-mall.webp" class="zoomImagen home" alt="Mi empresa" title="Mi empresa">
-
-      </a>
-
+          <img src="../assets/img/shopping-mall.webp" class="zoomImagen home" alt="Mi empresa" title="Mi empresa">
+        </a>
       </div>
     </div>
   </div>
+
   <div class="col-sm-6">
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">Empleados</h5>
         <p class="card-text">Listado de empleados.</p>
         <a style="cursor: pointer;" class="btn btn-primary" href="../usuarios/index.php">
-        <img src="../assets/img/index/add-user.png" class="zoomImagen home" alt="Empleados" title="Empleados">                       
-
-      </a>
+          <img src="../assets/img/index/add-user.png" class="zoomImagen home" alt="Empleados" title="Empleados">                       
+        </a>
       </div>
     </div>
   </div>
+
 </div>
 
 
             
-          </div>
+          </div-->
 
 
          

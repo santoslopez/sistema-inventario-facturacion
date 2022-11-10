@@ -172,7 +172,7 @@
 <script>
     function habilitarCajaProducto(){
     
-     var inputDocPro= $("#inputDocumentoProveedor").val();
+    var inputDocPro = $("#inputDocumentoProveedor").val();
 
     if(inputDocPro!=''){ 
         document.getElementById("inputCodigoProducto").disabled=false;
@@ -203,6 +203,7 @@ $(document).ready(function () {
 
     table = $('#example').DataTable( {
         dom: 'Bfrtip',
+        stateSave: true,
         "language":{
             "url":"../assets/json/idiomaDataTable.json"
         },
@@ -366,13 +367,13 @@ function guardarFacturaCompra(){
                             inputDocumentoProveedor:inputDocumentoProveedor,
                             inputFechaFacturaProveedor:inputFechaFacturaProveedor
                         },
-
-                    type:'POST',
+                        type:"POST",
                     success:function(data1){
                        
-                        //alert("data 1:"+data1);
+                        
                         var json = JSON.parse(data1);
                         
+
                         if (json=="compraregistrado") {
                            
                             Swal.fire({
@@ -395,7 +396,12 @@ function guardarFacturaCompra(){
                             'Compra no realizado',
                             'No se guardo la compra. Se produjo el siguiente error'+data1,
                             'info')
-
+                        }else if (json=="yaexiste") {
+                            Swal.fire(
+                            'Documento o factura de compras ya existe',
+                            'El documento ya esta registrado. La compra no se efectuo',
+                            'info')
+                            
                         }else{
                             Swal.fire(
                             'Error controlado: '+data1,

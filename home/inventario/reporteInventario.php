@@ -1,4 +1,27 @@
+<?php
+  
+  session_start();
+  //Sino hemos iniciado sesion indicamos la ruta por defecto
 
+  if (!isset($_SESSION['rolUsuario'])) {
+    //header('location: admin/index.php');
+    # code...
+    /*switch ($_SESSION) {
+        case 'value':
+            # code...
+            case 1:
+                header('location:../admin/index.php');
+            break;
+        
+        default:
+            # code...
+            break;
+    }*/
+  //}else  {
+    header('location: ../index.php');
+  }
+
+?>
 
 <?php
 
