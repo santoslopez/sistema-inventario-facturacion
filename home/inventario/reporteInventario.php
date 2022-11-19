@@ -273,7 +273,7 @@ $fechaActual = date('Y-m-d');
 //$filtrarPorCodigoSubmodulo = intval($_GET["obtenerCodigoVentaComprobante"]);
 
 //$strquery = "SELECT * FROM detallefacturaventa WHERE numerodocumentofacturaventa='$filtrarPorCodigoSubmodulo'";
-$strquery = "SELECT Inventario.codigoProducto,descripcion,Inventario.cantidadComprado,Inventario.precioCompra  FROM Productos INNER JOIN Inventario ON Productos.codigoProducto = Inventario.codigoProducto ORDER BY descripcion ASC;";
+$strquery = "SELECT Inventario.codigoProducto,REPLACE(descripcion, '&#039;', '''') AS descripcion,Inventario.cantidadComprado,Inventario.precioCompra  FROM Productos INNER JOIN Inventario ON Productos.codigoProducto = Inventario.codigoProducto ORDER BY descripcion ASC;";
 
 pg_prepare($conexion,"queryDetalleVentasDia",$strquery) or die ("No se pudo preparar la consulta queryDetalleVentasDia");
 
@@ -332,7 +332,7 @@ for ($i = 0; $i < $numregs; $i++) {
 	// 	$pdf->Row(array($i + 1, pg_fetch_result($data,$i,'frase'), ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'traduccionfrase') ))), pg_fetch_result($data,$i,'imagen')), 15);
 	//$posicionx=$posicionx+15;
 	$pdf->Row(array(
-		ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'codigoproducto')))),
+		utf8_decode(pg_fetch_result($data,$i,'codigoproducto')),
 		ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'descripcion')))),
 		ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'cantidadcomprado') ))),
 		ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'preciocompra')))),

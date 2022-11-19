@@ -323,6 +323,29 @@ $$
     END;
 $$ LANGUAGE 'plpgsql';
 
+CREATE OR REPLACE FUNCTION PA_insertarDetalleFacturaCompra(buscarDocumentoProveedor varchar(50),valorPrecioCompra decimal(10,2),numeroArticulosComprado int,productoCodigo varchar(50)) RETURNS varchar AS 
+$$
+    DECLARE
+    
+    BEGIN
+        IF (SELECT count(*) from FacturaCompra WHERE documentoProveedor=buscarDocumentoProveedor) > 0 THEN
+            IF (SELECT count(*) from Productos WHERE codigoProducto=productoCodigo) > 0 THEN
+                INSERT INTO DetalleFacturaCompra(precioCompra,cantidadComprado,codigoProducto,documentoProveedor,estado) VALUES (valorPrecioCompra,numeroArticulosComprado,productoCodigo,buscarDocumentoProveedor,'N');
+                return 'registrado';
+                COMMIT;
+            ELSE
+                return 'productonoencontrado';
+            END IF;
+        ELSE
+            return 'facturacompranoencontrado';
+        END IF;
+    EXCEPTION
+    WHEN OTHERS THEN
+        return 'errorsucedido';
+        ROLLBACK;
+    END;
+$$ LANGUAGE 'plpgsql';
+
 CREATE OR REPLACE FUNCTION PA_aumentarInventario() RETURNS TRIGGER AS 
 $$
     DECLARE
@@ -336,14 +359,14 @@ $$
                 
                 WHERE codigoProducto=NEW.codigoProducto;
                 return NEW;                
-                COMMIT;   
+                    
             ELSE
 
                 INSERT INTO Inventario(codigoProducto,cantidadComprado,precioCompra)
                 VALUES(NEW.codigoProducto,NEW.cantidadComprado,NEW.precioCompra);
                 
                 return new;
-                COMMIT;
+               
                 
             END IF;
 
@@ -353,10 +376,6 @@ $$
         ROLLBACK;
     END;
 $$ LANGUAGE 'plpgsql';
-
-drop trigger TR_actStock ON detallefacturacompra;
-drop function PA_aumentarInventario ;
-
 
 CREATE TRIGGER TR_actStock AFTER UPDATE ON detallefacturacompra
 FOR EACH ROW
@@ -384,34 +403,13 @@ $$
     END;
 $$ LANGUAGE 'plpgsql';
 
-
 CREATE TRIGGER TR_disminuirStock AFTER INSERT ON detallefacturaventa
 FOR EACH ROW
 EXECUTE PROCEDURE PA_disminuirInventario();
 
+select * from facturacompra;
 
-CREATE OR REPLACE FUNCTION PA_insertarDetalleFacturaCompra(buscarDocumentoProveedor varchar(50),valorPrecioCompra decimal(10,2),numeroArticulosComprado int,productoCodigo varchar(50)) RETURNS varchar AS 
-$$
-    DECLARE
-    
-    BEGIN
-        IF (SELECT count(*) from FacturaCompra WHERE documentoProveedor=buscarDocumentoProveedor) > 0 THEN
-            IF (SELECT count(*) from Productos WHERE codigoProducto=productoCodigo) > 0 THEN
-                INSERT INTO DetalleFacturaCompra(precioCompra,cantidadComprado,codigoProducto,documentoProveedor,estado) VALUES (valorPrecioCompra,numeroArticulosComprado,productoCodigo,buscarDocumentoProveedor,'N');
-                return 'registrado';
-                COMMIT;
-            ELSE
-                return 'productonoencontrado';
-            END IF;
-        ELSE
-            return 'facturacompranoencontrado';
-        END IF;
-    EXCEPTION
-    WHEN OTHERS THEN
-        return 'errorsucedido';
-        ROLLBACK;
-    END;
-$$ LANGUAGE 'plpgsql';
+drop function PA_cerrarFacturaCompra;
 
 CREATE OR REPLACE FUNCTION PA_cerrarFacturaCompra(buscarNumeroFacturaCompra varchar(50)) RETURNS varchar AS 
 $$

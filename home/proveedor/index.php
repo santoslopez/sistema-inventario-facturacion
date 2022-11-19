@@ -98,7 +98,20 @@
  
             $('#datatableUsuarios').on("click", ".activarEliminar", function(event) {
                 event.preventDefault();
-                var idEliminar = $(this).data('id');
+                
+                Swal.fire({
+  title: '¿Confirmar eliminación de proveedor?',
+  text: "Esto eliminará los datos del proveedor",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Si, eliminar'
+}).then((result) => {
+  if (result.isConfirmed) {
+   
+
+    var idEliminar = $(this).data('id');
                 $.ajax({
                     url: "queryEliminarProveedor.php",
                     data: {
@@ -129,10 +142,26 @@
                                 'error'
                             )
                         }else{
-                            alert("Error al eliminar proveedor");
+                            Swal.fire(
+                                'Proveedor no eliminado.',
+                                'Se produjo un error controlado',
+                                'error'
+                            )
                         }
                     }
                 });
+
+
+
+
+
+  }
+})
+                
+
+
+                // fin eliminar proveedor
+
             });
 
 

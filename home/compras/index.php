@@ -12,7 +12,7 @@
         //session_start();
         include "../includes/head.php";
     ?>
-    <title>Crear comprobante de venta</title>
+    <title>Crear factura de compras</title>
 </head>
 <body>
 <div class="container">
@@ -57,7 +57,8 @@
         <div class="col-auto">
             <div class="col">
                 <label for="Name" class="form-label">Documento proveedor</label>
-                <input type="text" name="inputDocumentoProveedor" class="form-control" id="inputDocumentoProveedor" placeholder="No factura" required autocomplete="off" onkeyup="habilitarCajaProducto();">
+                <!--input type="text" name="inputDocumentoProveedor" class="form-control" id="inputDocumentoProveedor" placeholder="No factura" required autocomplete="off" onkeyup="habilitarCajaProducto();"-->
+                <input type="text" name="inputDocumentoProveedor" class="form-control" id="inputDocumentoProveedor" placeholder="No factura" required autocomplete="off" >
                 
             </div>
 
@@ -66,6 +67,9 @@
         <div class="col-auto">
             <div class="col">
                 <label for="Name" class="form-label">Fecha factura proveedor</label>
+                <?php  
+                    date_default_timezone_set('America/Guatemala'); 
+                ?>
                 <!--input type="date" name="inputFechaFacturaProveedor" class="form-control" id="inputFechaFacturaProveedor" placeholder="Fecha facturado por proveedor" required-->
                 <input type="date" id="inputFechaFacturaProveedor" class="form-control" name="inputFechaFacturaProveedor" required value="<?php echo date("Y-m-d"); ?>">
       
@@ -83,80 +87,63 @@
                          ?>
             </div>
         </div>
-
+     
+      </form>
       
     </div>
 
-     
-      </form>
+    <div class="container">
+    <div class="mb-3 row">
+    <label for="staticEmail" class="form-label"><strong>Fecha inicio</strong></label>
+    <div class="col-sm-10">
+    <?php  
+            date_default_timezone_set('America/Guatemala'); 
+        ?>
+          <input type="date" id="inputFechaInicio" class="form-control" name="inputFechaInicio" required value="<?php echo date("Y-m-d"); ?>">
+    </div>
+  </div>
+
+  <div class="mb-3 row">
+    <label for="staticEmail" class="form-label"><strong>Fecha fin</strong></label>
+    <div class="col-sm-10">
+        <?php  
+            date_default_timezone_set('America/Guatemala'); 
+        ?>
+        <input type="date" id="inputFechaFin" class="form-control" name="inputFechaFin" required value="<?php echo date("Y-m-d"); ?>">
+    </div>
+  </div>
+
+ <div class="mb-3 row">
+    <label for="staticEmail" class="form-label"><strong>Aplicar cambios</strong></label>
+    <div class="col-sm-10">
+       
+          <img src="../assets/img/search-2.png" style="width:32px;height:32px" class="zoomImagen" onclick="cargarDatosCompras();">
+    </div>
+  </div>
+  </div>
 
 </nav>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
 
-  <div class="container-fluid">
-  <form class="row g-3">
-    <div class="col-auto">
-            <div class="col-sm-10">
-                <label for="Name" class="form-label">Buscar producto: </label>
-            
-                <a onclick="buscarProducto();" class="btn btn-oustline-success"><img src="../assets/img/search-2.png" alt="MDN" style="width:40%" class="zoomImagen"></a>
-                <input type="text" id="inputCodigoProducto" class="col-sm-10" name="inputCodigoProducto" required onblur="buscarProducto();" onkeyup="buscarProducto();" autocomplete="off" placeholder="Ingrese codigo del producto">        
+<button id="addRow" name="addRow"  class="btn btn-success" onclick="agregarFacturaCompra()">
+        Agregar factura de compra
+        <img src="../assets/img/shopping-cart-5.png" style="width: 64px;heigth: 64px;" class="zoomImagen">
+    </button>
 
-            </div>
-        </div> 
-
-        <div class="col-auto">
-            <div class="col-sm-10">
-                <label for="Name" class="form-label">Costo producto</label>
-                <input type="number" name="inputCostoProducto" class="form-control" id="inputCostoProducto" placeholder="Costo de producto" required readonly min="0">
-            </div>
-
-        </div>
-
-        <div class="col-auto">
-            <div class="col-sm-10">
-                <label for="Name" class="form-label">Cantidad</label>
-                <input type="number" id="inputCantidadCompra" class="form-control soloNumeros" name="inputCantidadCompra" required min="1" readonly pattern="[1-9]+" placeholder="Cantidad">
-            </div>
-        </div>
-
-
-</form>
-</div>
-</nav>
-
-<button id="addRow" class="btn btn-primary">Agregar producto</button>
-<button id="button" class="btn btn-danger">Eliminar fila productos</button>
-<table id="example" class="display" style="width:100%">
-<thead style="background:black;color:white">
-    <tr>
-        <th>Codigo</th>
-        <th>Unidad</th>
-        <th>Precio</th>
-        <th>Subtotal</th>
-    </tr>
-</thead>
-<tfoot>
-    <tr>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-    </tr>
-</tfoot>
-</table>
+<table class="table table-striped table-bordered nowrap" id="datatableFacturaCompras" name="datatableFacturaCompras" style="width:100%">
+            <thead>
+                    <th>#</th>
+                    <th>Número documento</th>
+                    <th>Fecha registro</th>
+                    <th>Fecha factura proveedor</th>
+                    <th>Nit proveedor</th>
+                    <th>Estado</th>
+                    <th>Agregar</th>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
 
 <div class="d-grid gap-2 col-6 mx-auto" style="margin-bottom:3%">
-
-
-                
-                
-       <button onclick="guardarFacturaCompra();" class="btn btn-success" type="button" id="botonFinalizarCompra" name="botonFinalizarCompra" >
-                    Finalizar factura de compra
-                <img src="../assets/img/shopping-cart-5.png" style="width: 64px;heigth: 64px;" class="zoomImagen">
-                </button>
-              
-            
 
 <a class="btn btn-primary" href="../index.php" role="button">Menu principal</a></div>
 
@@ -169,343 +156,155 @@
 </div>
 
 
-<script>
-    function habilitarCajaProducto(){
-    
-    var inputDocPro = $("#inputDocumentoProveedor").val();
-
-    if(inputDocPro!=''){ 
-        document.getElementById("inputCodigoProducto").disabled=false;
-        //document.getElementById("botonFinalizarCompra").disabled=false;
-
-
-    }else{
-        document.getElementById("inputCodigoProducto").disabled=true;
-        //document.getElementById("botonFinalizarCompra").disabled=true;
-
-    }
- }
-</script>
-
-<script>
-    // necesario para que se habilite el boton de agregar producto
-    var estadoCodigoProducto;
-
-     var table;
-
-var totalVentaComprobante;
-
-$(document).ready(function () {
-     
-    // deshabilitamos la caja para buscar productos
-    document.getElementById("inputCodigoProducto").disabled=true;
-   
-
-    table = $('#example').DataTable( {
-        dom: 'Bfrtip',
-        stateSave: true,
-        "language":{
-            "url":"../assets/json/idiomaDataTable.json"
-        },
-    drawCallback: function () {
-      var api = this.api();
-     
-      $(api.columns(3).footer()).html(
-        'Total: Q.'+api.column(3, {page:'current'} ).data().sum()
-      );
-      
-      totalVentaComprobante=api.column(3, {page:'current'} ).data().sum();
-    }/*,
-    buttons: [
-            'copy', 'csv', 'excel', 'pdf', 'print'
-        ],*/
-  } );
-
-      
-    $('#addRow').on('click', function () {
-        //alert("aqui");
-        var inputCodigoProducto =  document.getElementById("inputCodigoProducto").value;
-        let inputCantidadCompra =  document.getElementById("inputCantidadCompra").value;
-
-        let inputCostoProducto =  document.getElementById("inputCostoProducto").value;
-        
-       
-        if((inputCodigoProducto !='') && (inputCantidadCompra!='') && (inputCostoProducto!='')){
-
-            if(estadoCodigoProducto=="aceptado"){
-                
-                if ((parseInt(inputCantidadCompra)>=1))   {
-                    document.getElementById("inputCostoProducto").value = "";
-                    document.getElementById("inputCantidadCompra").value = "";
-                    document.getElementById("inputCodigoProducto").value = "";
-
-                    document.getElementById("inputCostoProducto").readOnly = true;
-                    document.getElementById("inputCantidadCompra").readOnly = true;
-
-                        
-                    table.row.add([inputCodigoProducto,
-                    inputCantidadCompra,
-                    parseFloat(inputCostoProducto),
-                    parseInt(inputCantidadCompra) * parseFloat(inputCostoProducto)]).draw(false);
-                
-                
-                }else{
-                    // sweet alert success
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Unidades de compra no validas',
-                        text: 'El numero de unidades de compra no puede ser mayor a 1',
-                        footer: '<a href>Cantidad de compra invalida.</a>'
-                    })
-                }
-
-
-            }else if(estadoCodigoProducto=="noaceptado"){
-                Swal.fire('Codigo producto erroneo','El codigo del producto es incorrecto','warning')
-                document.getElementById("inputCostoProducto").value = "";
-                document.getElementById("inputCantidadCompra").value = "";
-                //document.getElementById("inputCodigoProducto").value = "";
-
-            }
-
-
-
-        }else{
-            Swal.fire(
-                'Campos incorrectos o vacios',
-                'En precio y unidades tiene que ser numerico',
-                'info'
-            )
-        }
-
-
-    });
- 
-
-    // eliminar datatable fila
-    $('#example tbody').on('click', 'tr', function () {
-        if ($(this).hasClass('selected')) {
-            $(this).removeClass('selected');
-        } else {
-            table.$('tr.selected').removeClass('selected');
-            $(this).addClass('selected');
-        }
-    });
- 
-    $('#button').click(function () {
-        table.row('.selected').remove().draw(false);
-    });
-   
-    // Automatically add a first row of data
-
-    //$('#addRow').click();
-
-
-
-});
-</script>
-<!--script src="https://cdn.datatables.net/plug-ins/1.12.1/api/sum().js"> </script-->
 <script src="../assets/js/sum.js"> </script>
 
-<script>
-function guardarFacturaCompra(){
+<script>        
+function agregarFacturaCompra(){ 
 
+  
+        event.preventDefault();
+        var inputDocumentoProveedor=$('#inputDocumentoProveedor').val();
+      
+       var inputNitProveedor = document.getElementById("inputNitProveedor").value;
+       
+       var inputFechaFacturaProveedor = document.getElementById("inputFechaFacturaProveedor").value;
 
-    var inputDocPro= $("#inputDocumentoProveedor").val();
-
-    if(inputDocPro!=''){ 
-        //document.getElementById("inputCodigoProducto").disabled=false;
-        //document.getElementById("botonFinalizarCompra").disabled=false;
-
-
-
-     // se verifica que existan filas en la tabla
-     var cantidadFilas = table.rows().count();
-     
-     if (cantidadFilas==0) {
-        Swal.fire(
-            'Sin productos',
-            'Debe agregar productos para finalizar la compra.',
-            'warning'
-        )
-    }else{
-       // inicio
-           
-       var tableJSON = table.data().toArray();//SI FUNCIONA
-            var valorDatatable = JSON.stringify(tableJSON);
-
-           Swal.fire({
-            title: '¿Finalizar la factura de compra?',
-            showDenyButton: true,
-            //showCancelButton: true,
-            icon: 'info',
-            confirmButtonText: 'Si, finalizar compra',
-            denyButtonText: `No guardar la factura todavia`,
-        }).then((result) => {
-            /* Read more about isConfirmed, isDenied below */
-            if (result.isConfirmed) {
-
-                
-                var  inputNitProveedor = document.getElementById("inputNitProveedor").value;
-
-                var  inputDocumentoProveedor = document.getElementById("inputDocumentoProveedor").value;
-
-                var  inputFechaFacturaProveedor = document.getElementById("inputFechaFacturaProveedor").value;
-                
-               
-                
-                var totalVentaEfectuado = totalVentaComprobante;
-                        
-
-                    $.ajax({
-                        url:"queryRegistrarFacturaCompras.php",
-                        //data:{tableJSON:JSON.stringify(tableJSON)}, //SI FUNCIONA DOBLE CORCH
-                        data: {
-                            tableJSON:valorDatatable,
-                            inputNitProveedor:inputNitProveedor,
-                            totalVentaEfectuado:totalVentaEfectuado,
-                            inputDocumentoProveedor:inputDocumentoProveedor,
-                            inputFechaFacturaProveedor:inputFechaFacturaProveedor
-                        },
-                        type:"POST",
+       
+       //alert("fan: "+inputNitProveedor);
+       //var inputNitProveedor1 = $('#inputNitProveedor').val();;
+      
+        if((inputDocumentoProveedor!='')){
+            $.ajax({
+                url:"queryRegistrarFacturaCompras.php",
+                data:{inputDocumentoProveedor:inputDocumentoProveedor,inputNitProveedor:inputNitProveedor,inputFechaFacturaProveedor:inputFechaFacturaProveedor},
+                type:'post',
                     success:function(data1){
-                       
-                        
+                        //alert("estoy aqui: "+data1);
                         var json = JSON.parse(data1);
                         
+                        if(json=='registrado'){
+                            //$('#inputDatos').val('');
+                            //$('#inputDireccion').val('');
+                            //$('#inputNit').val('');
+                            $('#inputDocumentoProveedor').val('');
+                            //$('#formularioAgregarCliente').modal('hide');
+                            //cargarDatosTabla();
+                            var table = $("#datatableFacturaCompras").DataTable();
+                            table.ajax.reload();
 
-                        if (json=="compraregistrado") {
-                           
-                            Swal.fire({
-                            title: 'Factura de compra registrado correctamente',
-                            text: "Presiona el boton para recargargar la pagina",
-                            icon: 'success',
-                            showCancelButton: true,
-                            confirmButtonColor: '#3085d6',
-                            cancelButtonColor: '#d33',
-                            confirmButtonText: 'Ok'
-                            }).then((result) => {
-                            if (result.isConfirmed) {
-                                window.location.reload();
-                            }else{
-                                window.location.reload();
-                            }
-                            })
-                        }else if (json=="compranoregistrado") {
                             Swal.fire(
-                            'Compra no realizado',
-                            'No se guardo la compra. Se produjo el siguiente error'+data1,
-                            'info')
-                        }else if (json=="yaexiste") {
+                                'Factura registrado',
+                                'El número de factura se registro correctamente',
+                                'success'
+                            )
+                        }else if(json=='enuso'){
                             Swal.fire(
-                            'Documento o factura de compras ya existe',
-                            'El documento ya esta registrado. La compra no se efectuo',
-                            'info')
-                            
+                                'Factura de compra.',
+                                'El numero de factura o documente se encuentra registrado.',
+                                'error'
+                            )
                         }else{
                             Swal.fire(
-                            'Error controlado: '+data1,
-                            'No se guardo la venta',
-                            'info')
+                                'Factura de compra no guardado.',
+                                'No se guardaron los datos.',
+                                'info'
+                            )
                         }
-                    },
-                    
-                }); 
-            }
-        })
-
-
-
-
-
-        // fin 
-    }
-
-
-
-
-
-
-    }else{
-        //document.getElementById("inputCodigoProducto").disabled=true;
-        //document.getElementById("botonFinalizarCompra").disabled=true;
-         Swal.fire(
-                            'Necesitas ingresar el codigo de la factura',
-                            'Campos obligatorios',
-                            'error')
-    }
-
-    
-
+                    }
+                }
+            );
+        }else{
+              Swal.fire(
+                'Campos vacios.',
+                'Por favor llena todos los campos.',
+                'warning'
+                )
+        }
+    //});
 }
-</script>
+</script>  
+
+
+<!--script>
+
+        
+/*** Nota importante: en data tienen que ir los valores en minuscula de la tabla que queremos mostrar sus datos
+ */
+    $(document).ready(function(){
+        $("#datatableFacturaCompras").DataTable({
+            "ajax":{
+                "url":"queryFacturas.php",
+                "dataSrc":""
+            },
+            "processing": true,
+            //"serverSide": true,
+            /*"columns":[
+                {"data":"nombreapellidos"},
+                {"data":"direccion"},
+                {"data":"nitcliente"},
+                {"data":"telefono"}
+            ]*/
+            "lengthMenu": [
+                //[10,15, -1],
+                //[10,20, 'All'],
+                [10,15],
+                [10,15],
+            ],
+            "language":{
+                //"url":"https://cdn.datatables.net/plug-ins/1.12.1/i18n/es-ES.json"
+                "url":"../assets/json/idiomaDataTable.json"
+
+            },
+            "responsive": true,
+        });
+    });
+</script-->
 
 <script>
+        cargarDatosCompras();
+        function cargarDatosCompras(){
 
-    function  buscarProducto(){
+            var fechaInicio = document.getElementById("inputFechaInicio").value;
+            var fechaFin = document.getElementById("inputFechaFin").value;
        
-        var inputCodigoProducto = $("#inputCodigoProducto").val();
-        
-        $.ajax({
-            url:'queryBuscarProductoRegistrado.php',
-            data:{inputCodigoProducto:inputCodigoProducto},
-            type:'POST',
-            /*beforeSend:function(){
-                alert("123 buscando datos");
-            },
-            error:function(){
-                alert("Error");
-            },
-            complete:function(){
-                alert("listo");
-            },*/
-            success:function(data){
-               
-                var json = JSON.parse(data);
-                if (json=="productoencontrado") {
-                    /*Swal.fire(
-                        'Producto encontrado',
-                        'El producto se encuentra registrado',
-                        'info'
-                        )*/
-                        estadoCodigoProducto="aceptado";
-                        document.getElementById("inputCostoProducto").readOnly = false;
-                        document.getElementById("inputCantidadCompra").readOnly = false;
-
-                     
-
-                }else  if (json=="productonoencontrado") {
-                    /*Swal.fire(
-                        'Producto no encontrado',
-                        'Es posible que el codigo sea incorrecto o el producto no este registrado',
-                        'error'
-                        )*/
-                    estadoCodigoProducto="noaceptado";
-                    document.getElementById("inputCantidadCompra").value = "";
-                    document.getElementById("inputCostoProducto").value = "";
+            $(document).ready(function(){
+                $('#datatableFacturaCompras').DataTable({
+                    "destroy":true,
+                    
+                    "ajax":{
+                        "url":"queryFacturas.php",
+                        "data":{fechaInicio:fechaInicio,fechaFin:fechaFin},
+                        "dataSrc":""
+                    },
+                    "processing": true,
+                    "order":[[0,"desc"]],
+                    dom: 'Bfrtip',
+                    
+                    //"serverSide": true,
+                    /*"columns":[
+                        {"data":"nombreapellidos"},
+                        {"data":"direccion"},
+                        {"data":"nitcliente"},
+                        {"data":"telefono"}
+                    ]*/
+                    "lengthMenu": [
+                        //[10,15, -1],
+                        //[10,20, 'All'],
+                        [10,15],
+                        [10,15],
+                    ],
+                    "language":{
+                        "url":"../assets/json/idiomaDataTable.json"
+                    },
+                    "responsive": true,
+                });
+                
+                //eliminarDatos(".activarAnularFactura","#datatableVentasHoy","queryAnularFacturaVenta.php",'La venta de factura se anulo correctamente.',"La factura de venta no se pudo eliminar se produjo un error","¿Confirmar anulacion de factura?","Sí, eliminar factura de venta");
 
 
-
-                    document.getElementById("inputCostoProducto").readOnly = true;
-                        document.getElementById("inputCantidadCompra").readOnly = true;
-                   
-                   
-                }else{
-                    Swal.fire(
-                        'Producto no encontrado',
-                        'Es posible que el codigo sea incorrecto o el producto no este registrado',
-                        'error'
-                        )
-                }
-
-
-            }
-        })
-
-
+            });
     }
 </script>
-<!--script src="../assets/js/validation.js"></script-->
 
 
 </body>

@@ -102,9 +102,23 @@
                     },
                     type: 'POST',
                     success: function(data) {
-                        
-
-                        var json = JSON.parse(data);
+                        Swal.fire({
+  title: 'Eliminar producto',
+  text: "Esta acción no se puede revertir.",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  cancelButtonText: 'Cancelar',
+  confirmButtonText: 'Si, eliminar!'
+}).then((result) => {
+  if (result.isConfirmed) {
+    /*Swal.fire(
+      'Deleted!',
+      'Your file has been deleted.',
+      'success'
+    )*/
+    var json = JSON.parse(data);
                         
                         if(json=="productoeliminado"){
                             $('#datatableProductos').DataTable().ajax.reload();
@@ -133,6 +147,13 @@
                                 'error'
                             )
                         }
+
+
+  }
+})
+                        
+
+
                     }
                 });
             });
@@ -208,6 +229,7 @@
                                 )
                             }
                         }else if(tipoFormulario=='#formularioAgregarProductos'){
+
                             var json1 = JSON.parse(data1);
                             //var status1 = json1.status;
                             if(json1=='registrado'){
@@ -267,16 +289,19 @@
         <h5 class="modal-title" id="exampleModalLabel">Registrar productos</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-       <form id="guardarDatosFormulario" name="guardarDatosFormulario" class="row g-3 needs-validation" novalidate autocomplete="off">
+       <form id="guardarDatosFormulario" name="guardarDatosFormulario" class="form-control needs-validation" novalidate autocomplete="off">
       <div class="modal-body">
         <!-- inicio formulario-->
-        <div class="mb-3 has-validation">
+        <div class="mb-3">
             <div class="col-sm-10">
                 <label for="exampleFormControlInput1" class="form-label">Codigo</label>
-                <input type="text" name="inputNit" class="form-control" id="inputNit" placeholder="Codigo del producto" required maxlength="30">
+                <input type="text" name="inputNit" class="form-control" id="inputNit" placeholder="Codigo del producto" required maxlength="30" pattern="[A-Za-z0-9-]+" title="Solo se permite: números, letras y guión. No se permiten espacios. Tamaño máximo código: 30"/>
+            </div>
+            <div class="invalid-feedback">
+                Solo se permite: números, letras y guión. Tamaño máximo código: 30
             </div>
         </div>
-        <div class="mb-3 has-validation">
+        <div class="mb-3">
             <div class="col-sm-10">
                 <label for="Name" class="form-label">Descripcion</label>
                 <input type="text" name="inputDatos" class="form-control" placeholder="Nombre del producto" id="inputDatos" required maxlength="150">
@@ -336,7 +361,7 @@
 </div>
 
 <!-- fin agregar cliente -->
-<!--script src="../assets/js/validation.js"></script-->
+<script src="../assets/js/validation.js"></script>
 
 </body>
 </html>

@@ -47,6 +47,7 @@
                         "dataSrc":""
                     },
                     "processing": true,
+                    "order":[[1,"asc"]],
                     //"serverSide": true,
                     /*"columns":[
                         {"data":"nombreapellidos"},

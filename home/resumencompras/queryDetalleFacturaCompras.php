@@ -18,12 +18,21 @@ class PDF extends FPDF {
 // Cabecera de página
 	function Header() {
 		$this->SetFont('Times', 'B', 14);
-		$this->Image('../assets/img/logov.png', 30, 10, 15); //imagen(archivo, png/jpg || x,y,tamaño)
+
+		//$this->Image('../assets/img/logov.png', 30, 10, 15); //imagen(archivo, png/jpg || x,y,tamaño)
+		$this->Image('../assets/img/logov.png',175,9, 30); //imagen(archivo, png/jpg || x,y,tamaño)
 		$this->setXY(60, 15);
-		$this->Cell(70, 8,"Detalles de compra. Doc No:".$_GET["obtenerCodigoDocumentoProveedor"], 0, 0, 'C', 0);
+
+		$this->Cell(6,10,utf8_decode("Proveedor: ".utf8_decode($_GET["nitProveedor"])), 0, 1, 'L', 0);
+
+		$textypos=5;
+		//$this->Cell(70, 8,"Documento de compra No: ".utf8_decode($_GET["obtenerCodigoDocumentoProveedor"]), 0, 0, 'C', 0);
+		$this->Cell(5,$textypos,"Detalles de compra. Documento No: ".$_GET["obtenerCodigoDocumentoProveedor"],0,1,'L');
+		$this->SetFont('Arial','B',10);    
+		$this->setY(30);$this->setX(10);
 		//$this->Cell(70, 8,"Detalles de compra. Doc No:".$_GET["obtenerCodigoDocumentoProveedor"], 0, 1, 'C', 1);
 
-		$this->Image('../assets/img/user.png', 150, 10, 15); //imagen(archivo, png/jpg || x,y,tamaño)
+		//$this->Image('../assets/img/user.png', 150, 10, 15); //imagen(archivo, png/jpg || x,y,tamaño)
 		// va ser la separacion entre la imagen y la pagina
 		$this->Ln(25);
 	}
@@ -235,7 +244,7 @@ $total = 0;
 for ($i = 0; $i < $numregs; $i++) {
 	// 	$pdf->Row(array($i + 1, pg_fetch_result($data,$i,'frase'), ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'traduccionfrase') ))), pg_fetch_result($data,$i,'imagen')), 15);
 	//$posicionx=$posicionx+15;
-	$pdf->Row(array(ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'codigoproducto')))), 
+	$pdf->Row(array(utf8_decode(pg_fetch_result($data,$i,'codigoproducto')), 
 	ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'cantidadcomprado') ))),
 	ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'descripcion')))),
 	ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'preciocompra')))),

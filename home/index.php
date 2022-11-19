@@ -122,11 +122,13 @@
                         $("#btnIniciarSesion").prop('disabled', true);
                     },
                     success:function(data1){
+                       
+                        
                         var json = JSON.parse(data1);
                         
                         var status = json;
                         
-                        if(status=='success'){
+                        if(status=="success"){
    
                        
                             $('#frmLogin').modal('hide');
@@ -135,8 +137,7 @@
                             $('#inputEmail').val('');
                             $('#inputPassword').val('');
                             //$("#btnIniciarSesion").prop('disabled', false);
-
-							//header('Location: ../admin/index.php');
+                      
                         }else{
                             Swal.fire(
                                 'Usuario o password incorrecto.',

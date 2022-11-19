@@ -71,9 +71,9 @@ $this->SetFont('Arial','',10);
 $this->setY(35);$this->setX(75);
 //$this->Cell(5,$textypos,"Cliente: ".$_GET["detalle1"]);
 $this->setY(40);$this->setX(75);
-$this->Cell(5,$textypos,"Nombre: ".$_GET["detalle1"]);
+$this->Cell(5,$textypos,"Nombre: ".utf8_decode($_GET["detalle1"]));
 $this->setY(45);$this->setX(75);
-$this->Cell(5,$textypos,"Direccion: ".$_GET["detalle2"]);
+$this->Cell(5,$textypos,"Direccion: ".utf8_decode($_GET["detalle2"]));
 $this->setY(45);$this->setX(75);
 //$this->Cell(5,$textypos,"Telefono del cliente");
 //$this->setY(50);$this->setX(75);
@@ -260,7 +260,7 @@ date_default_timezone_set('America/Guatemala');
 $filtrarPorCodigoSubmodulo = intval($_GET["obtenerCodigoVentaComprobante"]);
 
 //$strquery = "SELECT * FROM detallefacturaventa WHERE numerodocumentofacturaventa='$filtrarPorCodigoSubmodulo'";
-$strquery = " SELECT prod.codigoproducto,prod.descripcion,DetalleFacturaVenta.cantidadcomprado,DetalleFacturaVenta.preciocompra,(DetalleFacturaVenta.cantidadcomprado*DetalleFacturaVenta.preciocompra) AS subtotal FROM productos AS prod INNER JOIN Inventario AS inventario ON prod.codigoproducto=Inventario.codigoProducto
+$strquery = " SELECT prod.codigoproducto,REPLACE(prod.descripcion, '&#039;', '''') AS descripcion,DetalleFacturaVenta.cantidadcomprado,DetalleFacturaVenta.preciocompra,(DetalleFacturaVenta.cantidadcomprado*DetalleFacturaVenta.preciocompra) AS subtotal FROM productos AS prod INNER JOIN Inventario AS inventario ON prod.codigoproducto=Inventario.codigoProducto
     
 INNER JOIN DetalleFacturaVenta ON inventario.codigoProducto=DetalleFacturaVenta.codigoProducto
 
@@ -299,11 +299,11 @@ $pdf->SetAutoPageBreak(true, 20); //salto de pagina automatico
 // -----------ENCABEZADO------------------
 $pdf->SetX(15);
 $pdf->SetFont('Helvetica', 'B', 10);
-$pdf->Cell(30, 8, 'CODIGO', 1, 0, 'C', 0);
-$pdf->Cell(70, 8, 'DESCRIPCION', 1, 0, 'C', 0);
-$pdf->Cell(20, 8, 'UNIDAD', 1, 0, 'C', 0);
-$pdf->Cell(30, 8, 'PRECIO', 1, 0, 'C', 0);
-$pdf->Cell(30, 8, 'SUBTOTAL', 1, 1, 'C', 0);
+$pdf->Cell(30, 8,utf8_decode('CODIGO'), 1, 0, 'C', 0);
+$pdf->Cell(70, 8,utf8_decode('DESCRIPCION'), 1, 0, 'C', 0);
+$pdf->Cell(20, 8,utf8_decode('UNIDAD'), 1, 0, 'C', 0);
+$pdf->Cell(30, 8,utf8_decode('PRECIO'), 1, 0, 'C', 0);
+$pdf->Cell(30, 8,utf8_decode('SUBTOTAL'), 1, 1, 'C', 0);
 // -------TERMINA----ENCABEZADO------------------
 
 

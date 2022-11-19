@@ -42,7 +42,7 @@
     <label for="staticEmail" class="col-sm-2 col-form-label"><strong>Aplicar cambios</strong></label>
     <div class="col-sm-10">
        
-          <img src="../assets/img/search-2.png" style="width:32px;height:32px" class="zoomImagen" onclick=" cargarDatosVentas();">
+          <img src="../assets/img/search-2.png" style="width:32px;height:32px" class="zoomImagen" onclick="cargarDatosVentas();">
     </div>
   </div>
 

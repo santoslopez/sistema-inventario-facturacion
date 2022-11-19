@@ -178,7 +178,11 @@
         </ul>
       </nav>
       <main class="main" >
-
+        <noscript>
+        <div class="alert alert-danger">
+          Necesitas habilitar JavaScript en tu navegador para que el sitio funciona correctamente.
+        </div>
+        </noscript>
         <div class="tab-content" id="myTabContent" style="margin-top:20px;">
 
           <div class="tab-pane fade show active" id="acerca" role="tabpanel" aria-labelledby="acerca-tab">
@@ -314,7 +318,7 @@
     </div>
   </div>';
 }?>
-<div class="col-sm-6" >
+  <!--div class="col-sm-6" >
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">Listado de compras</h5>
@@ -325,11 +329,11 @@
       </div>
 
     </div>
-  </div>
+  </div-->
 
 
 
-  <div class="col-sm-6" style="margin-top:5%">
+  <div class="col-sm-6" >
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">Proveedores</h5>

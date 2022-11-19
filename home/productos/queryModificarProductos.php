@@ -10,9 +10,16 @@
   if(!(isset($_POST['nombreApellidos'],$_POST['nitCliente']) )) {
     header('Location: ../index.php');
   }else{
-    $nit= $_POST['nitCliente'];
-    $empresa= $_POST['nombreApellidos'];
+    //$nit= $_POST['nitCliente'];
+    //$empresa= $_POST['nombreApellidos'];
   
+    $obtenerNit=htmlspecialchars($_POST["nitCliente"],ENT_QUOTES,'UTF-8');
+    $nit = pg_escape_string($obtenerNit);
+
+
+    $obtenerEmpresa=htmlspecialchars($_POST["nombreApellidos"],ENT_QUOTES,'UTF-8');
+    $empresa = pg_escape_string($obtenerEmpresa);
+
     $consulta = "SELECT PA_modificarProductos('$nit','$empresa')";
 
     $ejecutarConsulta = pg_query($conexion,$consulta);

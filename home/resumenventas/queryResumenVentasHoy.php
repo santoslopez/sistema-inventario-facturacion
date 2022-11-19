@@ -12,7 +12,7 @@
     $fechaFin = $_GET["fechaFin"];
 
 
-    $listadoTiposEventoUsuario = "SELECT DISTINCT facturaventa.numerodocumentofacturaventa,facturaventa.fechafacturaventa,facturaventa.totalventa,nitcliente AS nitcliente,facturaventa.horaVenta,facturaventa.codigousuario,facturaventa.estado,facturaventa.detalle1,facturaventa.detalle2  FROM Clientes INNER JOIN FacturaVenta AS facturaventa
+    $listadoTiposEventoUsuario = "SELECT DISTINCT facturaventa.numerodocumentofacturaventa,facturaventa.fechafacturaventa,facturaventa.totalventa,nitcliente AS nitcliente,facturaventa.horaVenta,facturaventa.codigousuario,facturaventa.estado,REPLACE(facturaventa.detalle1, '&#039;', ''''),REPLACE(facturaventa.detalle2, '&#039;', '''')  FROM Clientes INNER JOIN FacturaVenta AS facturaventa
     ON Clientes.codigocliente=FacturaVenta.codigocliente INNER JOIN  detallefacturaventa
     ON FacturaVenta.numerodocumentofacturaventa=detallefacturaventa.numerodocumentofacturaventa    
     WHERE facturaventa.numerodocumentofacturaventa=detallefacturaventa.numerodocumentofacturaventa
