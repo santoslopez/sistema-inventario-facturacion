@@ -66,7 +66,7 @@
 
         <div class="col-auto">
             <div class="col">
-                <label for="Name" class="form-label">Fecha factura proveedor</label>
+                <label for="Name" class="form-label">Fecha proveedor</label>
                 <?php  
                     date_default_timezone_set('America/Guatemala'); 
                 ?>
@@ -131,16 +131,26 @@
 
 <table class="table table-striped table-bordered nowrap" id="datatableFacturaCompras" name="datatableFacturaCompras" style="width:100%">
             <thead>
+                   
                     <th>#</th>
-                    <th>Número documento</th>
+                    <th>No. factura</th>
                     <th>Fecha registro</th>
-                    <th>Fecha factura proveedor</th>
+                    <th>Fecha proveedor</th>
                     <th>Nit proveedor</th>
-                    <th>Estado</th>
-                    <th>Agregar</th>
+                    <th>Estado</th>                   
+                    
             </thead>
-            <tbody>
-            </tbody>
+            <tfoot>
+    <tr>
+   
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+</tfoot>
         </table>
 
 <div class="d-grid gap-2 col-6 mx-auto" style="margin-bottom:3%">
@@ -179,7 +189,9 @@ function agregarFacturaCompra(){
                 data:{inputDocumentoProveedor:inputDocumentoProveedor,inputNitProveedor:inputNitProveedor,inputFechaFacturaProveedor:inputFechaFacturaProveedor},
                 type:'post',
                     success:function(data1){
-                        //alert("estoy aqui: "+data1);
+                       
+
+                        
                         var json = JSON.parse(data1);
                         
                         if(json=='registrado'){
@@ -224,42 +236,6 @@ function agregarFacturaCompra(){
 }
 </script>  
 
-
-<!--script>
-
-        
-/*** Nota importante: en data tienen que ir los valores en minuscula de la tabla que queremos mostrar sus datos
- */
-    $(document).ready(function(){
-        $("#datatableFacturaCompras").DataTable({
-            "ajax":{
-                "url":"queryFacturas.php",
-                "dataSrc":""
-            },
-            "processing": true,
-            //"serverSide": true,
-            /*"columns":[
-                {"data":"nombreapellidos"},
-                {"data":"direccion"},
-                {"data":"nitcliente"},
-                {"data":"telefono"}
-            ]*/
-            "lengthMenu": [
-                //[10,15, -1],
-                //[10,20, 'All'],
-                [10,15],
-                [10,15],
-            ],
-            "language":{
-                //"url":"https://cdn.datatables.net/plug-ins/1.12.1/i18n/es-ES.json"
-                "url":"../assets/json/idiomaDataTable.json"
-
-            },
-            "responsive": true,
-        });
-    });
-</script-->
-
 <script>
         cargarDatosCompras();
         function cargarDatosCompras(){
@@ -279,14 +255,44 @@ function agregarFacturaCompra(){
                     "processing": true,
                     "order":[[0,"desc"]],
                     dom: 'Bfrtip',
-                    
-                    //"serverSide": true,
-                    /*"columns":[
-                        {"data":"nombreapellidos"},
-                        {"data":"direccion"},
-                        {"data":"nitcliente"},
-                        {"data":"telefono"}
-                    ]*/
+                    /* drawCallback: function () {
+      var api = this.api();
+     
+      $(api.columns(5).footer()).html(
+        'Total: Q.'+api.column(5, {page:'current'} ).data().sum()
+      );
+      
+      totalVentaComprobante=api.column(5, {page:'current'} ).data().sum();
+    },*/
+                    /*footerCallback: function (row, data, start, end, display) {
+                        var api = this.api();
+                        
+ // Remove the formatting to get integer data for summation
+ var intVal = function (i) {
+                return typeof i === 'string' ? i.replace(/[\$,]/g, '') * 1 : typeof i === 'number' ? i : 0;
+            };
+
+                       
+  // Total over all pages
+                total = api
+                .column(1)
+                .data()
+                .reduce(function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0);
+ 
+            // Total over this page
+            pageTotal = api
+                .column(1, { page: 'current' })
+                .data()
+                .reduce(function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0);
+
+
+                        $(api.column(1).footer()).html('Total página: Q.' + pageTotal.toFixed(2) + ' ( Q.' + total.toFixed(2) + ' total compras)');
+                        
+                    },*/
                     "lengthMenu": [
                         //[10,15, -1],
                         //[10,20, 'All'],

@@ -12,11 +12,19 @@
     $fechaFin = $_GET["fechaFin"];
 
 
-    $listadoTiposEventoUsuario = "SELECT DISTINCT facturaventa.numerodocumentofacturaventa,facturaventa.fechafacturaventa,facturaventa.totalventa,nitcliente AS nitcliente,facturaventa.horaVenta,facturaventa.codigousuario,facturaventa.estado,REPLACE(facturaventa.detalle1, '&#039;', ''''),REPLACE(facturaventa.detalle2, '&#039;', '''')  FROM Clientes INNER JOIN FacturaVenta AS facturaventa
+    /*$listadoTiposEventoUsuario = "SELECT DISTINCT facturaventa.numerodocumentofacturaventa,facturaventa.fechafacturaventa,facturaventa.totalventa,nitcliente AS nitcliente,facturaventa.horaVenta,facturaventa.codigousuario,facturaventa.estado,REPLACE(facturaventa.detalle1, '&#039;', ''''),REPLACE(facturaventa.detalle2, '&#039;', '''')  FROM Clientes INNER JOIN FacturaVenta AS facturaventa
     ON Clientes.codigocliente=FacturaVenta.codigocliente INNER JOIN  detallefacturaventa
     ON FacturaVenta.numerodocumentofacturaventa=detallefacturaventa.numerodocumentofacturaventa    
     WHERE facturaventa.numerodocumentofacturaventa=detallefacturaventa.numerodocumentofacturaventa
-    AND facturaventa.fechafacturaventa BETWEEN $1 AND $2";
+    AND facturaventa.fechafacturaventa BETWEEN $1 AND $2";*/
+
+    $listadoTiposEventoUsuario = "SELECT facturaventa.numerodocumentofacturaventa,facturaventa.fechafacturaventa,SUM(detalle.preciocompra*detalle.cantidadcomprado) AS totalventa,facturaventa.detalle1,facturaventa.horaventa,facturaventa.codigousuario,facturaventa.estado,REPLACE(facturaventa.detalle1, '&#039;', ''''),REPLACE(facturaventa.detalle2, '&#039;', '''') from facturaventa as facturaventa
+INNER JOIN detallefacturaventa AS detalle ON facturaventa.numerodocumentofacturaventa=detalle.numerodocumentofacturaventa
+WHERE facturaventa.numerodocumentofacturaventa=detalle.numerodocumentofacturaventa
+    AND facturaventa.fechafacturaventa BETWEEN $1 AND $2
+GROUP BY (facturaventa.numerodocumentofacturaventa,facturaventa.fechafacturaventa,facturaventa.detalle1,facturaventa.horaventa,facturaventa.codigousuario,facturaventa.estado)";
+
+
     
     pg_prepare($conexion,"queryResumenVentasHoy",$listadoTiposEventoUsuario) or die ("No se pudo preparar la consulta queryResumenVentasHoy");
 
@@ -30,9 +38,9 @@
         $subarray[]=$row[0];
         $subarray[]=$row[1];
         $subarray[]=$row[2];
-        $subarray[]=$row[3];
+        //$subarray[]=$row[3];
         $subarray[]=$row[4];
-        $subarray[]=$row[5];
+        //$subarray[]=$row[5];
         if ($row[6]=="P") {
             # code...
             $subarray[]="Procesado";

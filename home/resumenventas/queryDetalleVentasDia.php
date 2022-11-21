@@ -260,7 +260,7 @@ date_default_timezone_set('America/Guatemala');
 $filtrarPorCodigoSubmodulo = intval($_GET["obtenerCodigoVentaComprobante"]);
 
 //$strquery = "SELECT * FROM detallefacturaventa WHERE numerodocumentofacturaventa='$filtrarPorCodigoSubmodulo'";
-$strquery = " SELECT prod.codigoproducto,REPLACE(prod.descripcion, '&#039;', '''') AS descripcion,DetalleFacturaVenta.cantidadcomprado,DetalleFacturaVenta.preciocompra,(DetalleFacturaVenta.cantidadcomprado*DetalleFacturaVenta.preciocompra) AS subtotal FROM productos AS prod INNER JOIN Inventario AS inventario ON prod.codigoproducto=Inventario.codigoProducto
+$strquery = "SELECT prod.codigoproducto,REPLACE(prod.descripcion, '&#039;', '''') AS descripcion,DetalleFacturaVenta.cantidadcomprado,DetalleFacturaVenta.preciocompra,(DetalleFacturaVenta.cantidadcomprado*DetalleFacturaVenta.preciocompra) AS subtotal FROM productos AS prod INNER JOIN Inventario AS inventario ON prod.codigoproducto=Inventario.codigoProducto
     
 INNER JOIN DetalleFacturaVenta ON inventario.codigoProducto=DetalleFacturaVenta.codigoProducto
 

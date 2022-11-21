@@ -1,7 +1,7 @@
 <?php
 
     $username = "postgres";
-    $nombreBD = "minegocio";
+    $nombreBD = "18noviembre";
     $nombreHost = "localhost";
     $passwordUsuario = "root";
     $numeroPuerto = "5432";

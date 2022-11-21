@@ -28,40 +28,38 @@
             </div>     
           
         </div>
-<?php 
-
-
-            //include '../conexion.php';
-
-            //$consultaTotalFacturaCompra = "select SUM(cantidadComprado * precioCompra) from detalleFacturaCompra";
-            //$ejecutarConsultaTotalFacturaCompra  = pg_query($conexion,$consultaTotalFacturaCompra);
-            
-
-
-
-    echo '
         <table class="table table-striped table-bordered nowrap" id="datatableCompras" name="datatableCompras" style="width:100%;">
             <thead>
                     
                     <th>Costo</th>
                     <th>Cantidad</th>
-                    <th>Codigo producto</th>
-                    <th>Descripcion</th>
                     <th>Subtotal</th>
+                    <th>Codigo producto</th>
+                    <th style="width:30px">Descripcion</th>
+                    
                     <th>Eliminar</th>
             </thead>
             
-            <tbody>
-            </tbody>
-        </table>';
+           <tfoot>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </tfoot>
+        </table>
+        <div class="d-grid gap-2 col-6 mx-auto">
+            <a href="../index.php" class="btn btn-primary">Menu principal</a>
+<?php 
+
+
 /**
  * <tfoot><tr class="tbl_foot"><th colspan="6">Total</th></tr></tfoot>
  */
 
-        echo '<div class="d-grid gap-2 col-6 mx-auto">';
-        //echo '<a href="queryFacturaCompras.php" class="btn btn-primary">Atrás</a>';
-        echo '<a href="../index.php" class="btn btn-primary">Menu principal</a>';
-        
         include "../conexion.php";
         $queryValidarCierreCompra = "SELECT  * FROM detallefacturacompra WHERE estado='P' AND documentoProveedor=$1";        
 
@@ -82,12 +80,8 @@
             <img src="../assets/img/diskette-2.png" alt="Cerrar factura de compra" width="64" height="64">
             </a>';
         }
-
-
-        echo '</div>';
-
     ?> 
-
+    </div>
 </script>
 
     <!--script>
@@ -180,7 +174,8 @@
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
                 <label for="Name" class="form-label">Costo producto</label>
-                <input type="number" name="inputCostoProducto" class="form-control" id="inputCostoProducto" placeholder="Costo de producto" required min="0" title="Solo se permite: números y punto. Ejemplo: 100, 100.55">
+                <input type="number" name="inputCostoProducto" class="form-control" id="inputCostoProducto" placeholder="Costo de producto" required min="0" step="0.01" title="Solo se permite: números y punto. Ejemplo: 100, 100.55. Numeros solo con 2 decimales">
+                
             </div>
             <div class="invalid-feedback">
                 Solo numeros se permiten.
@@ -213,39 +208,6 @@
     
   </div>
 </div>
-
-<!--script>
-window.onload = function() {
-  
-  updateTotal();
-};
-        </script-->
-
-<!--script>
-    function updateTotal(){
-      
-        //var nombreApellidos=$('#inputEmail').val();
-        //if((nombreApellidos!='') && (direccion!='')){
-            var documentoFacturaCompra = document.getElementById("facturaCompra").value;
-            $.ajax({
-                url:"totalFacturaDeCompra.php",
-                data:{documentoFacturaCompra:documentoFacturaCompra},
-                type:'POST',
-                    beforeSend: function() {
-                        //$("btnVerTotalFactura").prop('disabled', true);
-                    },
-                    success:function(data1){
-                        var json = JSON.parse(data1);
-                        var totalFactura = json[0];
-                        document.getElementById("txtTotalFacturaCompra").value = totalFactura;
-  
-                    }
-                }
-            );
-
-    };
-</script-->
-
 
 
 <script>
@@ -280,14 +242,7 @@ window.onload = function() {
                             $('#inputCantidadCompra').val('');
                             $('#inputCodigoProducto').val('');
                         }else if(json=="productonoencontrado"){
-                            //$('#inputCostoProducto').val('');
-                            //$('#inputCantidadCompra').val('');
-                            //$('#inputCodigoProducto').val('');
                             
-                            //$('#formularioAgregarFacturaCompras').modal('hide');
-
-                            //cargarDatosTabla();
-    
                             
                             Swal.fire(
                                 'Producto no encontrado',
@@ -333,7 +288,7 @@ window.onload = function() {
 
 
 <!-- inicio agregar cliente action="javascript:void()"-->
-<div class="modal fade" id="formularioModificarProductosCompra" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!--div class="modal fade" id="formularioModificarProductosCompra" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -371,12 +326,13 @@ window.onload = function() {
       </form>
     </div>
   </div>
-</div>
+</div-->
 
 
 <script>
 
-        
+        var totalVentaComprobante;
+
 /*** Nota importante: en data tienen que ir los valores en minuscula de la tabla que queremos mostrar sus datos
  */
     $(document).ready(function(){
@@ -392,6 +348,45 @@ window.onload = function() {
                 }
             },
             "processing": true,
+            /*drawCallback: function () {
+      var api = this.api();
+     
+      $(api.columns(4).footer()).html(
+        'Total en página seleccionada: Q.'+api.column(2, {page:'current'} ).data().sum()
+      );
+      
+      totalVentaComprobante=api.column(2, {page:'current'} ).data().sum();
+    },*/
+                        footerCallback: function (row, data, start, end, display) {
+                        var api = this.api();
+                        
+ // Remove the formatting to get integer data for summation
+ var intVal = function (i) {
+                return typeof i === 'string' ? i.replace(/[\$,]/g, '') * 1 : typeof i === 'number' ? i : 0;
+            };
+
+  // Total over all pages
+                total = api
+                .column(2)
+                .data()
+                .reduce(function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0);
+ 
+            // Total over this page
+            pageTotal = api
+                .column(2, { page: 'current' })
+                .data()
+                .reduce(function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0);
+
+
+                        $(api.column(2).footer()).html('Total página: Q.' + pageTotal.toFixed(3) + ' ( Q.' + total + ' total factura de compras)');
+                        
+                    },
+
+
             //"serverSide": true,
             /*"columns":[
                 {"data":"nombreapellidos"},
@@ -575,6 +570,7 @@ Swal.fire({
 })
     }
 </script>
+<script src="../assets/js/sum.js"> </script>
 
 </body>
 </html>

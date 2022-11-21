@@ -330,10 +330,21 @@
 
     </div>
   </div-->
-
-
-
   <div class="col-sm-6" >
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Resumen total compras</h5>
+        <p class="card-text">Reporte de todas las compras realizadas.</p>
+        <a style="cursor: pointer;" class="btn btn-primary" href="../compras/reporteTodasFacturasCompras.php">
+          <img src="../assets/img/pdf.webp" class="zoomImagen home" alt="Resumen factura de compras" title="Resumen factura de compra">                       
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+
+  <div class="col-sm-6" style="margin-top: 2%">
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">Proveedores</h5>

@@ -52,17 +52,13 @@
                         <th>No. comprobante</th>
                         <th>Fecha venta</th>
                         <th>Total venta</th>
-                        <th>Nit cliente</th>
                         <th>Hora venta</th>
-                        <th>Codigo vendedor</th>
                         <th>Estado</th>
-                        <th>Anular factura de venta</th>
-                        <th>Detalles</th>
+                        <th>Anular factura</th>
+                        <th>Ver</th>
                 </thead>
                 <tfoot>
                 <tr>
-                    <th></th>
-                    <th></th>
                     <th></th>
                     <th></th>
                     <th></th>
@@ -128,7 +124,7 @@
                 }, 0);
 
 
-                        $(api.column(2).footer()).html('Total página: Q.' + pageTotal + ' ( Q.' + total + ' total ventas)');
+                        $(api.column(2).footer()).html('Total página: Q.' + pageTotal.toFixed(2) + ' ( Q.' + total.toFixed(2) + ' total ventas)');
                         
                     },
                     

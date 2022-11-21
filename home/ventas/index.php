@@ -65,7 +65,7 @@
   </nav>
   <nav class="navbar" style="background:#F8FCFF">
   <div class="container-fluid">
-  <form class="row g-3">
+  <form class="row g-3"  class="needs-validation" novalidate autocomplete="off">
   <div class="col-auto">
     <label for="inputCodigoProducto">Buscar producto</label>
     <input type="text" class="form-control" id="inputCodigoProducto" name="inputCodigoProducto" placeholder="Codigo producto" onblur="buscarProducto();"  onkeyup="buscarProducto();" autocomplete="off"> 
@@ -74,7 +74,7 @@
   <label for="inputNombreProducto">Descripcion</label>
   <input type="text" class="form-control" id="inputNombreProducto" name="inputNombreProducto" placeholder="Nombre producto" readonly required autocomplete="off">
     </div>
-  <div class="col-auto">
+  <div class="col-auto has-validation">
     <label for="inputCantidadVendido">Cantidad</label>
     <input type="number" class="form-control soloNumeros" id="inputCantidadVendido" name="inputCantidadVendido" placeholder="Cantidad"  pattern="[1-9]+" required autocomplete="off">
         
@@ -83,9 +83,9 @@
     
     
     </div>
-  <div class="col-auto">
+  <div class="col-auto has-validation">
   <label for="inputCantidadVendido">Precio vendido</label>
-  <input type="number" class="form-control" id="inputPrecioVendido" name="inputPrecioVendido" placeholder="Precio" required>
+  <input type="number" class="form-control" id="inputPrecioVendido" name="inputPrecioVendido" placeholder="Precio" required min="0" step="0.01" title="Solo se permite: números y punto. Ejemplo: 100, 100.55. Numeros solo con 2 decimales" >
 </div>
   <div class="col-auto">
       <a class="btn" href="../inventario/index.php" role="button" target="_blank">

@@ -20,8 +20,7 @@
                 Registrar productos
             </button>
         </div>
-        <?php 
-        echo '<table class="table table-striped table-bordered nowrap" id="datatableProductos" name="datatableProductos" style="width:100%">
+        <table class="table table-striped table-bordered nowrap" id="datatableProductos" name="datatableProductos" style="width:100%">
                 <thead>
                         <th>CODIGO</th>
                         <th>Descripcion</th>
@@ -29,9 +28,10 @@
                 </thead>
                 <tbody>
                 </tbody>
-            </table>
-            <a class="btn btn-primary" href="../index.php" role="button">Menu principal</a></div>';
-        ?> 
+        </table>
+        <a class="btn btn-primary" href="../index.php" role="button">Menu principal</a>
+    </div>
+      
     
     <script>
 
@@ -295,7 +295,7 @@
         <div class="mb-3">
             <div class="col-sm-10">
                 <label for="exampleFormControlInput1" class="form-label">Codigo</label>
-                <input type="text" name="inputNit" class="form-control" id="inputNit" placeholder="Codigo del producto" required maxlength="30" pattern="[A-Za-z0-9-]+" title="Solo se permite: números, letras y guión. No se permiten espacios. Tamaño máximo código: 30"/>
+                <input type="text" name="inputNit" class="form-control" id="inputNit" placeholder="Codigo del producto" required maxlength="30" pattern="[A-Za-z0-9-_/]+" title="Solo se permite: números, letras, guion bajo, guion normal y diagonal. No se permiten espacios. Tamaño máximo código: 30"/>
             </div>
             <div class="invalid-feedback">
                 Solo se permite: números, letras y guión. Tamaño máximo código: 30
@@ -339,7 +339,7 @@
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
                 <label for="exampleFormControlInput1" class="form-label">Codigo del producto</label>
-                <input type="text" name="inputNitUpdate" class="form-control" id="inputNitUpdate" placeholder="Nit" required readonly maxlength="30">
+                <input type="text" name="inputNitUpdate" class="form-control" id="inputNitUpdate" placeholder="Codigo de producto" required readonly maxlength="30">
             </div>
         </div>
         <div class="mb-3 has-validation">
