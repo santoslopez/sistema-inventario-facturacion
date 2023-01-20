@@ -289,8 +289,9 @@ $(document).ready(function () {
         let cantidadEnBodega = document.getElementById("inputUnidadesDisponibles").value;
 
         var productoIngresadoTable=true;
+
         // verifica que campos no esten vacios y sirve para hacer la verificacion que sea el campo correo, por ejemplo que sea entero,etc.
-        if((codigoProducto !='') && (nombreProducto!='') && (cantidadVendido!='') && (precioVendido!='')){
+        if((codigoProducto !='') && (nombreProducto!='') && (cantidadVendido!='') && ( (precioVendido!='') && (precioVendido>=0) )){
 
             table.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
                 var data = this.data();
@@ -353,7 +354,7 @@ $(document).ready(function () {
         }else{
             Swal.fire(
                 'Campos incorrectos o vacios',
-                'En precio y unidades tiene que ser numerico',
+                'En precio y unidades tiene que ser numerico. Ejemplo de precio: 200, 100.50, 4000.89 (No permitido uso de comas)',
                 'info'
             )
         }

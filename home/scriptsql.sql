@@ -149,8 +149,8 @@ CREATE TABLE FacturaVenta(
     horaVenta time NOT NULL,
     estado CHAR(1) CHECK(estado='P' OR estado='A') NOT NULL,
     codigoUsuario int NOT NULL,
-    datosCliente varchar(100) NOT NULL,
-    direccionCliente varchar(100) NOT NULL,
+    detalle1 varchar(100) NOT NULL,
+    detalle2 varchar(100) NOT NULL,
     PRIMARY KEY (numeroDocumentoFacturaVenta),
     CONSTRAINT PK_FacturaVentaCliente FOREIGN KEY (codigoCliente) REFERENCES Clientes(codigoCliente),
     FOREIGN KEY (codigoUsuario) REFERENCES Usuarios(codigoUsuario)
