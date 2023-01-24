@@ -533,3 +533,23 @@ END;
 $$ LANGUAGE plpgsql;
 
 
+CREATE OR REPLACE FUNCTION PA_eliminarCliente(IN buscarCodigoCliente integer) RETURNS varchar AS
+
+$$
+    DECLARE
+
+    BEGIN
+        IF (SELECT count(*) from  Clientes WHERE (codigocliente=buscarCodigoCliente)) > 0 THEN
+            DELETE FROM clientes WHERE codigocliente=buscarCodigoCliente;
+            return 'clienteeliminado';
+            COMMIT;
+        ELSE
+            return 'clientenoexiste';
+        END IF;
+    EXCEPTION
+    WHEN OTHERS THEN
+        return 'errorsucedido';
+        ROLLBACK;       
+       
+    END;
+$$ LANGUAGE 'plpgsql';
