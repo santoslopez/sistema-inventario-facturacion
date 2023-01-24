@@ -252,9 +252,19 @@ $(document).ready(function () {
    // document.getElementById("inputDetalle2").disabled=true;
 
     table = $('#example').DataTable( {
-        dom: 'Bfrtip',
-        stateSave: true,
-
+        //dom: 'Bfrtip',
+        //stateSave: true,
+    // desabilita la funcionalidad de actualizar automáticamente
+    "autoWidth": false,
+    "deferRender": true,
+    "info": false,
+    "lengthChange": false,
+    "ordering": false,
+    "paging": true,
+    "processing": true,
+    "searching": false,
+    "serverSide": false,
+    "stateSave": true,
         //languague:español,
         "language":{
             "url":"../assets/json/idiomaDataTable.json"
