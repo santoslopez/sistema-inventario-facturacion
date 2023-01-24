@@ -12,7 +12,7 @@
         //session_start();
         include "../includes/head.php";
     ?>
-    <title>Listado de clientes</title>
+    <title>Listado de clientes - Comprobante</title>
 
 </head>
 <body>

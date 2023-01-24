@@ -52,9 +52,6 @@
 
         }else{
            
-            /*$subarray[]="
-            <a href=../resumencompras/queryDetalleFacturaCompras.php?obtenerCodigoDocumentoProveedor=".urlencode($row[1])."&nombreSubmoduloReporte=".urlencode($row[1])."  data-id='$row[0]' class='activarReporteLecciones' id='id' name='id' target='_blank'><img src='../assets/img/detallecompras.png' class='zoomImagen' style='width:20px;height:20px;' alt='Reporte leccion' ></a>
-            <a href='javascript:void();' data-id='$row[0]' class='activarEliminar'><img src='../assets/img/delete.png' class='zoomImagen' style='width: 25px;px;heigth: 25px;' alt='Actualizar contenido'></a>";*/
             $subarray[]="Procesado<a href=../resumencompras/queryDetalleFacturaCompras.php?obtenerCodigoDocumentoProveedor=".urlencode($row[1])."&nombreSubmoduloReporte=".urlencode($row[1])."&nitProveedor=".urlencode($row[4])."  data-id='$row[0]' class='activarReporteLecciones' id='id' name='id' target='_blank'><img src='../assets/img/detallecompras.png' class='zoomImagen' style='width:20px;height:20px;' alt='Reporte leccion' ></a>
             Anular factura<a href='javascript:void();' data-id='$row[1]' class='activarEliminarFacturaCompra'><img src='../assets/img/delete.png' class='zoomImagen' style='width: 25px;px;heigth: 25px;' alt='Actualizar contenido'></a>";
            

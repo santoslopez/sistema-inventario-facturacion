@@ -38,20 +38,16 @@ GROUP BY (facturaventa.numerodocumentofacturaventa,facturaventa.fechafacturavent
         $subarray[]=$row[0];
         $subarray[]=$row[1];
         $subarray[]=$row[2];
-        //$subarray[]=$row[3];
         $subarray[]=$row[4];
-        //$subarray[]=$row[5];
         if ($row[6]=="P") {
-            # code...
-            $subarray[]="Procesado";
+            $subarray[]="Procesado<a href=../resumenventas/queryDetalleVentasDia.php?obtenerCodigoVentaComprobante=".urlencode($row[0])."&nombreSubmoduloReporte=".urlencode($row[0])."&fechaVentaComprobante=".urlencode($row[1])."&detalle1=".urlencode($row[7])."&detalle2=".urlencode($row[8])." target='_blank' data-id='$row[0]' class='activarReporteLecciones' id='id' name='id'><img src='../assets/img/bill.png' class='zoomImagen' style='width:20px;height:20px;' alt='Reporte leccion'></a>
+            Anular factura<a href='javascript:void();' data-id='$row[0]' class='activarEliminarFacturaVenta'><img src='../assets/img/delete.png' class='zoomImagen' style='width: 25px;px;heigth: 25px;' alt='Actualizar contenido'></a>";
+           
         }else{
-            $subarray[]="Anulado";
+            $subarray[]="Anulado<a href=../resumenventas/queryDetalleVentasDia.php?obtenerCodigoVentaComprobante=".urlencode($row[0])."&nombreSubmoduloReporte=".urlencode($row[0])."&fechaVentaComprobante=".urlencode($row[1])."&detalle1=".urlencode($row[7])."&detalle2=".urlencode($row[8])." target='_blank' data-id='$row[0]' class='activarReporteLecciones' id='id' name='id'><img src='../assets/img/bill.png' class='zoomImagen' style='width:20px;height:20px;' alt='Reporte leccion'></a>";
         }
       
-        //$subarray[]="<a href='javascript:void();' data-id='$row[0]' class='activarAnularFactura' id='id' name='id'><img src='../assets/img/delete.png' class='zoomImagen' style='width:20px;height:20px;' alt='Actualizar contenido'></a>";
-        $subarray[]="No disponible";
 
-        $subarray[]="<a href=../resumenventas/queryDetalleVentasDia.php?obtenerCodigoVentaComprobante=".urlencode($row[0])."&nombreSubmoduloReporte=".urlencode($row[0])."&fechaVentaComprobante=".urlencode($row[1])."&detalle1=".urlencode($row[7])."&detalle2=".urlencode($row[8])." target='_blank' data-id='$row[0]' class='activarReporteLecciones' id='id' name='id'><img src='../assets/img/bill.png' class='zoomImagen' style='width:20px;height:20px;' alt='Reporte leccion'></a>";
         $data[]=$subarray;     
     }              
     echo json_encode($data);       

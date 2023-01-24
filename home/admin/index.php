@@ -32,7 +32,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!--title>Listado lenguas</title-->
   <link rel="stylesheet" href="../assets/css/bootstrap5-0-2.min.css"/>
-    <title>Home</title>
+    <title>Home - Comprobante</title>
     <!-- ======= Styles ====== -->
 
     <link rel="stylesheet" href="../assets/css/bootstrap5-0-2.min.css">
@@ -188,7 +188,7 @@
           <div class="tab-pane fade show active" id="acerca" role="tabpanel" aria-labelledby="acerca-tab">
             
             <div class="alert alert-success" role="alert">
-              <h3>Crear venta de hoy</h3>
+              <h3>Crear comprobante de ventas</h3>
             </div>
             <?php
               $user = $_SESSION["nombreUsuario"];

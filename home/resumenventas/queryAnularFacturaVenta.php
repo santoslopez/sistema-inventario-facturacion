@@ -1,32 +1,19 @@
-<?php 
-    include "../sesion/sesion.php";
-    include '../conexion.php';
-    include '../datos/funcionesDatos.php';
+<?php
+	include "../sesion/sesion.php";
+	include '../conexion.php';
+	include '../datos/funcionesDatos.php';
+	if(!(isset($_POST["id"]))) {
+		header('Location: ../index.php');
+	}else{
+		$obtenerNitProveedor= $_POST["id"];
+		$consulta = "SELECT anular_factura_venta('$obtenerNitProveedor')";
 
-    if (!isset($_POST["id"])) {
-      //$obtenerNombreSubmodulo = "0";
-      # code...
-      header("Location: ../index.php");
-    }else{
+		$ejecutarConsulta = pg_query($conexion,$consulta);
 
-    $queryEliminar = "DELETE FROM DetalleFacturaVenta WHERE numerodocumentofacturaventa=$1";
-    $consultaEliminarLenguas = $queryEliminar;
-    $namePrepareStatement="prepareStatementEliminarFacturaVenta";
-    $obtenerCodigoEvento = $_POST["id"];
-
-    //eliminarDatosFila("codigoClienteEliminar","DELETE FROM Clientes WHERE codigoCliente=$1;","prepareEliminarContenidoLeccion","El cliente se elimino.","../admin/index.php",$conexion);
-    pg_prepare($conexion,$namePrepareStatement,$consultaEliminarLenguas) or die("Cannot prepare statement.");
-    $res= pg_execute($conexion,$namePrepareStatement,array($obtenerCodigoEvento));
-
-    if ($res) {
-      $data = array();
-      $data['status'] = 'success';
-      echo json_encode($data);
-    }else{
-      $data = array();
-      $data['status'] = 'failed';
-      echo json_encode($data);
-    }
-
-  }
-  ?>
+		while ($row= pg_fetch_row($ejecutarConsulta)) {
+			$subarray=array();
+			$subarray[]=$row[0];
+		}
+		echo json_encode($subarray);
+	}
+?>

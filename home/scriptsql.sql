@@ -433,7 +433,6 @@ $$
 $$ LANGUAGE 'plpgsql';
 
 
-
 CREATE OR REPLACE FUNCTION anular_factura_compra(IN d_documentoProveedor_anular VARCHAR)
 RETURNS VARCHAR AS $$
 DECLARE
@@ -447,7 +446,6 @@ BEGIN
 
 
         -- Verificar que la factura no ha sido anulada
-
 
         IF (SELECT count(*) FROM facturacompra WHERE documentoproveedor = d_documentoProveedor_anular AND estado='P') > 0 THEN
             
@@ -487,3 +485,51 @@ EXCEPTION
         RETURN 'errorsucedido';
 END;
 $$ LANGUAGE plpgsql;
+
+
+
+
+CREATE OR REPLACE FUNCTION anular_factura_venta(IN d_documentoFacturaVenta_anular INTEGER)
+RETURNS VARCHAR AS $$
+DECLARE
+    v_anulada CHAR = 'A';
+    v_producto_id varchar;
+    v_cantidad_factura_venta integer;
+    detalles_factura_venta record;
+BEGIN
+    -- Verificar que la factura existe
+    IF (SELECT count(*) FROM facturaventa WHERE numerodocumentofacturaventa = d_documentoFacturaVenta_anular) > 0 THEN
+    
+        -- Verificar que la factura no ha sido anulada
+        IF (SELECT count(*) FROM facturaventa WHERE numerodocumentofacturaventa = d_documentoFacturaVenta_anular AND estado='P') > 0 THEN
+          
+            -- Anular la factura
+            UPDATE facturaventa SET estado = 'A' WHERE numerodocumentofacturaventa = d_documentoFacturaVenta_anular;
+            
+  
+              -- Restar las cantidades de productos comprados desde la tabla de inventario
+    FOR detalles_factura_venta IN (SELECT codigoproducto, cantidadcomprado FROM detallefacturaventa WHERE numerodocumentofacturaventa = d_documentoFacturaVenta_anular)
+    LOOP
+        v_producto_id = detalles_factura_venta.codigoproducto;
+        v_cantidad_factura_venta = detalles_factura_venta.cantidadcomprado;
+
+    UPDATE inventario SET cantidadcomprado = cantidadcomprado + v_cantidad_factura_venta WHERE codigoproducto = v_producto_id;
+
+  END LOOP;
+            
+            return 'anulado';            
+        ELSE
+            RETURN 'noanulado';
+        END IF;
+
+    ELSE
+        return 'facturanoexiste';
+    END IF;
+
+EXCEPTION
+    WHEN OTHERS THEN
+        RETURN 'errorsucedido';
+END;
+$$ LANGUAGE plpgsql;
+
+
