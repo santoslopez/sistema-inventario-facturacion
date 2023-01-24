@@ -189,7 +189,6 @@ function agregarFacturaCompra(){
                 data:{inputDocumentoProveedor:inputDocumentoProveedor,inputNitProveedor:inputNitProveedor,inputFechaFacturaProveedor:inputFechaFacturaProveedor},
                 type:"POST",
                     success:function(data1){
-                       alert("estooy aquiii: "+data1);
 
                         
                         var json = JSON.parse(data1);
@@ -355,7 +354,7 @@ function agregarFacturaCompra(){
                         }else{
                             Swal.fire(
                                 'Error controlado.',
-                                'Se produjo algun error o es posible que este dato este siendo usado en otro lado.',
+                                'Este error puede deberse a que algun producto de está factura se ha vendido y la cantidad de unidades de compra es menor al requerido.',
                                 'error'
                             )
                         }
