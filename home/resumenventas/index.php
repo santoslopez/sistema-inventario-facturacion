@@ -185,14 +185,14 @@
                             )
                         }else if(json=="facturanoexiste"){
                               Swal.fire(
-                                'Factura no existe.',
+                                'Factura de venta no existe.',
                                 'La factura no existe.',
                                 'error'
                             )
                         }else{
                             Swal.fire(
                                 'Error controlado.',
-                                'Se produjo algun error o es posible que este dato este siendo usado en otro lado.',
+                                'Este error puede deberse a que este producto en el inventario actual aparezca sin unidades'+data,
                                 'error'
                             )
                         }

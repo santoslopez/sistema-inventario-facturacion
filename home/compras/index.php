@@ -354,7 +354,7 @@ function agregarFacturaCompra(){
                         }else{
                             Swal.fire(
                                 'Error controlado.',
-                                'Este error puede deberse a que algun producto de está factura se ha vendido y la cantidad de unidades de compra es menor al requerido.',
+                                'Este error puede deberse a que algun producto de está factura se ha vendido y la cantidad de unidades de compra es menor al requerido.'+data,
                                 'error'
                             )
                         }

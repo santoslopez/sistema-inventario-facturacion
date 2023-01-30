@@ -298,7 +298,7 @@
         <div class="mb-3">
             <div class="col-sm-10">
                 <label for="exampleFormControlInput1" class="form-label">Codigo</label>
-                <input type="text" name="inputNit" class="form-control" id="inputNit" placeholder="Codigo del producto" required maxlength="30" pattern="[A-Za-z0-9-_/]+" title="Solo se permite: números, letras, guion bajo, guion normal y diagonal. No se permiten espacios. Tamaño máximo código: 30"/>
+                <input type="text" name="inputNit" class="form-control" id="inputNit" placeholder="Codigo del producto" required maxlength="30" pattern="[A-Za-z0-9-_/]+" title="Solo se permite: números, letras, guion bajo, guion normal y diagonal. No se permiten espacios. Tamaño máximo código: 30" autocomplete="off" />
             </div>
             <div class="invalid-feedback">
                 Solo se permite: números, letras y guión. Tamaño máximo código: 30
@@ -307,7 +307,7 @@
         <div class="mb-3">
             <div class="col-sm-10">
                 <label for="Name" class="form-label">Descripcion</label>
-                <input type="text" name="inputDatos" class="form-control" placeholder="Nombre del producto" id="inputDatos" required maxlength="150">
+                <input type="text" name="inputDatos" class="form-control" placeholder="Nombre del producto" id="inputDatos" required maxlength="150" autocomplete="off">
             </div>
             <!--div class="invalid-feedback">
                 Looks good!

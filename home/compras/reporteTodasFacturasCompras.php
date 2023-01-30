@@ -69,7 +69,7 @@ $this->SetFont('Times', 'B', 10);
 //$this->setX(10);
 
 // Agregamos los datos de la empresa
-$this->Cell(5,$textypos,"Nota: N - significa que la factura no se ha cerrado y no aparece en el inventario",0,1,'L');
+$this->Cell(5,$textypos,"Nota: N - significa que la factura no se ha cerrado, no aparece en el inventario y no se suma en este reporte total",0,1,'L');
 $this->SetFont('Arial','B',10);    
 $this->setY(30);$this->setX(10);
 //$this->Cell(5,$textypos,"Redes sociales:");
@@ -351,7 +351,11 @@ for ($i = 0; $i < $numregs; $i++) {
 		//ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'subtotal')))),
 
 	) , 15);
-    $total += ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'totalcompra') )));
+	if (ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'estado'))))=="A") {
+		# code...
+	}else if (ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'estado'))))=="P") {
+		$total += ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'totalcompra') )));
+	}
 }
 //Build table
 $fill=0;
