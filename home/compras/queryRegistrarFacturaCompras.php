@@ -1,12 +1,9 @@
 <?php
 
 	// importamos las variables globales para realizar la conexion y ejecutar las consultas para insertar datos.
-	include '../conexion.php';
+	include "../conexion.php";
    
-    //date_default_timezone_set('America/Guatemala');    
-    // $HORA = date('d-m-Y H:i:s',time());
-
-    //$fechaActual = date('Y-m-d',time());
+    date_default_timezone_set('America/Guatemala');    
 
     $inputFechaFacturaProveedor = $_POST["inputFechaFacturaProveedor"];
 

@@ -3,7 +3,9 @@
   session_start();
   //Sino hemos iniciado sesion indicamos la ruta por defecto
 
-  if (!isset($_SESSION['rolUsuario'])) {
+  
+
+  if (!isset($_SESSION['rolUsuario'],$_POST["fechaInicio"],$_POST["fechaFin"])) {
     //header('location: admin/index.php');
     # code...
     /*switch ($_SESSION) {
@@ -38,6 +40,7 @@ require '../conexion.php'; //puede que no lo necesiten
 // recuperamos el valor del submodulo
 //$obtenerNombreSubmodulo = $_GET["obtenerCodigoVentaComprobante"];
 
+
 	//echo "hola $obtenerNombreSubmodulo";
 
 class PDF extends FPDF {
@@ -69,7 +72,7 @@ $this->SetFont('Times', 'B', 10);
 //$this->setX(10);
 
 // Agregamos los datos de la empresa
-$this->Cell(5,$textypos,"Nota: N - significa que la factura no se ha cerrado y no aparece en el inventario",0,1,'L');
+$this->Cell(5,$textypos,"N - factura NO cerrado, A: factura anulado, estas facturas no aparecen en el total de compras",0,1,'L');
 $this->SetFont('Arial','B',10);    
 $this->setY(30);$this->setX(10);
 //$this->Cell(5,$textypos,"Redes sociales:");
@@ -270,21 +273,26 @@ $this->setY(50);$this->setX(135);*/
 date_default_timezone_set('America/Guatemala');    
 $fechaActual = date('Y-m-d');
 
-//$conexion = $data->conect();
-//$filtrarPorCodigoSubmodulo = intval($_GET["obtenerCodigoVentaComprobante"]);
+
+$fechaInicio = $_POST["fechaInicio"];
+$fechaFin = $_POST["fechaFin"];
 
 //$strquery = "SELECT * FROM detallefacturaventa WHERE numerodocumentofacturaventa='$filtrarPorCodigoSubmodulo'";
 $strquery = "SELECT factura.numerodocumento,factura.documentoproveedor,factura.fecharegistro,
     factura.fechafacturaproveedor, factura.nitproveedor, factura.estado,SUM(detalle.preciocompra*detalle.cantidadcomprado) AS totalcompra from facturacompra AS factura
     INNER JOIN detallefacturacompra AS detalle ON
     factura.documentoproveedor=detalle.documentoproveedor
+	WHERE factura.fecharegistro BETWEEN $1 AND $2
     GROUP BY (factura.numerodocumento,factura.documentoproveedor,factura.fecharegistro,
     factura.fechafacturaproveedor, factura.nitproveedor, factura.estado)
-    ORDER BY factura.numerodocumento DESC;";
+    ORDER BY factura.numerodocumento DESC";
 
-pg_prepare($conexion,"queryDetalleVentasDia",$strquery) or die ("No se pudo preparar la consulta queryDetalleVentasDia");
+//pg_prepare($conexion,"queryDetalleVentasDia",$strquery) or die ("No se pudo preparar la consulta queryDetalleVentasDia");
 
-$data = pg_execute($conexion,"queryDetalleVentasDia",array());
+//$data = pg_execute($conexion,"queryDetalleVentasDia",array());
+pg_prepare($conexion,"queryDetalleVentasDia",$strquery) or die ("No se pudo preparar la consulta queryResumenVentasHoy");
+
+$data = pg_execute($conexion,"queryDetalleVentasDia",array($fechaInicio,$fechaFin));
 
 
 
@@ -351,7 +359,11 @@ for ($i = 0; $i < $numregs; $i++) {
 		//ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'subtotal')))),
 
 	) , 15);
-    $total += ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'totalcompra') )));
+	if (ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'estado'))))=="A") {
+		# code...
+	}else if (ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'estado'))))=="P") {
+		$total += ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'totalcompra') )));
+	}
 }
 //Build table
 $fill=0;

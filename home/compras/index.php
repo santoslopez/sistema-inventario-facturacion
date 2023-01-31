@@ -12,7 +12,7 @@
         //session_start();
         include "../includes/head.php";
     ?>
-    <title>Crear factura de compras</title>
+    <title>Crear factura de compras - Comprobante</title>
 </head>
 <body>
 <div class="container">
@@ -58,7 +58,7 @@
             <div class="col">
                 <label for="Name" class="form-label">Documento proveedor</label>
                 <!--input type="text" name="inputDocumentoProveedor" class="form-control" id="inputDocumentoProveedor" placeholder="No factura" required autocomplete="off" onkeyup="habilitarCajaProducto();"-->
-                <input type="text" name="inputDocumentoProveedor" class="form-control" id="inputDocumentoProveedor" placeholder="No factura" required autocomplete="off" >
+                <input type="text" name="inputDocumentoProveedor" class="form-control" id="inputDocumentoProveedor" placeholder="No factura" required autocomplete="off" maxlength="50">
                 
             </div>
 
@@ -171,8 +171,8 @@
 <script>        
 function agregarFacturaCompra(){ 
 
-  
-        event.preventDefault();
+    //alert("estoy aquiiii");
+        //event.preventDefault();
         var inputDocumentoProveedor=$('#inputDocumentoProveedor').val();
       
        var inputNitProveedor = document.getElementById("inputNitProveedor").value;
@@ -187,9 +187,8 @@ function agregarFacturaCompra(){
             $.ajax({
                 url:"queryRegistrarFacturaCompras.php",
                 data:{inputDocumentoProveedor:inputDocumentoProveedor,inputNitProveedor:inputNitProveedor,inputFechaFacturaProveedor:inputFechaFacturaProveedor},
-                type:'post',
+                type:"POST",
                     success:function(data1){
-                       
 
                         
                         var json = JSON.parse(data1);
@@ -218,7 +217,7 @@ function agregarFacturaCompra(){
                         }else{
                             Swal.fire(
                                 'Factura de compra no guardado.',
-                                'No se guardaron los datos.',
+                                'No se guardaron los datos.'+data1,
                                 'info'
                             )
                         }
@@ -304,8 +303,79 @@ function agregarFacturaCompra(){
                     },
                     "responsive": true,
                 });
+
+
+                $('#datatableFacturaCompras').on("click", ".activarEliminarFacturaCompra", function(event) {
+                event.preventDefault();
                 
-                //eliminarDatos(".activarAnularFactura","#datatableVentasHoy","queryAnularFacturaVenta.php",'La venta de factura se anulo correctamente.',"La factura de venta no se pudo eliminar se produjo un error","¿Confirmar anulacion de factura?","Sí, eliminar factura de venta");
+                Swal.fire({
+  title: '¿Confirmar la anulación de factura de compra?',
+  text: "Está acción solo se puede realizar una sola vez.",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Si, quiero anular la factura de compra.'
+}).then((result) => {
+  if (result.isConfirmed) {
+   
+
+    var idEliminar = $(this).data('id');
+                $.ajax({
+                    url: "queryAnularFacturaCompra.php",
+                    data: {
+                        id: idEliminar
+                    },
+                    type: 'POST',
+                    success: function(data) {
+                        var json = JSON.parse(data);
+                       
+                        
+                        if(json=="anulado"){
+                            $('#datatableFacturaCompras').DataTable().ajax.reload();
+                            
+                              Swal.fire(
+                                'Factura de compra anulado.',
+                                'El inventario se actualizo.',
+                                'success'
+                            )
+                        }else if(json=="noanulado"){
+                              Swal.fire(
+                                'Factura de compra no anulado.',
+                                'La factura de compra no se anulo. Es posible que actualmente este anulado.',
+                                'error'
+                            )
+                        }else if(json=="facturanoexiste"){
+                              Swal.fire(
+                                'Factura de compra no existe.',
+                                'La factura no existe.',
+                                'error'
+                            )
+                        }else{
+                            Swal.fire(
+                                'Error controlado.',
+                                'Este error puede deberse a que algun producto de está factura se ha vendido y la cantidad de unidades de compra es menor al requerido.'+data,
+                                'error'
+                            )
+                        }
+                    }
+                });
+
+
+
+
+
+  }
+})
+                
+
+
+                // fin eliminar proveedor
+
+            });
+
+                
+ //               eliminarDatos(".activarEliminarFacturaCompra","#datatableFacturaCompras","queryAnularFacturaCompra.php",'La venta de factura se anulo correctamente.',"La factura de venta no se pudo eliminar se produjo un error","¿Confirmar anulacion de factura de compra?","Sí, anular factura de compra");
 
 
             });

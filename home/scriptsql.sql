@@ -149,8 +149,8 @@ CREATE TABLE FacturaVenta(
     horaVenta time NOT NULL,
     estado CHAR(1) CHECK(estado='P' OR estado='A') NOT NULL,
     codigoUsuario int NOT NULL,
-    datosCliente varchar(100) NOT NULL,
-    direccionCliente varchar(100) NOT NULL,
+    detalle1 varchar(100) NOT NULL,
+    detalle2 varchar(100) NOT NULL,
     PRIMARY KEY (numeroDocumentoFacturaVenta),
     CONSTRAINT PK_FacturaVentaCliente FOREIGN KEY (codigoCliente) REFERENCES Clientes(codigoCliente),
     FOREIGN KEY (codigoUsuario) REFERENCES Usuarios(codigoUsuario)
@@ -354,10 +354,6 @@ $$
     END;
 $$ LANGUAGE 'plpgsql';
 
-drop trigger TR_actStock ON detallefacturacompra;
-drop function PA_aumentarInventario ;
-
-
 CREATE TRIGGER TR_actStock AFTER UPDATE ON detallefacturacompra
 FOR EACH ROW
 EXECUTE PROCEDURE PA_aumentarInventario();
@@ -432,3 +428,139 @@ $$
     END;
 $$ LANGUAGE 'plpgsql';
 
+
+
+CREATE OR REPLACE FUNCTION anular_factura_compra(IN d_documentoProveedor_anular VARCHAR)
+RETURNS VARCHAR AS $$
+DECLARE
+    --v_anulada CHAR = 'A';
+    v_producto_id varchar(50);
+    v_cantidad integer;
+    detalles record;
+    v_preciocompra DECIMAL(10, 2);
+
+    
+BEGIN
+    -- Verificar que la factura existe
+    IF (SELECT count(*) FROM facturacompra WHERE documentoproveedor = d_documentoProveedor_anular) > 0 THEN
+
+
+        -- Verificar que la factura no ha sido anulada
+
+        IF (SELECT count(*) FROM facturacompra WHERE documentoproveedor = d_documentoProveedor_anular AND estado='P') > 0 THEN
+            
+            -- Anular la factura
+            UPDATE facturacompra SET estado = 'A' WHERE documentoproveedor = d_documentoProveedor_anular;
+
+            
+              -- Restar las cantidades de productos comprados desde la tabla de inventario
+    FOR detalles IN (SELECT codigoproducto,cantidadcomprado,preciocompra FROM detallefacturacompra WHERE documentoproveedor = d_documentoProveedor_anular)
+    LOOP
+        v_producto_id := detalles.codigoproducto;
+        v_cantidad := detalles.cantidadcomprado;
+        v_preciocompra := detalles.preciocompra;
+       
+        IF (SELECT count(*) from Inventario WHERE codigoProducto=v_producto_id AND cantidadcomprado<2) > 0 THEN            
+            UPDATE inventario SET cantidadcomprado = cantidadcomprado - v_cantidad, preciocompra = 0 WHERE codigoproducto = v_producto_id;
+        ELSEIF (SELECT count(*) from Inventario WHERE codigoProducto= v_producto_id AND cantidadcomprado=v_cantidad) > 0 THEN            
+            UPDATE inventario SET cantidadcomprado = cantidadcomprado - v_cantidad, preciocompra = 0 WHERE codigoproducto = v_producto_id;
+        ELSE
+            UPDATE inventario SET cantidadcomprado = cantidadcomprado - v_cantidad, preciocompra = (preciocompra * cantidadcomprado - v_preciocompra *  v_cantidad) / (cantidadcomprado - v_cantidad) WHERE codigoproducto = v_producto_id;            
+         END IF;
+
+
+  END LOOP;
+            
+            return 'anulado';
+            
+        ELSE
+            RETURN 'noanulado';
+        END IF;
+
+    ELSE
+        return 'facturanoexiste';
+    END IF;
+
+EXCEPTION
+    WHEN OTHERS THEN
+        RETURN 'errorsucedido';
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION anular_factura_venta(IN d_documentoFacturaVenta_anular INTEGER)
+RETURNS VARCHAR AS $$
+DECLARE
+    --v_anulada CHAR = 'A';
+    v_producto_id varchar;
+    v_cantidad_factura_venta integer;
+    detalles_factura_venta record;
+    v_precioventa DECIMAL(10, 2);
+    
+BEGIN
+    -- Verificar que la factura existe
+    IF (SELECT count(*) FROM facturaventa WHERE numerodocumentofacturaventa = d_documentoFacturaVenta_anular) > 0 THEN
+
+
+        -- Verificar que la factura no ha sido anulada
+
+        IF (SELECT count(*) FROM facturaventa WHERE numerodocumentofacturaventa = d_documentoFacturaVenta_anular AND estado='P') > 0 THEN
+            
+            -- Anular la factura
+            UPDATE facturaventa SET estado = 'A' WHERE numerodocumentofacturaventa = d_documentoFacturaVenta_anular;
+
+            
+              -- Restar las cantidades de productos comprados desde la tabla de inventario
+    FOR detalles_factura_venta IN (SELECT codigoproducto,cantidadcomprado,preciocompra FROM detallefacturaventa WHERE numerodocumentofacturaventa = d_documentoFacturaVenta_anular)
+    LOOP
+        v_producto_id := detalles_factura_venta.codigoproducto;
+        v_cantidad_factura_venta := detalles_factura_venta.cantidadcomprado;
+        v_precioventa := detalles_factura_venta.preciocompra;
+             
+         IF (SELECT count(*) from Inventario WHERE codigoProducto=v_producto_id) > 0 THEN            
+            UPDATE inventario SET cantidadcomprado = cantidadcomprado + v_cantidad_factura_venta, preciocompra = (preciocompra * cantidadcomprado + preciocompra *  v_cantidad_factura_venta) / (cantidadcomprado + v_cantidad_factura_venta) WHERE codigoproducto = v_producto_id;
+
+         END IF;
+
+  END LOOP;
+            
+            return 'anulado';
+            
+        ELSE
+            RETURN 'noanulado';
+        END IF;
+
+    ELSE
+        return 'facturanoexiste';
+    END IF;
+
+EXCEPTION
+    WHEN OTHERS THEN
+        RETURN 'errorsucedido';
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+
+
+CREATE OR REPLACE FUNCTION PA_eliminarCliente(IN buscarCodigoCliente integer) RETURNS varchar AS
+
+$$
+    DECLARE
+
+    BEGIN
+        IF (SELECT count(*) from  Clientes WHERE (codigocliente=buscarCodigoCliente)) > 0 THEN
+            DELETE FROM clientes WHERE codigocliente=buscarCodigoCliente;
+            return 'clienteeliminado';
+            COMMIT;
+        ELSE
+            return 'clientenoexiste';
+        END IF;
+    EXCEPTION
+    WHEN OTHERS THEN
+        return 'errorsucedido';
+        ROLLBACK;       
+       
+    END;
+$$ LANGUAGE 'plpgsql';

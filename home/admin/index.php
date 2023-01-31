@@ -32,7 +32,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!--title>Listado lenguas</title-->
   <link rel="stylesheet" href="../assets/css/bootstrap5-0-2.min.css"/>
-    <title>Home</title>
+    <title>Home - Comprobante</title>
     <!-- ======= Styles ====== -->
 
     <link rel="stylesheet" href="../assets/css/bootstrap5-0-2.min.css">
@@ -188,7 +188,7 @@
           <div class="tab-pane fade show active" id="acerca" role="tabpanel" aria-labelledby="acerca-tab">
             
             <div class="alert alert-success" role="alert">
-              <h3>Crear venta de hoy</h3>
+              <h3>Crear comprobante de ventas</h3>
             </div>
             <?php
               $user = $_SESSION["nombreUsuario"];
@@ -333,9 +333,9 @@
   <div class="col-sm-6" >
     <div class="card">
       <div class="card-body">
-        <h5 class="card-title">Resumen total compras</h5>
-        <p class="card-text">Reporte de todas las compras realizadas.</p>
-        <a style="cursor: pointer;" class="btn btn-primary" href="../compras/reporteTodasFacturasCompras.php">
+        <h5 class="card-title">Reporte de compras</h5>
+        <p class="card-text">Generar reportes de compras realizadas.</p>
+        <a style="cursor: pointer;" class="btn btn-primary" href="../compras/indexGenerarReportesCompras.php">
           <img src="../assets/img/pdf.webp" class="zoomImagen home" alt="Resumen factura de compras" title="Resumen factura de compra">                       
         </a>
       </div>

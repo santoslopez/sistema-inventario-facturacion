@@ -12,7 +12,7 @@
         //representa el queryTableVentasHoy
         include "../includes/head.php";
     ?>
-    <title>Resumen de ventas de hoy</title>
+    <title>Resumen ventas de hoy - Comprobante</title>
 
 </head>
 <body>
@@ -54,13 +54,9 @@
                         <th>Total venta</th>
                         <th>Hora venta</th>
                         <th>Estado</th>
-                        <th>Anular factura</th>
-                        <th>Ver</th>
                 </thead>
                 <tfoot>
                 <tr>
-                    <th></th>
-                    <th></th>
                     <th></th>
                     <th></th>
                     <th></th>
@@ -147,7 +143,77 @@
                     "responsive": true,
                 });
                 
-                eliminarDatos(".activarAnularFactura","#datatableVentasHoy","queryAnularFacturaVenta.php",'La venta de factura se anulo correctamente.',"La factura de venta no se pudo eliminar se produjo un error","¿Confirmar anulacion de factura?","Sí, eliminar factura de venta");
+                $('#datatableVentasHoy').on("click", ".activarEliminarFacturaVenta", function(event) {
+                event.preventDefault();
+                
+                Swal.fire({
+  title: '¿Confirmar la anulación de factura de venta?',
+  text: "Está acción solo se puede realizar una sola vez.",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Si, quiero anular la factura de venta.'
+}).then((result) => {
+  if (result.isConfirmed) {
+   
+
+    var idEliminar = $(this).data('id');
+                $.ajax({
+                    url: "queryAnularFacturaVenta.php",
+                    data: {
+                        id: idEliminar
+                    },
+                    type: 'POST',
+                    success: function(data) {
+                        var json = JSON.parse(data);
+                       
+                        
+                        if(json=="anulado"){
+                            $('#datatableVentasHoy').DataTable().ajax.reload();
+                            
+                              Swal.fire(
+                                'Factura de venta anulado.',
+                                'El inventario se actualizo.',
+                                'success'
+                            )
+                        }else if(json=="noanulado"){
+                              Swal.fire(
+                                'Factura de venta no anulado.',
+                                'La factura de venta no se anulo. Es posible que actualmente este anulado.',
+                                'error'
+                            )
+                        }else if(json=="facturanoexiste"){
+                              Swal.fire(
+                                'Factura de venta no existe.',
+                                'La factura no existe.',
+                                'error'
+                            )
+                        }else{
+                            Swal.fire(
+                                'Error controlado.',
+                                'Este error puede deberse a que este producto en el inventario actual aparezca sin unidades'+data,
+                                'error'
+                            )
+                        }
+                    }
+                });
+
+
+
+
+
+  }
+})
+                
+
+
+                // fin eliminar proveedor
+
+            });
+
+
+                //eliminarDatos(".activarAnularFactura","#datatableVentasHoy","queryAnularFacturaVenta.php",'La venta de factura se anulo correctamente.',"La factura de venta no se pudo eliminar se produjo un error","¿Confirmar anulacion de factura?","Sí, eliminar factura de venta");
 
 
             });

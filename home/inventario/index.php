@@ -8,7 +8,7 @@
         <?php
             include "../includes/head.php";
         ?>
-        <title>Stock de productos</title>
+        <title>Stock de productos - Comprobante</title>
     </head>
 <body>
     <div class="container">

@@ -174,7 +174,7 @@
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
                 <label for="Name" class="form-label">Costo producto</label>
-                <input type="number" name="inputCostoProducto" class="form-control" id="inputCostoProducto" placeholder="Costo de producto" required min="0" step="0.01" title="Solo se permite: números y punto. Ejemplo: 100, 100.55. Numeros solo con 2 decimales">
+                <input type="number" name="inputCostoProducto" class="form-control" id="inputCostoProducto" placeholder="Costo de producto" required min="0" step="0.01" title="Solo se permite: números y punto. Ejemplo: 100, 100.55. Numeros solo con 2 decimales" autocomplete="off">
                 
             </div>
             <div class="invalid-feedback">
@@ -185,14 +185,14 @@
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
                 <label for="Name" class="form-label">Cantidad</label>
-                <input type="number" id="inputCantidadCompra" class="form-control" name="inputCantidadCompra" required min="1" title="Solo se permite: números y la cantidad debe ser 1 o mayor. Ejemplo: 1, 10, etc.">
+                <input type="number" id="inputCantidadCompra" class="form-control" name="inputCantidadCompra" required min="1" title="Solo se permite: números y la cantidad debe ser 1 o mayor. Ejemplo: 1, 10, etc." autocomplete="off">
             </div>
         </div>
 
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
                 <label for="Name" class="form-label">Codigo producto</label>
-                <input type="text" id="inputCodigoProducto" class="form-control" name="inputCodigoProducto" required >
+                <input type="text" id="inputCodigoProducto" class="form-control" name="inputCodigoProducto" required autocomplete="off">
             </div>
         </div>        
 

@@ -8,7 +8,7 @@
         <?php
             include "../includes/head.php";
         ?>
-        <title>Listado de productos</title>
+        <title>Listado de productos - Comprobantes</title>
 
     </head>
 <body>
@@ -91,10 +91,22 @@
                     });
                     });
 
- 
-            $('#datatableProductos').on("click", ".activarEliminar", function(event) {
+                    $('#datatableProductos').on("click", ".activarEliminar",  function(event) {
                 event.preventDefault();
-                var idEliminar = $(this).data('id');
+                
+                Swal.fire({
+  title: '¿Confirmar eliminación del producto?',
+  text: "Está acción eliminará el producto.",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Si, eliminar el producto.'
+}).then((result) => {
+  if (result.isConfirmed) {
+   
+
+    var idEliminar = $(this).data('id');
                 $.ajax({
                     url: "queryEliminarProducto.php",
                     data: {
@@ -102,30 +114,14 @@
                     },
                     type: 'POST',
                     success: function(data) {
-                        Swal.fire({
-  title: 'Eliminar producto',
-  text: "Esta acción no se puede revertir.",
-  icon: 'warning',
-  showCancelButton: true,
-  confirmButtonColor: '#3085d6',
-  cancelButtonColor: '#d33',
-  cancelButtonText: 'Cancelar',
-  confirmButtonText: 'Si, eliminar!'
-}).then((result) => {
-  if (result.isConfirmed) {
-    /*Swal.fire(
-      'Deleted!',
-      'Your file has been deleted.',
-      'success'
-    )*/
-    var json = JSON.parse(data);
-                        
+                        var json = JSON.parse(data);
+                       
                         if(json=="productoeliminado"){
                             $('#datatableProductos').DataTable().ajax.reload();
                             
                               Swal.fire(
-                                'Productos eliminado.',
-                                'El proveedor se elimino correctamente.',
+                                'Producto eliminado.',
+                                'El producto se elimino correctamente.',
                                 'success'
                             )
                         }else if(json=="productonoexiste"){
@@ -146,17 +142,24 @@
                                 'Se produjo algun error o es posible que este dato este siendo usado en otro lado.',
                                 'error'
                             )
-                        }
+                        }                        
+
+                    }
+                });
+
+
+
 
 
   }
 })
-                        
+                
 
 
-                    }
-                });
+                // fin eliminar proveedor
+
             });
+
 
 
 
@@ -295,7 +298,7 @@
         <div class="mb-3">
             <div class="col-sm-10">
                 <label for="exampleFormControlInput1" class="form-label">Codigo</label>
-                <input type="text" name="inputNit" class="form-control" id="inputNit" placeholder="Codigo del producto" required maxlength="30" pattern="[A-Za-z0-9-_/]+" title="Solo se permite: números, letras, guion bajo, guion normal y diagonal. No se permiten espacios. Tamaño máximo código: 30"/>
+                <input type="text" name="inputNit" class="form-control" id="inputNit" placeholder="Codigo del producto" required maxlength="30" pattern="[A-Za-z0-9-_/]+" title="Solo se permite: números, letras, guion bajo, guion normal y diagonal. No se permiten espacios. Tamaño máximo código: 30" autocomplete="off" />
             </div>
             <div class="invalid-feedback">
                 Solo se permite: números, letras y guión. Tamaño máximo código: 30
@@ -304,7 +307,7 @@
         <div class="mb-3">
             <div class="col-sm-10">
                 <label for="Name" class="form-label">Descripcion</label>
-                <input type="text" name="inputDatos" class="form-control" placeholder="Nombre del producto" id="inputDatos" required maxlength="150">
+                <input type="text" name="inputDatos" class="form-control" placeholder="Nombre del producto" id="inputDatos" required maxlength="150" autocomplete="off">
             </div>
             <!--div class="invalid-feedback">
                 Looks good!

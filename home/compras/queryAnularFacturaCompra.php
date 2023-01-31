@@ -6,7 +6,7 @@
 		header('Location: ../index.php');
 	}else{
 		$obtenerNitProveedor= $_POST["id"];
-		$consulta = "SELECT PA_eliminarCliente('$obtenerNitProveedor')";
+		$consulta = "SELECT anular_factura_compra('$obtenerNitProveedor')";
 
 		$ejecutarConsulta = pg_query($conexion,$consulta);
 

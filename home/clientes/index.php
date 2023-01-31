@@ -12,7 +12,7 @@
         //session_start();
         include "../includes/head.php";
     ?>
-    <title>Listado de clientes</title>
+    <title>Listado de clientes - Comprobante</title>
 
 </head>
 <body>
@@ -80,7 +80,80 @@
                     "responsive": true,
                 });
             });
-            eliminarDatos(".activarEliminar","#datatableUsuarios","queryEliminarClientes.php",'Cliente eliminado correctamente.',"El cliente no se pudo eliminar se produjo un error","¿Confirmar eliminación de cliente?","Sí, eliminar datos de cliente");
+            //eliminarDatos(".activarEliminar","#datatableUsuarios","queryEliminarClientes.php",'Cliente eliminado correctamente.',"El cliente no se pudo eliminar se produjo un error","¿Confirmar eliminación de cliente?","Sí, eliminar datos de cliente");
+
+            $('#datatableUsuarios').on("click", ".activarEliminar",  function(event) {
+                event.preventDefault();
+                
+                Swal.fire({
+  title: '¿Confirmar eliminación del cliente?',
+  text: "Está acción eliminará al cliente.",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Si, eliminar el cliente.'
+}).then((result) => {
+  if (result.isConfirmed) {
+   
+
+    var idEliminar = $(this).data('id');
+                $.ajax({
+                    url: "queryEliminarClientes.php",
+                    data: {
+                        id: idEliminar
+                    },
+                    type: 'POST',
+                    success: function(data) {
+                        var json = JSON.parse(data);
+                       
+                        if(json=="clienteeliminado"){
+                            $('#datatableUsuarios').DataTable().ajax.reload();
+                            
+                              Swal.fire(
+                                'Cliente eliminado.',
+                                'El cliente se elimino correctamente.',
+                                'success'
+                            )
+                        }else if(json=="clientenoexiste"){
+                              Swal.fire(
+                                'Producto no encontrado.',
+                                'El producto no existe.',
+                                'info'
+                            )
+                        }else if(json=="errorsucedido"){
+                              Swal.fire(
+                                'Cliente no eliminado.',
+                                'Es posible que los datos esten siendo usados con otra información.',
+                                'error'
+                            )
+                        }else{
+                            Swal.fire(
+                                'Cliente no eliminado.',
+                                'Se produjo algun error o es posible que este dato este siendo usado en otro lado.',
+                                'error'
+                            )
+                        }                        
+
+                    }
+                });
+
+
+
+
+
+  }
+})
+                
+
+
+                // fin eliminar cliente
+
+            });
+
+
+
+
 </script>
 
 
