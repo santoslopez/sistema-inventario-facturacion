@@ -72,11 +72,7 @@ $this->SetFont('Times', 'B', 10);
 //$this->setX(10);
 
 // Agregamos los datos de la empresa
-<<<<<<< HEAD
 $this->Cell(5,$textypos,"N - factura NO cerrado, A: factura anulado, estas facturas no aparecen en el total de compras",0,1,'L');
-=======
-$this->Cell(5,$textypos,"Nota: N - significa que la factura no se ha cerrado, no aparece en el inventario y no se suma en este reporte total",0,1,'L');
->>>>>>> 36e34439e79a62074628d796774ce8dde186d58f
 $this->SetFont('Arial','B',10);    
 $this->setY(30);$this->setX(10);
 //$this->Cell(5,$textypos,"Redes sociales:");
