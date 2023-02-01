@@ -109,8 +109,8 @@
     </h2>
     <div id="flush-collapse8" class="accordion-collapse collapse" aria-labelledby="flush-heading8" data-bs-parent="#accordionFlushExample">
       <div class="accordion-body">
-      <code>Dirección: </code>Calzada Aguilar Batres 9-00, Zona 11.<br>
-      <code>Tel&eacute;fono: </code>+(502) 2475-5329<br>
+      <code>Dirección: </code>Calzada Aguilar Batres 44-70 Zona 11 Plaza Azul.<br>
+      <code>Tel&eacute;fono: </code>+(502) 2234-9766 y 3125-5744<br>
       </div>
     </div>
   </div>
