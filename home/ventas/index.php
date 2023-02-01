@@ -8,6 +8,7 @@
     <?php
         include "../includes/head.php";
     ?>
+    <script src="../assets/js/validarInputs.js"></script>
     <title>Crear comprobante de venta</title>
 </head>
 <body>
@@ -85,7 +86,7 @@
     </div>
   <div class="col-auto has-validation">
   <label for="inputCantidadVendido">Precio vendido</label>
-  <input type="number" class="form-control" id="inputPrecioVendido" name="inputPrecioVendido" placeholder="Precio" required min="0" step="0.01" title="Solo se permite: números y punto. Ejemplo: 100, 100.55. Numeros solo con 2 decimales" >
+  <input type="text" class="form-control" id="inputPrecioVendido" name="inputPrecioVendido" placeholder="Precio" required title="Solo se permite: números y punto. Ejemplo: 100, 100.55. Numeros solo con 2 decimales" >
 </div>
   <div class="col-auto">
       <a class="btn" href="../inventario/index.php" role="button" target="_blank">
@@ -496,9 +497,10 @@ $(document).ready(function () {
 }
 </script>
 
-<!--script src="https://cdn.datatables.net/plug-ins/1.12.1/api/sum().js"> </script-->
+<script>
+    validateNumberInput("inputPrecioVendido");
+</script>
 <script src="../assets/js/sum.js"> </script>
-
 <script src="../assets/js/validation.js"></script>
 
 </body>

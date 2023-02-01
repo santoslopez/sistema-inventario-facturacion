@@ -12,6 +12,7 @@
         //session_start();
         include "../includes/head.php";
     ?>
+    <script src="../assets/js/validarInputs.js"></script>
     <title>Crear factura de compras - Comprobante</title>
 </head>
 <body>
@@ -382,6 +383,11 @@ function agregarFacturaCompra(){
     }
 </script>
 
+
+
+<script>
+    validarDocumentoProveedor("inputDocumentoProveedor");
+</script>
 
 </body>
 </html>

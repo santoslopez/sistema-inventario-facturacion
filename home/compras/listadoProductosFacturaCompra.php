@@ -11,7 +11,7 @@
         //session_start();
         include "../includes/head.php";
     ?>
-
+    <script src="../assets/js/validarInputs.js"></script>
 </head>
 <body>
     <div class="container">
@@ -84,82 +84,6 @@
     </div>
 </script>
 
-    <!--script>
-
-        
-        /*** Nota importante: en data tienen que ir los valores en minuscula de la tabla que queremos mostrar sus datos
-         */
-            $(document).ready(function(){
-                //obtenemos el valor del numero de factura para enviarlo en la consulta en ajax
-                var documentoFacturaCompra = document.getElementById("facturaCompra").value;
-
-                $('#datatableCompras').DataTable({
-                    "ajax":{
-                        "url":"queryDetalleFacturaCompra.php",
-                        "dataSrc":"",
-                        "data":{
-                            documentoFacturaCompra:documentoFacturaCompra
-                        }
-                    },
-                    "processing": true,
-                    //"serverSide": true,
-                    /*"columns":[
-                        {"data":"nombreapellidos"},
-                        {"data":"direccion"},
-                        {"data":"nitcliente"},
-                        {"data":"telefono"}
-                    ]*/
-                    "lengthMenu": [
-                        //[10,15, -1],
-                        //[10,20, 'All'],
-                        [10,15],
-                        [10,15],
-                    ],
-                    "language":{
-                        "url":"https://cdn.datatables.net/plug-ins/1.12.1/i18n/es-ES.json"
-                    },
-                    "responsive": true,
-                });
-
-                $('#datatableCompras').on("click", ".editbtn", function(event) {
-                    //sino se coloca muestra mensaje que parentesis de cierre no iba
-                    event.preventDefault();
-
-                    var codigoDetalle = $(this).data('id');
-
-                    let id = document.getElementById("facturaCompra").value; 
-
-                    $('#formularioModificarProductosCompra').modal('show');
-                    $.ajax({
-                        url: "obtenerDatosProductosCompraId.php",
-                        data: {
-                            id: id,codigoDetalle:codigoDetalle
-                        },
-                        type: 'POST',
-                        success: function(data) {
-                            var json = JSON.parse(data);
-                            
-                            if(json.status=="sindatos"){
-                                
-                            }else {
-                                $("#inputCostoUpdate").val(json.preciocompra);
-                                $("#inputCantidadCompradoModificar").val(json.cantidadcomprado);
-                                $("#inputProductoModificar").val(json.codigoproducto);
-                                $("#inputIdDetalle").val(json.iddetalle);                                
-                            }
-                        }
-                    });
-                    
-                    });
-
-
-            });
-            eliminarDatos(".activarEliminar","#datatableCompras","queryEliminarCompraProductos.php",'El producto se ha eliminado de la compra.',"El producto no se pudo eliminar se produjo un error","¿Confirmar eliminación del producto en la compra?","Sí, eliminar producto en la factura de compra");
-</script-->
-
-
-
-
 <div class="modal fade" id="formularioAgregarProductosCompras" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -174,7 +98,7 @@
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
                 <label for="Name" class="form-label">Costo producto</label>
-                <input type="number" name="inputCostoProducto" class="form-control" id="inputCostoProducto" placeholder="Costo de producto" required min="0" step="0.01" title="Solo se permite: números y punto. Ejemplo: 100, 100.55. Numeros solo con 2 decimales" autocomplete="off">
+                <input type="text" name="inputCostoProducto" class="form-control" id="inputCostoProducto" placeholder="Costo de producto" required min="0" step="0.01" title="Solo se permite: números y punto. Ejemplo: 100, 100.55. Numeros solo con 2 decimales" autocomplete="off">
                 
             </div>
             <div class="invalid-feedback">
@@ -185,7 +109,7 @@
         <div class="mb-3 has-validation">
             <div class="col-sm-10">
                 <label for="Name" class="form-label">Cantidad</label>
-                <input type="number" id="inputCantidadCompra" class="form-control" name="inputCantidadCompra" required min="1" title="Solo se permite: números y la cantidad debe ser 1 o mayor. Ejemplo: 1, 10, etc." autocomplete="off">
+                <input type="number" id="inputCantidadCompra" class="form-control soloNumeros" name="inputCantidadCompra" required min="1" title="Solo se permite: números y la cantidad debe ser 1 o mayor. Ejemplo: 1, 10, etc." autocomplete="off">
             </div>
         </div>
 
@@ -287,48 +211,6 @@
 
 
 
-<!-- inicio agregar cliente action="javascript:void()"-->
-<!--div class="modal fade" id="formularioModificarProductosCompra" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modificar compra de producto</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-       <form id="guardarDatosFormularioModificar" name="guardarDatosFormularioModificar" class="row g-3 needs-validation" novalidate>
-      <div class="modal-body">
-        
-        <div class="mb-3 has-validation">
-            <div class="col-sm-10">
-                <label for="exampleFormControlInput1" class="form-label">Costo de producto</label>
-                <input type="number" name="inputCostoUpdate" class="form-control" id="inputCostoUpdate" placeholder="Costo de producto" required>
-            </div>
-        </div>
-        <div class="mb-3 has-validation">
-            <div class="col-sm-10">
-                <label for="Name" class="form-label">Cantidad comprado</label>
-                <input type="number" name="inputCantidadCompradoModificar" class="form-control" placeholder="Cantidad comprado" id="inputCantidadCompradoModificar" required>
-            </div>
-        </div>
-        <div class="mb-3 has-validation">
-            <div class="col-sm-10">
-                <label for="Name" class="form-label">Descripcion</label>
-                <input type="text" name="inputProductoModificar" class="form-control" id="inputProductoModificar" placeholder="Producto" required>
-                <input type="number" name="inputIdDetalle" class="form-control" id="inputIdDetalle" placeholder="IDDetalle" required readonly style="display:none">
-            </div>
-        </div>
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="submit" class="btn btn-primary">Guardar datos</button>
-      </div>
-      </form>
-    </div>
-  </div>
-</div-->
-
-
 <script>
 
         var totalVentaComprobante;
@@ -412,63 +294,6 @@
 </script>
 
 
-<!--script>
-
-    eventoFormulario('#guardarDatosFormularioModificar','#inputCostoUpdate','#inputCantidadCompradoModificar','#inputProductoModificar',"queryModificarProductosCompra.php",'#formularioModificarProductosCompra');
-
-    
-    function eventoFormulario(nombreSubmit,input1,input2,input3,urlQuery,tipoFormulario){
-
-    $(document).on('submit',nombreSubmit,function(event){
-        event.preventDefault();
-
-        var precioCompra=$(input1).val();
-        var cantidadComprado=$(input2).val();
-        var codigoProducto=$(input3).val();
-        let facturaCompra = document.getElementById("facturaCompra").value; 
-
-        let inputIdDetalle = document.getElementById("inputIdDetalle").value; 
-
-        //var codigoDetalle = $(this).data('id');
-
-
-        if((precioCompra!='') && (cantidadComprado!='') && (codigoProducto!='')){
-            $.ajax({
-                url:urlQuery,
-                data:{precioCompra:precioCompra,cantidadComprado:cantidadComprado,codigoProducto:codigoProducto,facturaCompra:facturaCompra,inputIdDetalle:inputIdDetalle},
-                type:'post',
-                    success:function(data1){
-                        if(tipoFormulario=='#formularioModificarProductosCompra'){
-                            //alert("JSON: "+data1);
-                            var json = JSON.parse(data1);
-                            var status = json.status;
-                            if(status=='failedupdate'){ 
-                                Swal.fire(
-                                'Proveedor no actualizado',
-                                'Los datos no se modificaron.',
-                                'error'
-                            )
-                            }else if(status=='success'){
-                                Swal.fire(
-                                'Proveedor actualizado',
-                                'Los datos se actualizaron correctamente.',
-                                'success')
-                                var table = $('#datatableCompras').DataTable();
-                                table.ajax.reload();
-                            }
-                        }
-                }
-            });
-        }else{
-            Swal.fire(
-                                'Campos vacios',
-                                'Por favor ingresa todos los campos.',
-                                'error'
-                            )
-        }
-    });
-}
-</script-->
 
 <script src="../assets/js/validation.js"></script>
 
@@ -570,6 +395,11 @@ Swal.fire({
 })
     }
 </script>
+
+<script>
+    validateNumberInput("inputCostoProducto");
+</script>
+
 <script src="../assets/js/sum.js"> </script>
 
 </body>

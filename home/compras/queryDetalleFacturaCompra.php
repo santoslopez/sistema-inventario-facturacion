@@ -10,11 +10,12 @@
         header('Location: ../index.php');
     }else {
     
-    $documentoFacturaC=$_GET['documentoFacturaCompra'];
+    $documentoFacturaC=pg_escape_string(htmlspecialchars($_GET['documentoFacturaCompra']));
     
     //$listadoTiposEventoUsuario = "SELECT * FROM DetalleFacturaCompra WHERE documentoProveedor=$1";
-    $listadoTiposEventoUsuario = "SELECT detalle.iddetalle,detalle.preciocompra,detalle.cantidadcomprado, detalle.codigoproducto,prod.descripcion FROM DetalleFacturaCompra AS detalle INNER JOIN Productos AS prod ON detalle.codigoProducto=prod.codigoProducto WHERE detalle.documentoProveedor=$1";
+    $listadoTiposEventoUsuario = "SELECT detalle.iddetalle,detalle.preciocompra,detalle.cantidadcomprado, detalle.codigoproducto,prod.descripcion FROM DetalleFacturaCompra AS detalle INNER JOIN Productos AS prod ON detalle.codigoProducto=prod.codigoProducto WHERE REPLACE(detalle.documentoProveedor, '&#039;', '''')=$1";
     
+
 
     //$listadoTiposEventoUsuario = "SELECT * FROM DetalleFacturaCompra";
 
