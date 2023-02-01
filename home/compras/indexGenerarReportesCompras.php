@@ -79,7 +79,7 @@ input[type="submit"] {
 
   <div class="d-grid gap-2 col-6 mx-auto">
     <label for="">Generar reporte</label>
-    <input type="submit" class="btn btn-primary" value="Generar">
+    <input type="submit" class="btn btn-primary" value="">
     <a href="../index.php" class="btn btn-primary">Menu principal</a>
   </div>
 </form>
