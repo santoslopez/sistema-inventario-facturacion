@@ -21,8 +21,8 @@
         $ejecutarConsulta = pg_query($conexion, $consulta);
         
         while ($row= pg_fetch_row($ejecutarConsulta)) {
-        $subarray=array();
-        $subarray[]=$row[0];
+            $subarray=array();
+            $subarray[]=$row[0];
         }
         echo json_encode($subarray);
 }

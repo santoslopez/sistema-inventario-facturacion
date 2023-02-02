@@ -323,58 +323,40 @@ $$
     END;
 $$ LANGUAGE 'plpgsql';
 
--- Función para finalizar una factura de compra
-CREATE OR REPLACE FUNCTION PA_finalizarFacturaCompra(IN d_documentoProveedor varchar(50))
-RETURNS VARCHAR AS $$
-DECLARE
-    v_producto_id varchar(50);
-    v_cantidad integer;
-    detalles record;
-    v_preciocompra DECIMAL(10, 2);
-
+CREATE OR REPLACE FUNCTION PA_aumentarInventario() RETURNS TRIGGER AS 
+$$
+    DECLARE
     
-BEGIN
-    -- Verificar que la factura existe
-    IF (SELECT count(*) FROM facturacompra WHERE documentoproveedor = d_documentoProveedor) > 0 THEN
-
-        -- Verificar que la factura de compra no está cerrado
-        IF (SELECT count(*) FROM facturacompra WHERE documentoproveedor = d_documentoProveedor AND (estado='N')) > 0 THEN
+    BEGIN
+            IF (SELECT count(*) from Inventario WHERE codigoProducto=NEW.codigoProducto) > 0 THEN             
+               
+                UPDATE Inventario SET cantidadComprado = cantidadComprado+NEW.cantidadComprado,
+                precioCompra = ((precioCompra*cantidadComprado) + (NEW.precioCompra*NEW.cantidadComprado))/(cantidadComprado + NEW.cantidadComprado)
             
-            -- Actualizar el estado de la factura de compra
-            UPDATE facturacompra SET estado = 'P' WHERE documentoproveedor = d_documentoProveedor;
+                
+                WHERE codigoProducto=NEW.codigoProducto;
+                return NEW;                
+                COMMIT;   
+            ELSE
 
-              -- Sumar las cantidades de productos comprados desde la tabla de inventario
-    FOR detalles IN (SELECT codigoproducto,cantidadcomprado,preciocompra FROM detallefacturacompra WHERE documentoproveedor = d_documentoProveedor)
-    LOOP
-        v_producto_id := detalles.codigoproducto;
-        v_cantidad := detalles.cantidadcomprado;
-        v_preciocompra := detalles.preciocompra;
-        -- Verificar que el producto exista en la tabla de inventario para actualizar el stock y calcular el costo promedio
-        IF (SELECT count(*) from Inventario WHERE codigoProducto=v_producto_id ) > 0 THEN             
-            UPDATE inventario SET cantidadcomprado = cantidadcomprado + v_cantidad, preciocompra = (preciocompra * cantidadcomprado + v_preciocompra *  v_cantidad) / (cantidadcomprado + v_cantidad) WHERE codigoproducto = v_producto_id;            
-        ELSE
-            INSERT INTO Inventario(codigoProducto,cantidadComprado,precioCompra)VALUES(v_producto_id,v_cantidad,v_preciocompra);                
-        END IF;
+                INSERT INTO Inventario(codigoProducto,cantidadComprado,precioCompra)
+                VALUES(NEW.codigoProducto,NEW.cantidadComprado,NEW.precioCompra);
+                
+                return new;
+                COMMIT;
+                
+            END IF;
 
-
-  END LOOP;
-            
-            return 'actualizado';
-            COMMIT;
-        ELSE
-            RETURN 'noafectado';
-        END IF;
-
-    ELSE
-        return 'facturanoexiste';
-    END IF;
-
-EXCEPTION
+    EXCEPTION
     WHEN OTHERS THEN
-        RETURN 'errorsucedido';
-END;
-$$ LANGUAGE plpgsql;
+        
+        ROLLBACK;
+    END;
+$$ LANGUAGE 'plpgsql';
 
+CREATE TRIGGER TR_actStock AFTER UPDATE ON detallefacturacompra
+FOR EACH ROW
+EXECUTE PROCEDURE PA_aumentarInventario();
 
 CREATE OR REPLACE FUNCTION PA_disminuirInventario() RETURNS TRIGGER AS 
 $$
@@ -404,8 +386,6 @@ FOR EACH ROW
 EXECUTE PROCEDURE PA_disminuirInventario();
 
 
-
-
 CREATE OR REPLACE FUNCTION PA_insertarDetalleFacturaCompra(buscarDocumentoProveedor varchar(50),valorPrecioCompra decimal(10,2),numeroArticulosComprado int,productoCodigo varchar(50)) RETURNS varchar AS 
 $$
     DECLARE
@@ -413,7 +393,7 @@ $$
     BEGIN
         IF (SELECT count(*) from FacturaCompra WHERE documentoProveedor=buscarDocumentoProveedor) > 0 THEN
             IF (SELECT count(*) from Productos WHERE codigoProducto=productoCodigo) > 0 THEN
-                INSERT INTO DetalleFacturaCompra(precioCompra,cantidadComprado,codigoProducto,documentoProveedor) VALUES (valorPrecioCompra,numeroArticulosComprado,productoCodigo,buscarDocumentoProveedor);
+                INSERT INTO DetalleFacturaCompra(precioCompra,cantidadComprado,codigoProducto,documentoProveedor,estado) VALUES (valorPrecioCompra,numeroArticulosComprado,productoCodigo,buscarDocumentoProveedor,'N');
                 return 'registrado';
                 COMMIT;
             ELSE
@@ -429,8 +409,7 @@ $$
     END;
 $$ LANGUAGE 'plpgsql';
 
-
-/*CREATE OR REPLACE FUNCTION PA_cerrarFacturaCompra(buscarNumeroFacturaCompra varchar(50)) RETURNS varchar AS 
+CREATE OR REPLACE FUNCTION PA_cerrarFacturaCompra(buscarNumeroFacturaCompra varchar(50)) RETURNS varchar AS 
 $$
     DECLARE
     BEGIN
@@ -447,7 +426,7 @@ $$
         return 'errorsucedido';
         ROLLBACK;
     END;
-$$ LANGUAGE 'plpgsql';*/
+$$ LANGUAGE 'plpgsql';
 
 
 

@@ -12,15 +12,10 @@
     
     $documentoFacturaC=pg_escape_string(htmlspecialchars($_GET['documentoFacturaCompra']));
     
-    //$listadoTiposEventoUsuario = "SELECT * FROM DetalleFacturaCompra WHERE documentoProveedor=$1";
-    $listadoTiposEventoUsuario = "SELECT detalle.iddetalle,detalle.preciocompra,detalle.cantidadcomprado, detalle.codigoproducto,prod.descripcion FROM DetalleFacturaCompra AS detalle INNER JOIN Productos AS prod ON detalle.codigoProducto=prod.codigoProducto WHERE REPLACE(detalle.documentoProveedor, '&#039;', '''')=$1";
-    
-
-
-    //$listadoTiposEventoUsuario = "SELECT * FROM DetalleFacturaCompra";
-
-    //$ejecutarConsultaObtenerInfo = pg_query($conexion,$listadoTiposEventoUsuario);
- 
+    $listadoTiposEventoUsuario = "SELECT detalle.iddetalle,detalle.preciocompra,detalle.cantidadcomprado, detalle.codigoproducto,prod.descripcion,facturacompra.estado FROM DetalleFacturaCompra AS detalle 
+    INNER JOIN FacturaCompra AS facturacompra ON detalle.documentoproveedor=facturacompra.documentoproveedor
+    INNER JOIN Productos AS prod ON detalle.codigoProducto=prod.codigoProducto WHERE detalle.documentoProveedor=$1";
+   
     $variableNombre = "queryMostrarListadoTiposEventoUsuario";
     pg_prepare($conexion,$variableNombre,$listadoTiposEventoUsuario) or die ("No se pudo preparar la consulta queryMostrarListadoTiposEventoUsuario");
 
@@ -42,9 +37,11 @@
             $subarray[]=number_format($multiplicacion, 2, '.', '');
             $subarray[]=$row[3];
             $subarray[]=$row[4];
-          
-            //$subarray[]="<a href='javascript:void();' data-id='$row[0]' class='editbtn' id='id' name='id'><img src='../assets/img/update.png' class='zoomImagen' style='width:20px;height:20px;' alt='Actualizar contenido'></a><a href='javascript:void();' data-id='$row[0]' class='activarEliminar' id='id' name='id'><img src='../assets/img/delete.png' class='zoomImagen' style='width:20px;height:20px;' alt='Actualizar contenido'></a>";          
-            $subarray[]="<a href='javascript:void();' data-id='$row[0]' class='activarEliminar' id='id' name='id'><img src='../assets/img/delete.png' class='zoomImagen' style='width:20px;height:20px;' alt='Eliminar fila'></a>";          
+            if($row[5]=='N'){
+                $subarray[]="<a href='javascript:void();' data-id='$row[0]' class='activarEliminar' id='id' name='id'><img src='../assets/img/delete.png' class='zoomImagen' style='width:20px;height:20px;' alt='Eliminar fila'></a>";          
+            }else{
+                $subarray[]="<a ><img src='../assets/img/delete.png' class='zoomImagen' style='width:20px;height:20px;' alt='Eliminar fila'>No disponible</a>";          
+            }
             $data[]=$subarray;                                         
         }              
         echo json_encode($data);       

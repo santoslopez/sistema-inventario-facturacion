@@ -16,23 +16,7 @@
 
 
     $listadoTiposEventoUsuario = "SELECT * from facturacompra WHERE facturacompra.fecharegistro BETWEEN $1 AND $2";
-    /*$listadoTiposEventoUsuario = "SELECT factura.numerodocumento,factura.documentoproveedor,factura.fecharegistro,
-    factura.fechafacturaproveedor, factura.nitproveedor, factura.estado,SUM(detalle.preciocompra*detalle.cantidadcomprado) AS totalcompra from facturacompra AS factura
-    INNER JOIN detallefacturacompra AS detalle ON
-    factura.documentoproveedor=detalle.documentoproveedor
-    WHERE factura.fecharegistro BETWEEN $1 AND $2
-    GROUP BY (factura.numerodocumento,factura.documentoproveedor,factura.fecharegistro,
-    factura.fechafacturaproveedor, factura.nitproveedor, factura.estado)";*/
-    //$diferencia = strtotime($obtenerFechaActual) - strtotime($fechaInicio);
-    //$diferencia = $fechaInicio->diff($obtenerFechaActual);
-    //$fecha1 = "2022-01-01";
-    //$fecha2 = "2022-12-31";
-    
 
-
-
-    //$dias_transcurridos = floor($diferencia / (60 * 60 * 24));
-    //$ejecutarConsultaObtenerInfo = pg_query($conexion,$listadoTiposEventoUsuario);
     pg_prepare($conexion,"queryResumenComprasFacturasPorDias",$listadoTiposEventoUsuario) or die ("No se pudo preparar la consulta queryResumenVentasHoy");
 
     $ejecutarConsultaObtenerInfo = pg_execute($conexion,"queryResumenComprasFacturasPorDias",array($fechaInicio,$fechaFin));

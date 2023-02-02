@@ -277,7 +277,7 @@ $fechaActual = date('Y-m-d');
 $fechaInicio = $_POST["fechaInicio"];
 $fechaFin = $_POST["fechaFin"];
 
-//$strquery = "SELECT * FROM detallefacturaventa WHERE numerodocumentofacturaventa='$filtrarPorCodigoSubmodulo'";
+
 $strquery = "SELECT factura.numerodocumento,factura.documentoproveedor,factura.fecharegistro,
     factura.fechafacturaproveedor, factura.nitproveedor, factura.estado,SUM(detalle.preciocompra*detalle.cantidadcomprado) AS totalcompra from facturacompra AS factura
     INNER JOIN detallefacturacompra AS detalle ON
@@ -287,13 +287,10 @@ $strquery = "SELECT factura.numerodocumento,factura.documentoproveedor,factura.f
     factura.fechafacturaproveedor, factura.nitproveedor, factura.estado)
     ORDER BY factura.numerodocumento DESC";
 
-//pg_prepare($conexion,"queryDetalleVentasDia",$strquery) or die ("No se pudo preparar la consulta queryDetalleVentasDia");
 
-//$data = pg_execute($conexion,"queryDetalleVentasDia",array());
 pg_prepare($conexion,"queryDetalleVentasDia",$strquery) or die ("No se pudo preparar la consulta queryResumenVentasHoy");
 
 $data = pg_execute($conexion,"queryDetalleVentasDia",array($fechaInicio,$fechaFin));
-
 
 
 //$data = pg_query($conexion,$strquery);

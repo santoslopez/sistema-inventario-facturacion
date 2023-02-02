@@ -55,13 +55,10 @@
             <a href="../index.php" class="btn btn-primary">Menu principal</a>
 <?php 
 
-
-/**
- * <tfoot><tr class="tbl_foot"><th colspan="6">Total</th></tr></tfoot>
- */
-
         include "../conexion.php";
-        $queryValidarCierreCompra = "SELECT  * FROM detallefacturacompra WHERE estado='P' AND documentoProveedor=$1";        
+        $queryValidarCierreCompra = "SELECT detalle.iddetalle,detalle.preciocompra,detalle.cantidadcomprado, detalle.codigoproducto, detalle.documentoproveedor FROM DetalleFacturaCompra AS detalle 
+        INNER JOIN FacturaCompra AS facturacompra ON detalle.documentoproveedor=facturacompra.documentoproveedor
+        WHERE (facturacompra.estado='P' OR facturacompra.estado='A')  AND facturacompra.documentoProveedor=$1";        
 
         pg_prepare($conexion,"queryValidarCierreFacturaCompra",$queryValidarCierreCompra ) or die ("No se pudo preparar la consulta queryValidarCierreFacturaCompra");
         $numeroDocumentoCompra=$_GET["documentoFacturaCompra"];
@@ -155,11 +152,7 @@
                         var json = JSON.parse(data1);
                         //console.log("follR"+json);
                         if(json=="registrado"){
-                            /*Swal.fire(
-                                'Producto agregado correctamente.',
-                                'Datos guardados.',
-                                'success'
-                            )*/
+                           
                             var tabla = $('#datatableCompras').DataTable();
                             tabla.ajax.reload();
                             $('#inputCostoProducto').val('');
@@ -184,7 +177,7 @@
                         }else if(json=="errorsucedido"){
                             Swal.fire(
                                 'Error controlado',
-                                'Se produjo un error',
+                                'Se produjo el siguiente error: ',
                                 'error'
                             ) 
                             
@@ -310,11 +303,7 @@
   confirmButtonText: 'Si, cerrar compra.'
 }).then((result) => {
   if (result.isConfirmed) {
-    /*Swal.fire(
-      'Cierre de factura de compra!',
-      'Los datos se han guardado correctamente.',
-      'success'
-    )*/
+    
     var facturaCompra = $('#facturaCompra').val();
 
     $.ajax({
@@ -325,16 +314,12 @@
                         
                             
                             var json = JSON.parse(data1);
-                            //var status = json.status;
+                            
                             if(json=="actualizado"){ 
                                 var table = $('#datatableCompras').DataTable();
                                 table.ajax.reload();
                                 
-                                /*Swal.fire(
-                                'La factura de compra se ha cerrado',
-                                'Los datos se actualizaron correctamente.',
-                                'success'
-                                )*/
+                               
                                 let timerInterval
 Swal.fire({
   title: 'Factura de compra cerrada!',
@@ -368,10 +353,10 @@ Swal.fire({
     }
 })
                             
-                            }else if(json=="facturainvalida"){
+                            }else if(json=="noafectado"){
                                 Swal.fire(
-                                'Factura de compra invalida',
-                                'La factura no se cerro. Es posible que no hay datos en la tabla o el numero de factura de compra es invalido.',
+                                'Factura de compra NO cerrada',
+                                'Es posible que ya este finalizado la compra o se encuentre anulado previamente.',
                                 'error')
                                 
                             }else if(json=="errorsucedido"){
@@ -379,8 +364,12 @@ Swal.fire({
                                 'Error controlado',
                                 'Se produjo un error',
                                 'error')
-                                //var table = $('#datatableCompras').DataTable();
-                                //table.ajax.reload();
+                            }else if(json=="facturanoexiste"){
+                                Swal.fire(
+                                'Factura no existe',
+                                'No se puede procesar debido que la factura de compra no existe',
+                                'error')
+
                             }else{
                                 Swal.fire(
                                 'Error controlado',

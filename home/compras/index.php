@@ -179,10 +179,6 @@ function agregarFacturaCompra(){
        var inputNitProveedor = document.getElementById("inputNitProveedor").value;
        
        var inputFechaFacturaProveedor = document.getElementById("inputFechaFacturaProveedor").value;
-
-       
-       //alert("fan: "+inputNitProveedor);
-       //var inputNitProveedor1 = $('#inputNitProveedor').val();;
       
         if((inputDocumentoProveedor!='')){
             $.ajax({
@@ -195,12 +191,9 @@ function agregarFacturaCompra(){
                         var json = JSON.parse(data1);
                         
                         if(json=='registrado'){
-                            //$('#inputDatos').val('');
-                            //$('#inputDireccion').val('');
-                            //$('#inputNit').val('');
+                           
                             $('#inputDocumentoProveedor').val('');
-                            //$('#formularioAgregarCliente').modal('hide');
-                            //cargarDatosTabla();
+                           
                             var table = $("#datatableFacturaCompras").DataTable();
                             table.ajax.reload();
 
@@ -376,8 +369,6 @@ function agregarFacturaCompra(){
             });
 
                 
- //               eliminarDatos(".activarEliminarFacturaCompra","#datatableFacturaCompras","queryAnularFacturaCompra.php",'La venta de factura se anulo correctamente.',"La factura de venta no se pudo eliminar se produjo un error","¿Confirmar anulacion de factura de compra?","Sí, anular factura de compra");
-
 
             });
     }

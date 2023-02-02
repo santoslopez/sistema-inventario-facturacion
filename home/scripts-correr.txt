@@ -1,0 +1,11 @@
+DROP TRIGGER TR_actStock ON detallefacturacompra;
+DROP FUNCTION PA_aumentarInventario;
+DROP FUNCTION PA_cerrarFacturaCompra;
+DROP FUNCTION PA_finalizarFacturaCompra;
+
+ALTER TABLE detallefacturacompra DROP COLUMN estado;
+
+
+
+CORRER NUEVO SCRIPTS
+-
