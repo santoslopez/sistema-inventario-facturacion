@@ -39,7 +39,7 @@ El software fue realizado en PHP, POSTGRESQL, Boostrap, Html, Css, transacciones
 - Actualiza compra de productos en factura
 - Evitar que se repita el producto en la tabla de compras en factura
 
-### CLIENTES
+### CLIENTES
 - Cliente con c/f deja guardar los datos
 - Dejar guardar clientes con NIT existente, excepto C/f con transaccion
 
@@ -48,7 +48,7 @@ El software fue realizado en PHP, POSTGRESQL, Boostrap, Html, Css, transacciones
 - Procedimiento almacenado para agregar productos, clientes y proveedores
 - Transaccion en registro de productos, verifica sino esta en uso primero antes de insertar
  
-### VENTAS
+### VENTAS
 - Quitar mensaje de alerta menor precio a compra
 - Aparentemente vende si el stock es vacio, pero no resta (esto esta bien)
 - Muestra mensaje que estas a punto de vender
