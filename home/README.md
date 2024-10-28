@@ -1,4 +1,4 @@
-# SISTEMAS DE FACTURACION, VENTAS Y CONTROL DE INVENTARIO
+# SISTEMAS DE FACTURACION, VENTAS Y CONTROL DE INVENTARIO
 La finalidad es tener un control de las ventas, generar reportes de compras,
 reportes de ventas, facturas anuladas, tener un reporte de inventario actual, etc. Algunas funcionalidades no fueron colocadas de forma explícita. La versión del README actual podría no estar actualiza.
 
@@ -47,8 +47,8 @@ El software fue realizado en PHP, POSTGRESQL, Boostrap, Html, Css, transacciones
 - No muestra archivos sino se ha iniciado sesion
 - Procedimiento almacenado para agregar productos, clientes y proveedores
 - Transaccion en registro de productos, verifica sino esta en uso primero antes de insertar
-
-## VENTAS
+ 
+### VENTAS
 - Quitar mensaje de alerta menor precio a compra
 - Aparentemente vende si el stock es vacio, pero no resta (esto esta bien)
 - Muestra mensaje que estas a punto de vender
