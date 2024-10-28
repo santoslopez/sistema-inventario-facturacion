@@ -1,8 +1,8 @@
-## SISTEMAS
+# SISTEMAS DE FACTURACION, VENTAS Y CONTROL DE INVENTARIO
+La finalidad es tener un control de las ventas, generar reportes de compras,
+reportes de ventas, facturas anuladas, tener un reporte de inventario actual, etc. Algunas funcionalidades no fueron colocadas de forma explícita. La versión del README actual podría no estar actualiza.
 
-QJ72N3BM7F
-
-
+El software fue realizado en PHP, POSTGRESQL, Boostrap, Html, Css, transacciones en base de datos, etc. 
 
 ## PROVEEDOR:
 - Agrega, busca, validar nit en uso, elimina, modifica, pagina, muestra mensaje de confirmacion al eliminar.
@@ -48,54 +48,8 @@ QJ72N3BM7F
 - Procedimiento almacenado para agregar productos, clientes y proveedores
 - Transaccion en registro de productos, verifica sino esta en uso primero antes de insertar
 
-### FALTANTES 
-- Corregir update con ajax de clientes y proveedores (opcion deshabilitado)
-- Crear comprobantes
-- Permitir fiados
-- Reporte de clientes morosos
-- Falta verificar select de empresas, 
-- Falta actualizar con trigger el inventario al modificarlo o eliminarlo.
-- Falta modificar clientes "MODIFICA" (ya estaba pero no en datatable)
-- Actualizar total de la factura de compra automaticamente al eliminar productos en la factura
-- Corregir error en listado de factura de compras, sino hay proveedor, aparentemente guarda pero se pierde el dato.
-- Problemas al modificar y eliminar productos de compra factura
-
-
-### BUGS
-- Corregin pagina no encontrada 404
-- Corregir retroceso en sesion
-- Corregir formulario de registro de usuarios
-
-
-## datos
-957601EdgarLopez 
-> - 
-CORREO ICLOUD
-mynsy4791@gmail.com
-MeRobaronMiIphone.13
-
-
-SI PIDE INGRESAR UN CODIGO DE CONFIRMACION QUE SE ENVIO AL NUMEOR
-https://appleid.apple.com
-
-
-icloud
-minsysolis@gmail.com
-
-
-PASSWORD DE APLICACION>
-zdzh-sghh-uaml-bskh
-
-
-https://www.youtube.com/watch?v=Mnl5tq59U9s
-
-
-
-## EN ventas
+## VENTAS
 - Quitar mensaje de alerta menor precio a compra
 - Aparentemente vende si el stock es vacio, pero no resta (esto esta bien)
-- Muestra mensaje que estas a punto de vender,... 
-- Hace el insert en factura de cliente sino hay stock,
-pero no lo pone en detalle de factura cliente (bien)
-
-https://www.youtube.com/watch?v=Y50yBgai050
+- Muestra mensaje que estas a punto de vender
+- Hace el insert en factura de cliente sino hay stock pero no lo pone en detalle de factura cliente (bien)
