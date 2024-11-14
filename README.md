@@ -3,7 +3,7 @@ Software para el control de inventario empresarial desarrollado con PHP como len
 
 La utilización de transacciones en las funciones permite asegurar que en caso de que ocurra un error inesperado (como un corte de energía), la base de datos se restablezca a su estado anterior (ROLLBACK) y que, si la operación se realiza correctamente, se guarden los cambios de manera permanente (COMMIT).
 
-## <code>Realizar ventas, resumen de ventas y clientes</code>
+## <code>Realizar ventas, resumen de ventas y clientes</code>
 La siguiente imagen corresponde a la interfaz en donde se muestrán los botones para realizar ventas, resumen de ventas y clientes.
 [![Opción ventas](https://santoslopez.github.io/assets/posts/software-inventario/1.webp)](https://santoslopez.github.io/assets/posts/software-inventario/1.webp)
 
