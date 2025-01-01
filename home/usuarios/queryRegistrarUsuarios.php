@@ -28,9 +28,9 @@
     //$fechaActual = date('d-m-Y H:i:s',time());
 
 
-	$correoU = pg_escape_string($correo);
-	$datosU = pg_escape_string($datos);
-	$passwordUsuario = pg_escape_string($passw);
+	$correoU = pg_escape_string($conexion,($correo));
+	$datosU = pg_escape_string($conexion,($datos));
+	$passwordUsuario = pg_escape_string($conexion,($passw));
 
 	if(!(isset($_POST['inputCorreo'],$_POST['inputDatos'],$_POST['inputPassword']))) {
 		header('Location: ../index.php');

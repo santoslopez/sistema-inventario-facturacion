@@ -26,16 +26,16 @@
   $horaVenta = date('h:i:s A');
 
  $detalleCliente=htmlspecialchars($_POST["inputDetalle1"],ENT_QUOTES,'UTF-8');
- $detalle1 = pg_escape_string($detalleCliente);
+ $detalle1 = pg_escape_string($conexion,($detalleCliente));
 
  $detalleDireccion=htmlspecialchars($_POST["inputDetalle2"],ENT_QUOTES,'UTF-8');
- $detalle2 = pg_escape_string($detalleDireccion);
+ $detalle2 = pg_escape_string($conexion,($detalleDireccion));
 
 
   $consultaFactura =  "INSERT INTO FacturaVenta(codigoCliente,totalVenta,fechaFacturaVenta,horaVenta,estado,codigoUsuario,detalle1,detalle2) VALUES ('$codCliente',$total,'$fechaRealizadoFactura','$horaVenta','P','$codigoUsuario','$detalle1','$detalle2')";
   
   $ejecutarConsulta1 = pg_query($conexion,$consultaFactura);
-
+  
   $consultaValorMaximoFactura="SELECT max(numerodocumentofacturaventa) FROM FacturaVenta";
 
 

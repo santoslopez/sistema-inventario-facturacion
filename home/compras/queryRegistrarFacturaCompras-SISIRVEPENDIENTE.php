@@ -15,7 +15,7 @@
     $total = $_POST['totalVentaEfectuado'];
     
 
-  pg_query("BEGIN") or die("Could not start transaction\n");
+  pg_query($conexion,"BEGIN") or die("Could not start transaction\n");
 
   
   // se hace una consulta del numero actual de documentos de comprobantes
@@ -26,7 +26,7 @@
 
  $inputDocProveed=htmlspecialchars($_POST["inputDocumentoProveedor"],ENT_QUOTES,'UTF-8');
 
- $inputDocumentoProveedor = pg_escape_string($inputDocProveed);
+ $inputDocumentoProveedor = pg_escape_string($conexion,($inputDocProveed));
 
   $listadoVerificarDocumento= "SELECT * FROM FacturaCompra WHERE documentoProveedor=$1";
         
@@ -59,13 +59,13 @@
 
   if ($ejecutarConsulta1 and $ejecutarConsulta2) {
   
-    pg_query("COMMIT") or die("Transaction commit failed\n");
-    pg_query("END") or die("Transaction END failed\n");
+    pg_query($conexion,"COMMIT") or die("Transaction commit failed\n");
+    pg_query($conexion,"END") or die("Transaction END failed\n");
     echo json_encode("compraregistrado");
   }else{
    
-    pg_query("ROLLBACK") or die("Transaction rollback failed\n");
-    pg_query("END") or die("Transaction END failed\n");
+    pg_query($conexion,"ROLLBACK") or die("Transaction rollback failed\n");
+    pg_query($conexion,"END") or die("Transaction END failed\n");
 
     echo json_encode("compranoregistrado");
   } 

@@ -15,8 +15,8 @@ $codigoProducto=htmlspecialchars($_POST['nitCliente'],ENT_QUOTES,'UTF-8');
 $descripcionProducto=htmlspecialchars($_POST['nombreApellidos'],ENT_QUOTES,'UTF-8');
 
 
-  $cod = pg_escape_string($codigoProducto);
-  $des = pg_escape_string($descripcionProducto);
+  $cod = pg_escape_string($conexion,($codigoProducto));
+  $des = pg_escape_string($conexion,($descripcionProducto));
   $imagen = "default.png";
   
   $consulta = "SELECT PA_insertarProducto('$cod','$des','$imagen')";

@@ -16,10 +16,10 @@ if(!(isset($_POST['nombreApellidos'],$_POST['direccion'],$_POST['nitCliente'],$_
   $nit=htmlspecialchars($_POST['nitCliente'],ENT_QUOTES,'UTF-8');
   $telefono=htmlspecialchars($_POST['telefono'],ENT_QUOTES,'UTF-8');
   
-  $datosC = pg_escape_string($nombreEmpresa);
-  $dirC = pg_escape_string($direccion);
-  $nitCliente = pg_escape_string($nit);
-  $telC = pg_escape_string($telefono);
+  $datosC = pg_escape_string($conexion,($nombreEmpresa));
+  $dirC = pg_escape_string($conexion,($direccion));
+  $nitCliente = pg_escape_string($conexion,($nit));
+  $telC = pg_escape_string($conexion,($telefono));
   
 
   $consulta = "SELECT PA_insertarCliente('$datosC','$dirC','$nitCliente','$telC')";

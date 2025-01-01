@@ -21,11 +21,11 @@ $telefono=htmlspecialchars($_POST['telefono'],ENT_QUOTES,'UTF-8');
 
 
 
-  $nitEmpresa = pg_escape_string($nit);
-  $empresaNombre =  pg_escape_string($nombreEmpresa);
+  $nitEmpresa = pg_escape_string($conexion,($nit));
+  $empresaNombre =  pg_escape_string($conexion,($nombreEmpresa));
   $fotoEmp = "";
-  $direccionEmpresa=pg_escape_string($direccion);
-  $telefonoEmpresa = pg_escape_string($telefono);
+  $direccionEmpresa=pg_escape_string($conexion,($direccion));
+  $telefonoEmpresa = pg_escape_string($conexion,($telefono));
   
   $consulta = "SELECT PA_registrarProveedor('$nitEmpresa','$empresaNombre','$fotoEmp','$direccionEmpresa','$telefonoEmpresa')";
 

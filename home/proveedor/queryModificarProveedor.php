@@ -12,13 +12,13 @@
     //$nit= $_POST['nitCliente'];
     //$empresa= $_POST['nombreApellidos'];
     $obtenerNit=htmlspecialchars($_POST["nitCliente"],ENT_QUOTES,'UTF-8');
-    $nit = pg_escape_string($obtenerNit);
+    $nit = pg_escape_string($conexion,($obtenerNit));
 
     $obtenerEmpresa=htmlspecialchars($_POST["nombreApellidos"],ENT_QUOTES,'UTF-8');
-    $empresa = pg_escape_string($obtenerEmpresa);
+    $empresa = pg_escape_string($conexion,($obtenerEmpresa));
 
     $obtenerDireccion=htmlspecialchars($_POST["direccion"],ENT_QUOTES,'UTF-8');
-    $direccion = pg_escape_string($obtenerDireccion);
+    $direccion = pg_escape_string($conexion,($obtenerDireccion));
 
     $telefono= $_POST['telefono'];
   

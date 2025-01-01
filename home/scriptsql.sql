@@ -413,7 +413,8 @@ $$
     BEGIN
         IF (SELECT count(*) from FacturaCompra WHERE documentoProveedor=buscarDocumentoProveedor) > 0 THEN
             IF (SELECT count(*) from Productos WHERE codigoProducto=productoCodigo) > 0 THEN
-                INSERT INTO DetalleFacturaCompra(precioCompra,cantidadComprado,codigoProducto,documentoProveedor) VALUES (valorPrecioCompra,numeroArticulosComprado,productoCodigo,buscarDocumentoProveedor);
+                INSERT INTO DetalleFacturaCompra(precioCompra,cantidadComprado,codigoProducto,documentoProveedor,estado) VALUES (valorPrecioCompra,numeroArticulosComprado,productoCodigo,buscarDocumentoProveedor,'N');
+                
                 return 'registrado';
                 COMMIT;
             ELSE

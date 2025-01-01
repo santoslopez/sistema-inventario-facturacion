@@ -18,18 +18,6 @@
 	<link rel="stylesheet" href="../assets/css/login.css">
 </head>
 <body>
- <!--div class="wrapper"> 
-   <div class="container">  
-     <div class="col-md-4">
-       <label for="validationCustom01" class="form-label">First name</label>
-       <input type="text" class="form-control" id="validationCustom01" required>
-       <div class="valid-feedback">
-         Looks good!
-       </div>
-     </div>    
-  </div>
-</div-->
-
     <section class="wrapper">
 		<div class="container">
 			<div class="col-sm-8 offset-sm-2 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4 text-center">
@@ -38,10 +26,6 @@
 				  </div>
 				<form class="rounded bg-white shadow py-5 px-4 needs-validation" novalidate action="queryRegistrarUsuarios.php" autocomplete="off" method="POST">
 					<h3 class="text-dark fw-bolder fs-4 mb-2">Registrar usuario</h3>
-          
-					<!--div class="fw-normal text-muted mb-4"> 
-						<a href="#" class="text-primary fw-bold text-decoration-none">Crear cuenta</a>
-					</div-->
 					<div class="form-floating mb-3">
 						<input type="email" class="form-control" id="inputCorreo" name="inputCorreo" placeholder="name@example.com" required maxlength="50">
 						<label for="floatingInput">Correo electronico</label>
@@ -81,16 +65,6 @@
 					<div class="mt-2 text-end">
 						<a href="../index.php" class="btn btn-success fw-bold text-decoration-none">Menu principal</a>
 					</div>
-					<!--div class="text-center text-muted text-uppercase mb-3">or</div-->
-					<!--a href="#" class="btn btn-light login_with w-100 mb-3">
-						<img alt="Logo" src="images/google-icon.svg" class="img-fluid me-3">Continue with Google
-					</a>
-					<a href="#" class="btn btn-light login_with w-100 mb-3">
-						<img alt="Logo" src="images/facebook-icon.svg" class="img-fluid me-3">Continue with Facebook
-					</a>
-					<a href="#" class="btn btn-light login_with w-100 mb-3">
-						<img alt="Logo" src="images/linkedin-icon.svg" class="img-fluid me-3">Continue with Linkedin
-					</a-->
 				</form>
 			</div>
 		</div>

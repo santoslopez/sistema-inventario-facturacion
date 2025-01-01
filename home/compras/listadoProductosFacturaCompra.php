@@ -148,7 +148,6 @@
                 type:'POST',
                     success:function(data1){
                         
-                        
                         var json = JSON.parse(data1);
                         //console.log("follR"+json);
                         if(json=="registrado"){

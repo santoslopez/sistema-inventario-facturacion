@@ -57,9 +57,9 @@ if (pg_num_rows($ejecutarConsultaVerificarUsuario)) {
 }else{
 
 $consulta  = sprintf("INSERT INTO Empresas(nitEmpresa,nombre,direccion,logoEmpresa,correo) VALUES('%s','%s','%s','%s','%s');",
-pg_escape_string($nitEmpresa),
-pg_escape_string($nombreEmpresa),
-pg_escape_string($inputDireccion),
+pg_escape_string($conexion,($nitEmpresa)),
+pg_escape_string($conexion,($nombreEmpresa)),
+pg_escape_string($conexion,($inputDireccion)),
 "default.png",
 $correo
 

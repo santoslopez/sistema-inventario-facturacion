@@ -8,9 +8,9 @@ include '../conexion.php';
 
 $inputCostoProducto=floatval(htmlspecialchars($_POST['inputCostoProducto'],ENT_QUOTES,'UTF-8'));
 $inputCantidadCompra=intval(htmlspecialchars($_POST['inputCantidadCompra'],ENT_QUOTES,'UTF-8'));
-$inputCodigoProducto=pg_escape_string(htmlspecialchars($_POST['inputCodigoProducto'],ENT_QUOTES,'UTF-8'));
+$inputCodigoProducto=pg_escape_string($conexion,(htmlspecialchars($_POST['inputCodigoProducto'],ENT_QUOTES,'UTF-8')));
 
-$facturaCompra=pg_escape_string(htmlspecialchars($_POST['facturaCompra'],ENT_QUOTES,'UTF-8'));
+$facturaCompra=pg_escape_string($conexion,(htmlspecialchars($_POST['facturaCompra'],ENT_QUOTES,'UTF-8')));
 
 $consulta = "SELECT PA_insertarDetalleFacturaCompra('$facturaCompra','$inputCostoProducto',$inputCantidadCompra,'$inputCodigoProducto')";
 

@@ -12,9 +12,9 @@
 	}else{
 	    $inputDocumentoProv=htmlspecialchars($_POST["inputDocumentoProveedor"],ENT_QUOTES,'UTF-8');
 
-        $inputDocumentoProveedor = pg_escape_string($inputDocumentoProv);
+        $inputDocumentoProveedor = pg_escape_string($conexion,($inputDocumentoProv));
 
-        $inputNitProveedor= pg_escape_string(htmlspecialchars($_POST["inputNitProveedor"]));
+        $inputNitProveedor= pg_escape_string($conexion,(htmlspecialchars($_POST["inputNitProveedor"])));
 
 	    $consulta = "SELECT PA_insertarFacturaCompra('$inputDocumentoProveedor','$inputFechaFacturaProveedor','$inputNitProveedor')";
 

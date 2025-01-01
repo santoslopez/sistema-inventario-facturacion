@@ -10,7 +10,7 @@
         header('Location: ../index.php');
     }else {
     
-    $documentoFacturaC=pg_escape_string(htmlspecialchars($_GET['documentoFacturaCompra']));
+    $documentoFacturaC=pg_escape_string($conexion,(htmlspecialchars($_GET['documentoFacturaCompra'])));
     
     $listadoTiposEventoUsuario = "SELECT detalle.iddetalle,detalle.preciocompra,detalle.cantidadcomprado, detalle.codigoproducto,prod.descripcion,facturacompra.estado FROM DetalleFacturaCompra AS detalle 
     INNER JOIN FacturaCompra AS facturacompra ON detalle.documentoproveedor=facturacompra.documentoproveedor

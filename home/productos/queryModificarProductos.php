@@ -14,11 +14,11 @@
     //$empresa= $_POST['nombreApellidos'];
   
     $obtenerNit=htmlspecialchars($_POST["nitCliente"],ENT_QUOTES,'UTF-8');
-    $nit = pg_escape_string($obtenerNit);
+    $nit = pg_escape_string($conexion,($obtenerNit));
 
 
     $obtenerEmpresa=htmlspecialchars($_POST["nombreApellidos"],ENT_QUOTES,'UTF-8');
-    $empresa = pg_escape_string($obtenerEmpresa);
+    $empresa = pg_escape_string($conexion,($obtenerEmpresa));
 
     $consulta = "SELECT PA_modificarProductos('$nit','$empresa')";
 

@@ -7,7 +7,7 @@
         $nombreUsuario = htmlspecialchars($_POST["nombreApellidos"],ENT_QUOTES,'UTF-8');
         $pass = htmlspecialchars($_POST["direccion"],ENT_QUOTES,'UTF-8');
 
-        $queryLogin = sprintf("SELECT contrasena,nombreApellidos,fechaRegistro,estado,codRol,codigoUsuario FROM Usuarios WHERE correo='%s' AND estado='A' AND codRol='1';",pg_escape_string($nombreUsuario));
+        $queryLogin = sprintf("SELECT contrasena,nombreApellidos,fechaRegistro,estado,codRol,codigoUsuario FROM Usuarios WHERE correo='%s' AND estado='A' AND codRol='1';",pg_escape_string($conexion,($nombreUsuario)));
 
         $fila = pg_fetch_assoc(pg_query($conexion,$queryLogin));
 

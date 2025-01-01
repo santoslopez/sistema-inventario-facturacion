@@ -4,7 +4,7 @@ include "../sesion/sesion.php";
 
 include '../conexion.php';
 
-$facturaCompra=pg_escape_string(htmlspecialchars($_POST['facturaCompra'],ENT_QUOTES,'UTF-8'));
+$facturaCompra=pg_escape_string($conexion,(htmlspecialchars($_POST['facturaCompra'],ENT_QUOTES,'UTF-8')));
 
 //$consulta = "SELECT PA_cerrarFacturaCompra('$facturaCompra')";
 $consulta = "SELECT PA_finalizarFacturaCompra('$facturaCompra')";
