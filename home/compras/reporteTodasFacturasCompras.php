@@ -27,7 +27,7 @@
 
 <?php
 
-require '../fpdf184/fpdf.php';
+require '../fpdf186/fpdf.php';
 require '../conexion.php'; //puede que no lo necesiten
 
 
@@ -53,16 +53,16 @@ class PDF extends FPDF {
 		$this->setXY(60, 15);
 		
 		
-		//$this->Cell(6,10,utf8_decode("Recibo de compra No: ".$_GET["obtenerCodigoVentaComprobante"]), 0, 1, 'L', 0);
-		$this->Cell(6,10,utf8_decode("RESUMEN FACTURA DE COMPRAS"), 0, 1, 'L', 0);
+		//$this->Cell(6,10,mb_convert_encoding("Recibo de compra No: ".$_GET["obtenerCodigoVentaComprobante"]), 0, 1, 'L', 0);
+		$this->Cell(6,10,mb_convert_encoding("RESUMEN FACTURA DE COMPRAS","ISO-8859-1", "UTF-8"), 0, 1, 'L', 0);
 
 		//$pdf = new PDF(); //hacemos una instancia de la clase
 
 $textypos=5;
 $this->SetFont('Times', 'B', 10);
-//$this->Cell(1,1,utf8_decode("En FerroIndustrias López podrás encontrar todos los artículos que necesitas para que tu proyecto sea todo un éxito, contamos con las mejores marcas a nivel internacional para todo tipo de presupuesto."));
-//$this->Cell(170, 2, utf8_decode(""), 0, 0, 'C', 0);
-//$this->Cell(170,15, utf8_decode("Ventas de productos de ferretería y mejores marcas internacionales. Encuentranos en Interior Mercado el Guarda Zona 11."), 0, 0, 'C', 0);
+//$this->Cell(1,1,mb_convert_encoding("En FerroIndustrias López podrás encontrar todos los artículos que necesitas para que tu proyecto sea todo un éxito, contamos con las mejores marcas a nivel internacional para todo tipo de presupuesto."));
+//$this->Cell(170, 2, mb_convert_encoding(""), 0, 0, 'C', 0);
+//$this->Cell(170,15, mb_convert_encoding("Ventas de productos de ferretería y mejores marcas internacionales. Encuentranos en Interior Mercado el Guarda Zona 11."), 0, 0, 'C', 0);
 
 
 
@@ -138,7 +138,7 @@ $this->setY(50);$this->setX(135);*/
 		$this->SetFont('Arial', 'B', 10);
 		// Número de página
 		$this->Cell(170, 10, 'Resumen de factura de compras', 0, 0, 'C', 0);
-		$this->Cell(25, 10, utf8_decode('Página ') . $this->PageNo() . '/{nb}', 0, 0, 'C');
+		$this->Cell(25, 10, mb_convert_encoding('Página ', "ISO-8859-1", "UTF-8") . $this->PageNo() . '/{nb}', 0, 0, 'C');
 	}
 
 // --------------------METODO PARA ADAPTAR LAS CELDAS------------------------------
@@ -342,24 +342,24 @@ $total = 0;
 // indicamos la posicion inicial de la imagen en la coordenada x
 // la indicamos la posicion inicial de la imagen en la coordenada y
 for ($i = 0; $i < $numregs; $i++) {
-	// 	$pdf->Row(array($i + 1, pg_fetch_result($data,$i,'frase'), ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'traduccionfrase') ))), pg_fetch_result($data,$i,'imagen')), 15);
+	// 	$pdf->Row(array($i + 1, pg_fetch_result($data,$i,'frase'), ucwords(strtolower(mb_convert_encoding(pg_fetch_result($data,$i,'traduccionfrase') ))), pg_fetch_result($data,$i,'imagen')), 15);
 	//$posicionx=$posicionx+15;
 	$pdf->Row(array(
-		utf8_decode(pg_fetch_result($data,$i,'numerodocumento')),
-		ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'documentoproveedor')))),
-		ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'fecharegistro') ))),
-		ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'nitproveedor')))),
-		ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'totalcompra')))),
+		mb_convert_encoding(pg_fetch_result($data,$i,'numerodocumento'), "ISO-8859-1", "UTF-8"),
+		ucwords(strtolower(mb_convert_encoding(pg_fetch_result($data,$i,'documentoproveedor'), "ISO-8859-1", "UTF-8" ))),
+		ucwords(strtolower(mb_convert_encoding(pg_fetch_result($data,$i,'fecharegistro'), "ISO-8859-1", "UTF-8" ))),
+		ucwords(strtolower(mb_convert_encoding(pg_fetch_result($data,$i,'nitproveedor'), "ISO-8859-1", "UTF-8" ))),
+		ucwords(strtolower(mb_convert_encoding(pg_fetch_result($data,$i,'totalcompra'), "ISO-8859-1", "UTF-8" ))),
 
 
-		ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'estado')))) 
-		//ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'subtotal')))),
+		ucwords(strtolower(mb_convert_encoding(pg_fetch_result($data,$i,'estado'), "ISO-8859-1", "UTF-8" ))) 
+		//ucwords(strtolower(mb_convert_encoding(pg_fetch_result($data,$i,'subtotal')))),
 
 	) , 15);
-	if (ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'estado'))))=="A") {
+	if (ucwords(strtolower(mb_convert_encoding(pg_fetch_result($data,$i,'estado'), "ISO-8859-1", "UTF-8")))=="A") {
 		# code...
-	}else if (ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'estado'))))=="P") {
-		$total += ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'totalcompra') )));
+	}else if (ucwords(strtolower(mb_convert_encoding(pg_fetch_result($data,$i,'estado'), "ISO-8859-1", "UTF-8" )))=="P") {
+		$total += ucwords(strtolower(mb_convert_encoding(pg_fetch_result($data,$i,'totalcompra'), "ISO-8859-1", "UTF-8")));
 	}
 }
 //Build table

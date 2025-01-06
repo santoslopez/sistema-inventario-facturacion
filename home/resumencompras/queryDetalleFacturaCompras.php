@@ -1,6 +1,6 @@
 <?php
 
-require '../fpdf184/fpdf.php';
+require '../fpdf186/fpdf.php';
 require '../conexion.php'; //puede que no lo necesiten
 
 
@@ -23,10 +23,10 @@ class PDF extends FPDF {
 		$this->Image('../assets/img/logov.png',175,9, 30); //imagen(archivo, png/jpg || x,y,tamaño)
 		$this->setXY(60, 15);
 
-		$this->Cell(6,10,utf8_decode("Proveedor: ".utf8_decode($_GET["nitProveedor"])), 0, 1, 'L', 0);
+		$this->Cell(6,10,"Proveedor: ".mb_convert_encoding($_GET["nitProveedor"], "ISO-8859-1", "UTF-8"), 0, 1, 'L', 0);
 
 		$textypos=5;
-		//$this->Cell(70, 8,"Documento de compra No: ".utf8_decode($_GET["obtenerCodigoDocumentoProveedor"]), 0, 0, 'C', 0);
+		//$this->Cell(70, 8,"Documento de compra No: ".mb_convert_encoding($_GET["obtenerCodigoDocumentoProveedor"]), 0, 0, 'C', 0);
 		$this->Cell(5,$textypos,"Detalles de compra. Documento No: ".$_GET["obtenerCodigoDocumentoProveedor"],0,1,'L');
 		$this->SetFont('Arial','B',10);    
 		$this->setY(30);$this->setX(10);
@@ -54,7 +54,7 @@ class PDF extends FPDF {
 		$this->SetFont('Arial', 'B', 10);
 		// Número de página
 		$this->Cell(170, 10, 'Factura de compras con el proveedor', 0, 0, 'C', 0);
-		$this->Cell(25, 10, utf8_decode('Página ') . $this->PageNo() . '/{nb}', 0, 0, 'C');
+		$this->Cell(25, 10, mb_convert_encoding('Página ', "ISO-8859-1", "UTF-8") . $this->PageNo() . '/{nb}', 0, 0, 'C');
 	}
 
 // --------------------METODO PARA ADAPTAR LAS CELDAS------------------------------
@@ -242,17 +242,17 @@ $total = 0;
 // indicamos la posicion inicial de la imagen en la coordenada x
 // la indicamos la posicion inicial de la imagen en la coordenada y
 for ($i = 0; $i < $numregs; $i++) {
-	// 	$pdf->Row(array($i + 1, pg_fetch_result($data,$i,'frase'), ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'traduccionfrase') ))), pg_fetch_result($data,$i,'imagen')), 15);
+	// 	$pdf->Row(array($i + 1, pg_fetch_result($data,$i,'frase'), ucwords(strtolower(mb_convert_encoding(pg_fetch_result($data,$i,'traduccionfrase') ))), pg_fetch_result($data,$i,'imagen')), 15);
 	//$posicionx=$posicionx+15;
-	$pdf->Row(array(utf8_decode(pg_fetch_result($data,$i,'codigoproducto')), 
-	ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'cantidadcomprado') ))),
-	ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'descripcion')))),
-	ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'preciocompra')))),
-	//ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'subtotal')))),
+	$pdf->Row(array(mb_convert_encoding(pg_fetch_result($data,$i,'codigoproducto'), "ISO-8859-1", "UTF-8"), 
+	ucwords(strtolower(mb_convert_encoding(pg_fetch_result($data,$i,'cantidadcomprado'), "ISO-8859-1", "UTF-8" ))),
+	ucwords(strtolower(mb_convert_encoding(pg_fetch_result($data,$i,'descripcion'), "ISO-8859-1", "UTF-8" ))),
+	ucwords(strtolower(mb_convert_encoding(pg_fetch_result($data,$i,'preciocompra'), "ISO-8859-1", "UTF-8" ))),
+	//ucwords(strtolower(mb_convert_encoding(pg_fetch_result($data,$i,'subtotal')))),
 
-	ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'preciocompra') )))* ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'cantidadcomprado') )))  ) , 15);
+	ucwords(strtolower(mb_convert_encoding(pg_fetch_result($data,$i,'preciocompra'), "ISO-8859-1", "UTF-8" )))* ucwords(strtolower(mb_convert_encoding(pg_fetch_result($data,$i,'cantidadcomprado'), "ISO-8859-1", "UTF-8" )))  ) , 15);
 
-    $total += ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'preciocompra') )))* ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'cantidadcomprado') )));
+    $total += ucwords(strtolower(mb_convert_encoding(pg_fetch_result($data,$i,'preciocompra'), "ISO-8859-1", "UTF-8" )))* ucwords(strtolower(mb_convert_encoding(pg_fetch_result($data,$i,'cantidadcomprado'), "ISO-8859-1", "UTF-8" )));
 }
 //Build table
 $fill=0;

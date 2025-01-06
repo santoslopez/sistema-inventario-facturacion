@@ -2,7 +2,7 @@
 
 <?php
 
-require '../fpdf184/fpdf.php';
+require '../fpdf186/fpdf.php';
 require '../conexion.php'; //puede que no lo necesiten
 
 
@@ -29,17 +29,13 @@ class PDF extends FPDF {
 		$this->setXY(60, 15);
 		
 		
-		//$this->Cell(6,10,utf8_decode("Recibo de compra No: ".$_GET["obtenerCodigoVentaComprobante"]), 0, 1, 'L', 0);
-		$this->Cell(6,10,utf8_decode("FERROINDUSTRIAS LOPEZ"), 0, 1, 'L', 0);
+		//$this->Cell(6,10,mb_convert_encoding("Recibo de compra No: ".$_GET["obtenerCodigoVentaComprobante"]), 0, 1, 'L', 0);
+		$this->Cell(6,10,mb_convert_encoding("FERROINDUSTRIAS LOPEZ", "ISO-8859-1", "UTF-8"), 0, 1, 'L', 0);
 
 		//$pdf = new PDF(); //hacemos una instancia de la clase
 
 $textypos=5;
 $this->SetFont('Times', 'B', 10);
-//$this->Cell(1,1,utf8_decode("En FerroIndustrias López podrás encontrar todos los artículos que necesitas para que tu proyecto sea todo un éxito, contamos con las mejores marcas a nivel internacional para todo tipo de presupuesto."));
-//$this->Cell(170, 2, utf8_decode(""), 0, 0, 'C', 0);
-//$this->Cell(170,15, utf8_decode("Ventas de productos de ferretería y mejores marcas internacionales. Encuentranos en Interior Mercado el Guarda Zona 11."), 0, 0, 'C', 0);
-
 
 
 
@@ -71,9 +67,9 @@ $this->SetFont('Arial','',10);
 $this->setY(35);$this->setX(75);
 //$this->Cell(5,$textypos,"Cliente: ".$_GET["detalle1"]);
 $this->setY(40);$this->setX(75);
-$this->Cell(5,$textypos,"Nombre: ".utf8_decode($_GET["detalle1"]));
+$this->Cell(5,$textypos,"Nombre: ".mb_convert_encoding($_GET["detalle1"], "ISO-8859-1", "UTF-8"));
 $this->setY(45);$this->setX(75);
-$this->Cell(5,$textypos,"Direccion: ".utf8_decode($_GET["detalle2"]));
+$this->Cell(5,$textypos,"Direccion: ".mb_convert_encoding($_GET["detalle2"], "ISO-8859-1", "UTF-8"));
 $this->setY(45);$this->setX(75);
 //$this->Cell(5,$textypos,"Telefono del cliente");
 //$this->setY(50);$this->setX(75);
@@ -122,7 +118,7 @@ $this->setY(50);$this->setX(135);
 		$this->SetFont('Arial', 'B', 10);
 		// Número de página
 		$this->Cell(170, 10, 'Las mejores marcas: Toolcraft, Pretul, INGCO, Truper, BBT, Gladiator, Leo, Makita, etc.', 0, 0, 'C', 0);
-		$this->Cell(25, 10, utf8_decode('Página ') . $this->PageNo() . '/{nb}', 0, 0, 'C');
+		$this->Cell(25, 10, mb_convert_encoding('Página ', "ISO-8859-1", "UTF-8") . $this->PageNo() . '/{nb}', 0, 0, 'C');
 	}
 
 // --------------------METODO PARA ADAPTAR LAS CELDAS------------------------------
@@ -299,11 +295,11 @@ $pdf->SetAutoPageBreak(true, 20); //salto de pagina automatico
 // -----------ENCABEZADO------------------
 $pdf->SetX(15);
 $pdf->SetFont('Helvetica', 'B', 10);
-$pdf->Cell(30, 8,utf8_decode('CODIGO'), 1, 0, 'C', 0);
-$pdf->Cell(70, 8,utf8_decode('DESCRIPCION'), 1, 0, 'C', 0);
-$pdf->Cell(20, 8,utf8_decode('UNIDAD'), 1, 0, 'C', 0);
-$pdf->Cell(30, 8,utf8_decode('PRECIO'), 1, 0, 'C', 0);
-$pdf->Cell(30, 8,utf8_decode('SUBTOTAL'), 1, 1, 'C', 0);
+$pdf->Cell(30, 8,mb_convert_encoding('CODIGO', "ISO-8859-1", "UTF-8"), 1, 0, 'C', 0);
+$pdf->Cell(70, 8,mb_convert_encoding('DESCRIPCION', "ISO-8859-1", "UTF-8"), 1, 0, 'C', 0);
+$pdf->Cell(20, 8,mb_convert_encoding('UNIDAD', "ISO-8859-1", "UTF-8"), 1, 0, 'C', 0);
+$pdf->Cell(30, 8,mb_convert_encoding('PRECIO', "ISO-8859-1", "UTF-8"), 1, 0, 'C', 0);
+$pdf->Cell(30, 8,mb_convert_encoding('SUBTOTAL', "ISO-8859-1", "UTF-8"), 1, 1, 'C', 0);
 // -------TERMINA----ENCABEZADO------------------
 
 
@@ -327,36 +323,23 @@ $total = 0;
 // indicamos la posicion inicial de la imagen en la coordenada x
 // la indicamos la posicion inicial de la imagen en la coordenada y
 for ($i = 0; $i < $numregs; $i++) {
-	// 	$pdf->Row(array($i + 1, pg_fetch_result($data,$i,'frase'), ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'traduccionfrase') ))), pg_fetch_result($data,$i,'imagen')), 15);
+	// 	$pdf->Row(array($i + 1, pg_fetch_result($data,$i,'frase'), ucwords(strtolower(mb_convert_encoding(pg_fetch_result($data,$i,'traduccionfrase') ))), pg_fetch_result($data,$i,'imagen')), 15);
 	//$posicionx=$posicionx+15;
 	$pdf->Row(array(
-		ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'codigoproducto')))),
-		ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'descripcion')))),
-		ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'cantidadcomprado') ))),
-		ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'preciocompra')))),
-		//ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'preciocompra')))) * ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'cantidadcomprado') ) ))  
-		ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'subtotal')))),
+		ucwords(strtolower(mb_convert_encoding(pg_fetch_result($data,$i,'codigoproducto'), "ISO-8859-1", "UTF-8" ))),
+		ucwords(strtolower(mb_convert_encoding(pg_fetch_result($data,$i,'descripcion'), "ISO-8859-1", "UTF-8" ))),
+		ucwords(strtolower(mb_convert_encoding(pg_fetch_result($data,$i,'cantidadcomprado'), "ISO-8859-1", "UTF-8" ))),
+		ucwords(strtolower(mb_convert_encoding(pg_fetch_result($data,$i,'preciocompra'), "ISO-8859-1", "UTF-8" ))),
+		//ucwords(strtolower(mb_convert_encoding(pg_fetch_result($data,$i,'preciocompra')))) * ucwords(strtolower(mb_convert_encoding(pg_fetch_result($data,$i,'cantidadcomprado') ) ))  
+		ucwords(strtolower(mb_convert_encoding(pg_fetch_result($data,$i,'subtotal'), "ISO-8859-1", "UTF-8" ))),
 
 	) , 15);
-    $total += ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'preciocompra') )))* ucwords(strtolower(utf8_decode(pg_fetch_result($data,$i,'cantidadcomprado') )));
+    $total += ucwords(strtolower(mb_convert_encoding(pg_fetch_result($data,$i,'preciocompra'), "ISO-8859-1", "UTF-8" )))* ucwords(strtolower(mb_convert_encoding(pg_fetch_result($data,$i,'cantidadcomprado'), "ISO-8859-1", "UTF-8" )));
 }
 //Build table
 $fill=0;
 $i=0;
-/*while($i<$numregs)
-{
-    $siape=pg_fetch_result($data,$i,'frase');
-    $nome=pg_fetch_result($data,$i,'traduccionfrase');
-    $siape1=pg_fetch_result($data,$i,'imagen');
-    $nome2=pg_fetch_result($data,$i,'sonidopalabra');
-    $pdf->Cell(40,8,$siape,1,0,'C',$fill);
-    $pdf->Cell(40,8,$nome,1,0,'C',$fill);
-    $pdf->Cell(40,8,$siape1,1,0,'C',$fill);
-    $pdf->Cell(40,8,$nome2,1,1,'C',$fill);
-    //$fill=!$fill;
-    $i++;
-}   */
-    // Formato moneda
+
   
 
 $pdf->Cell(320,8, 'Total: Q.'.number_format($total,2,'.',''), 0, 0, 'C', 0);
